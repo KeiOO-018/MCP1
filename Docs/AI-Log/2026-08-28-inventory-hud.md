@@ -382,11 +382,8 @@ UI가 안 보이는 원인을 좁히기 위해 사용자가 시키지 않은 진
 이 날의 두 기록(`2026-08-28-first-person-arms.md`, `2026-08-28-variant-shooter-import.md`)의 미결 항목을 여기 모았다. 다음 세션은 이 목록만 보면 된다.
 
 - **칼로 가기 전에 카메라 작업을 먼저 한다.** 오늘 확인했다 — Epic의 아레나 슈터도 손이 안 보인다. `BP_ShooterCharacter`가 `BP_FirstPersonCharacter`를 상속해 카메라가 `head` 본에 붙기 때문이다. 총이 보였던 것은 총열이 길어서일 뿐이고 칼은 그 길이가 없다. 카메라를 `head`에서 떼거나 팔을 시야로 올리는 방법을 정해야 한다. 순서가 뒤집히면 안 보이는 칼을 디버깅하게 된다
-- **인벤토리에 아이템을 연결할 것인가.** 이번에는 선택 UI만 만들었고 칸은 끝까지 비어 있다. 무기를 담으려면 사양을 새로 세운다. 위 카메라 항목과 묶인다
 - **`BP_ThirdPersonCharacter` 자동 재저장의 원인.** 2026-08-28에만 세 번 반복됐고(`cb44ebf`, `5b6b18c`, `7e5a089`) 매번 커밋이 하나씩 늘어난다. 앞의 둘은 에디터 종료 시점, 마지막은 Save All 시점이었다. 무엇이 이 BP를 dirty로 만드는지 아직 모른다
 - **결정 필요** `Content/Variant_Shooter/`(50개), `Content/Weapons/`(27개), `Content/FirstPerson/`의 미사용 애셋(레벨, BP 4개, MI)을 남길 것인가 지울 것인가. 실제로 쓰는 것은 `ABP_FP_Weapon`·`Ctrl_HandAdjusment` 정도다
-- **결정 필요** 터미널 영어 출력을 `CLAUDE_UE_TERMINAL` 환경변수로 영구화할 것인가. 2026-08-28 오전 기록의 AI 제안
-- **결정 필요** `IMC_Inventory`를 `IMC_Default`와 같은 우선순위 0으로 둘 것인가. 지금은 키가 안 겹쳐 문제없다
 - **결정 필요** 1인칭 피치를 ±60에서 올릴 것인가. 사용자가 정한 값이 아니다. 2026-08-27 기록에서 이월
 - **전환 스냅 완화** — 요 보간 또는 `SetViewTargetWithBlend`. 2026-08-27 기록에서 이월
 - **확인 필요** `Lvl_ArenaShooter`가 어떤 GameMode를 쓰는지. 인벤토리 HUD가 그 레벨에서 안 보일 것으로 예상만 했다
