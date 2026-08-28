@@ -264,8 +264,4 @@ CollisionCylinder
 
 ## 다음으로 넘김
 
-- **`Variant_Shooter` 확보 경로 결정.** 무기 든 1인칭에 필요한 `ABP_FP_Weapon`·`ABP_FP_Pistol`·`Ctrl_HandAdjusment`가 여기 있다. 피처 팩으로는 안 오고 프로젝트 생성 시 ArenaShooter 배리언트를 골라야만 딸려온다. 빈 ArenaShooter 프로젝트를 만들어 Migrate하는 경로가 유력하나 확인 안 했다. 이걸 하기 전에 심문·사양을 새로 세운다
-- **결정 필요** 터미널 영어 출력을 `CLAUDE_UE_TERMINAL`로 영구화할 것인가 (위 제안)
-- **전환 스냅 완화** — 요 보간 또는 `SetViewTargetWithBlend`. 2026-08-27 기록에서 이월
-- **결정 필요** 1인칭 피치를 ±60에서 올릴 것인가. 사용자가 정한 값이 아니다. 2026-08-27 기록에서 이월
-- **결정 필요** `Content/Weapons/`(27개)와 `Content/FirstPerson/`의 미사용 애셋(레벨, BP 4개, MI)을 남길 것인가 지울 것인가. 무기 작업을 한다면 남긴다
+없음. 이 항목들은 같은 날 후속 작업으로 이어져 2026-08-28-inventory-hud.md의 `다음으로 넘김`에 모았다.
