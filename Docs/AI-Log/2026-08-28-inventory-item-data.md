@@ -925,24 +925,17 @@ AI의 실수가 셋 있었다. `Triggered`를 `Started` 대신 지정한 것, �
 
 ## 다음으로 넘김
 
-**이 세션에서 새로 생긴 것**
+이 목록의 항목은 **전부 2026-08-29 세션이 이어받았다.**
+처리된 것과 아직 남은 것을 함께 정리해 옮겼으므로 여기서는 지운다.
 
-- **명령 10을 실행하지 않았다.** `BP_ThirdPersonPlayerController`의 `IA_SelectSlot` 체인에 `Sequence`를 넣어 폰의 `SelectedSlot`도 설정하게 하는 명령이다. 원문은 위 `명령` 칸에 그대로 있다. **이것부터 하면 이어진다** — 사용(`E`) 로직은 `SelectedSlot`이 폰에 실제로 들어와야 만들 수 있다
-- **그 다음은 사용(`E`) 로직이다.** `InventorySlots[SelectedSlot - 1]`을 읽고 `nature`로 분기한다. `Consumable`이면 `CurrentHP += healAmount`(클램프)하고 칸을 `None`으로, `Holdable`이면 `hand_r`에 붙이는 토글, `Key`는 아직 할 일이 없다
-- **그 다음이 HUD다.** 슬롯 색 채우기(`iconColor`), HP 바, 그리고 `SelectedSlot`을 HUD에서 캐릭터로 일원화. 이때 `BP_ThirdPersonHUD.SelectedSlot`과 `SetSlot` 함수를 지우게 되므로 **명령 10이 먼저 들어가 있어야 슬롯 선택이 안 끊긴다**
-- **임시 코드 제거.** `Print String` 3개와 라인트레이스의 `Draw Debug Type: ForDuration`. HUD가 슬롯 색을 칠하면 그때 지운다
-- **`INVENTORY FULL` 경로를 아직 못 봤다.** 레벨에 `BP_ItemPickup`을 하나 더 놓으면(이미 놓인 것을 `Alt`+드래그) 확인된다. 행은 아무거나 상관없다
-- **결정 필요 — off-by-one 처리.** `InventorySlots`는 0부터, `SelectedSlot`은 1부터다. 사용 로직에서 `-1` 한 번으로 변환하기로 정했으나 아직 구현 전이다. **변환 지점을 한 곳으로 못 박아야 한다**
-- **확인 필요 — `E_ItemNature`의 열거자 인덱스.** MCP로는 못 읽는다. `Switch on E_ItemNature` 노드를 만들 때 핀 순서가 `Key` / `Consumable` / `Holdable`인지 눈으로 본다
-- **결정 필요 — `displayName`을 한글로 바꿀 것인가.** 지금 영어(`Rusty Key` 등)다. 게임 화면에 뜨는 이름이라 언젠가 정해야 한다
-- **`--append-system-prompt`가 저장소에 없다.** `Editor Preferences`의 사용자 설정이라 다른 환경에서는 다시 넣어야 한다. 어딘가에 적어둘지 정해야 한다
+**→ `Docs/AI-Log/2026-08-29-inventory-hold-use-hud.md`의 `다음으로 넘김`을 볼 것.**
 
-**이전 기록에서 이월된 것**
+이 세션에서 처리된 것만 적어 둔다.
 
-- **칼로 가기 전에 카메라 작업을 먼저 한다.** `BP_ShooterCharacter`가 `BP_FirstPersonCharacter`를 상속해 카메라가 `head` 본에 붙기 때문에 손이 안 보인다. 이번 판독에서 **원본 Project ICI는 `캡슐 → Camera → SkeletalMesh` 구조라 이 문제가 없었다**는 것이 확인됐다. 그 구조를 참고할 수 있다
-- **`BP_ThirdPersonCharacter` 자동 재저장의 원인.** 2026-08-28에만 세 번 반복됐다(`cb44ebf`, `5b6b18c`, `7e5a089`). 무엇이 이 BP를 dirty로 만드는지 아직 모른다
-- **결정 필요** `Content/Variant_Shooter/`(50개), `Content/Weapons/`(27개), `Content/FirstPerson/`의 미사용 애셋을 남길 것인가 지울 것인가. 이번에 데이터가 하나 늘었다 — `Variant_Shooter/Blueprints/Pickups/ST_WeaponTableRow`와 `DT_WeaponList`가 **지금 만든 것과 같은 구조체+DataTable 패턴**이다. 지우기 전에 볼 이유가 된다
-- **결정 필요** 1인칭 피치를 ±60에서 올릴 것인가. 사용자가 정한 값이 아니다. 이번에 `FirstPersonPitchMin/Max = -60 / 60`으로 실재하는 값임이 확인됐다
-- **전환 스냅 완화** — 요 보간 또는 `SetViewTargetWithBlend`. 원본 Project ICI도 사망 카메라 전환에서 `Set Active`로 카메라를 켜고 끄는 같은 방식을 썼다
-- **확인 필요** `Lvl_ArenaShooter`가 어떤 GameMode를 쓰는지. 인벤토리 HUD가 그 레벨에서 안 보일 것으로 예상만 했다
-- **`ForLoop.FirstIndex`가 빈 값인 이유를 확인할 것인가.** 동작에는 지장이 없다. 그 그래프를 다시 편집할 일이 생기면 그때 같이 본다
+- 명령 10 실행 — 완료 (커밋 `dc0b7ef`)
+- 사용(`E`) 로직 — 완료 (커밋 `dc0b7ef`)
+- HUD 슬롯 색·HP 바·`SelectedSlot` 일원화 — 완료 (커밋 `dc0b7ef`, `8b27acf`)
+- 임시 코드 제거 — 완료 (커밋 `8b27acf`). 단 `INVENTORY FULL`은 의도적으로 남겼다
+- off-by-one 변환 지점 못 박기 — `SelectedSlot - 1` 한 곳으로 고정
+- `E_ItemNature`의 열거자 인덱스 확인 — `DataTableTools.get_schema`로 읽히고 PIE로도 확정
+- `BP_ThirdPersonCharacter` 자동 재저장 — 2026-08-29에는 한 번도 안 일어났다. 재발하면 다시 올린다
