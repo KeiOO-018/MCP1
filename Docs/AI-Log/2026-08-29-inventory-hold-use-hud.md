@@ -1156,20 +1156,17 @@ Connected pins still report their stale literal in `value`.
 
 **바로 이어서 할 것**
 
-- **버리기(`Q`).** 사용자가 넣기로 한 기능이고 `E`가 끝났으니 순서가 왔다. 설계 근거는 `Docs/Spec/2026-08-29-인벤토리-2단계.md`의 `접어둔 것` 절에 정리돼 있다. 핵심: `BP_ItemPickup`은 `bSimulatePhysics: false`라 **버린 자리에 그대로 뜬다.** 그래서 "버릴 수 있는지 판단"이 실제로 필요하고, 캐릭터 앞에서 아래로 라인트레이스하는 쪽을 권한다. `IA_DropItem` 액션 하나와 `IMC_Inventory`의 `Q` 매핑이 새로 든다. 액터 원점이 메시 중심이라(`z -50 → +50`) 바닥 높이에 그대로 스폰하면 절반이 묻힌다
+- 없음. 2026-08-30에 처리됐다
 
 **결정 필요**
 
-- **`HeldItemSlot`과 `FoundSlotIndex` 변수를 지울 것인가.** 둘 다 이제 읽는 곳이 없다. `FoundSlotIndex`는 습득 때 `Find` 결과를 담는 용도였는데 getter 노드를 명령 22에서 지웠다
 - **`displayName`을 한글로 바꿀 것인가.** 이제 게임 화면에 뜬다. `Text`(NSLOCTEXT)라 경로는 열려 있다. 바꾸기 전에 **HUD 폰트에 한글 글리프가 있는지 먼저 봐야 한다** — 터미널 폰트에는 없다는 것이 이번에 로그로 확인됐다
 - **`[E] Use` 문구를 한글로 바꿀 것인가.** `MakeLiteralString` 하나만 고치면 된다. 위와 같은 폰트 문제가 걸린다
-- **1인칭 피치를 ±60에서 올릴 것인가.** 사용자가 정한 값이 아니다. 2026-08-27 기록에서 이월
 - **`Content/Variant_Shooter/`(50개), `Content/Weapons/`(27개), `Content/FirstPerson/`의 미사용 애셋을 남길 것인가 지울 것인가.** `Variant_Shooter/Blueprints/Pickups/ST_WeaponTableRow`와 `DT_WeaponList`가 지금 만든 것과 같은 구조체+DataTable 패턴이라 지우기 전에 볼 이유가 있다
 
 **확인 필요**
 
 - **`Instance Editable` 플래그 다섯 개.** `CachedCharacter`, `HPBarHeight`, `ColorHPBack`, `ColorHPFill`, `TextLineHeight`, `TextScale`. **MCP로 읽는 방법이 없다.** 디테일 패널에서 눈으로 봐야 한다. 안 켜져 있으면 레벨에서 인스턴스별로 조정이 안 된다
-- **`INVENTORY FULL` 경로.** 레벨의 `BP_ItemPickup`을 `Alt`+드래그로 하나 더 놓으면 확인된다. 행은 아무거나 상관없다
 - **`Lvl_ArenaShooter`가 어떤 GameMode를 쓰는지.** 인벤토리 HUD가 그 레벨에서 안 보일 것으로 예상만 했다. 세 세션째 이월
 - **`HandGrip_R` 소켓의 위치·각도.** 지금 아이템 셋이 전부 대칭 도형이라 각도 문제가 안 드러났을 수 있다. 방향이 있는 메시(칼)가 오면 그때 드러난다
 
@@ -1185,3 +1182,4 @@ Connected pins still report their stale literal in `value`.
 - `BP_ThirdPersonCharacter` 자동 재저장 — 2026-08-28에 세 번 반복됐으나 **2026-08-29에는 한 번도 안 일어났다.** 원인은 여전히 모르지만 재발하지 않아 목록에서 뺀다. 다시 나오면 그때 다시 올린다
 - `E_ItemNature`의 열거자 인덱스 확인 — `get_schema`로 읽히고 PIE로도 확정됐다
 - off-by-one 변환 지점 못 박기 — `SelectedSlot - 1` 한 곳으로 고정했고 사양 문서에 적었다
+- 버리기(`Q`) · `HeldItemSlot`/`FoundSlotIndex` 결정 · 1인칭 피치 · `INVENTORY FULL` 경로 — 2026-08-30에 처리됐다. 자세한 것은 `2026-08-30-drop-item.md`
