@@ -1347,39 +1347,11 @@ SpawnInfo.ObjectFlags |= RF_Transient;	// We never want to save HUDs into a map
 
 ## 다음으로 넘김
 
-**바로 이어서 할 것**
+**이 칸은 넘겼다.** 여기 있던 목록은 전부
+[`2026-08-30-door-placement.md`](2026-08-30-door-placement.md)의 `다음으로 넘김`으로
+옮겼다. **다음 세션은 그 기록을 읽는다.**
 
-- **문 작업의 명령 39 — 레벨에 테스트 배치.** 사양은 [`Docs/Spec/2026-08-30-문과-상호작용.md`](../Spec/2026-08-30-문과-상호작용.md)에 있고 표를 39까지 갱신해뒀다.
-  - **명령 38까지 끝났다.** 문 로직은 끝에서 끝까지 붙어 있고 컴파일된다. **다만 한 번도 실행된 적이 없다** — `BP_Door`가 레벨에 없어서다
-  - **배치할 것**: 벽 대용 박스 둘과 문 하나. 사양의 `범위` 참조 — 문틀 메시(`SM_DoorFrame_Edge`)는 안 붙인다
-  - **배치 직후가 문 사양의 합격 기준 1·2·3을 처음 보는 시점이다.** 열쇠 없이 잠긴 문에 `F` → 안내만 뜸 / 열쇠를 들고 `F` → 열리고 열쇠 칸이 빔 / 다시 `F` → 닫힘, 열쇠를 다시 요구 안 함, `bHingeOnRight`를 뒤집으면 반대쪽 경첩
-  - **`Lvl_ThirdPerson`에 배치한다.** `GameDefaultMap`이 그것이고 `BP_ThirdPersonGameMode`가 `BP_ThirdPersonHUD`를 쓴다
-  - **열쇠를 손에 넣을 방법이 필요하다.** `DT_Items`에 `Key_Stage1` 행이 있고 `BP_ItemPickup`을 배치해 `ItemRow`를 그 행으로 지정하면 된다. 이것도 배치에 포함해야 문을 열어볼 수 있다
-
-**결정 필요**
-
-- **빈 `EventTick` 스텁을 지울 것인가.** `BP_Door` · `BP_ItemPickup` · `BP_ThirdPersonCharacter` 셋 다 템플릿이 만든 빈 이벤트 스텁(`BeginPlay` · `ActorBeginOverlap` · `Tick`)을 갖고 있다. 지금은 아무것도 안 한다
-- **`DoesObjectImplementInterface` 검사를 뺄 것인가.** `Interact(Message)`가 혼자서도 안전하게 no-op이라 동작상 불필요하다. 노드 2개. 나중에 상호작용 안내를 붙일 자리이기도 하다
-- **드롭 시 벽 앞 판정을 넣을 것인가.** 전방 트레이스 하나가 더 든다
-
-**확인 필요**
-
-- **벽에 붙어 서서 `Q`.** 벽에 반쯤 묻힌 아이템이 나올 것으로 예상만 했다
-- **같은 자리에 두 번 `Q`.** 쌓일 것으로 예상만 했다
-- **경사면에 `Q`.** 스폰 회전이 `0,0,0`이라 안 눕는다. 얼마나 어색한지 안 봤다
-- **`Lvl_ArenaShooter`의 WorldSettings가 `BP_ShooterGameMode`를 가리키는지.** 절반은 풀렸다 — 그 GameMode의 `HUDClass`가 스톡 `/Script/Engine.HUD`인 것은 읽었다. 남은 것은 레벨이 실제로 그 GameMode를 지정하느냐다. `.umap`이 바이너리라 못 읽었다
-- **`HandGrip_R` 소켓의 위치·각도.** 지금 아이템 셋이 전부 대칭 도형이라 각도 문제가 안 드러났을 수 있다. 방향이 있는 메시(칼)가 오면 그때 드러난다
-- **`MoveComponentTo`를 여는 도중 다시 부르면 어떻게 되는지.** `Stop`·`Return` 핀을 비워뒀다. 명령 39 뒤에 문을 연타해보면 바로 나온다
-
-**접어둔 것**
-
-- **칼로 가기 전에 카메라 작업을 먼저 한다.** `BP_ShooterCharacter`가 `BP_FirstPersonCharacter`를 상속해 카메라가 `head` 본에 붙기 때문에 손이 안 보인다. 원본 Project ICI는 `캡슐 → Camera → SkeletalMesh` 구조라 이 문제가 없었다
-- **전환 스냅 완화** — 요 보간 또는 `SetViewTargetWithBlend`. 2026-08-27 기록에서 이월
-- **`ForLoop.FirstIndex`가 빈 값인 이유.** 동작에 지장이 없다. 그 그래프를 다시 편집할 일이 생기면 그때 본다
-- **`--append-system-prompt`가 저장소에 없다.** `Editor Preferences → General → Terminal → Startup Commands`의 사용자 설정이라 다른 환경에서는 다시 넣어야 한다. 원문은 `Docs/AI-Log/2026-08-28-inventory-item-data.md`의 `명령` 칸에 있다
-- **원인 미상의 재직렬화 두 건.** `BP_Door`(커밋 `b4ab97a`)와 `BP_DoorFrame`(커밋 `8e8e30a`). 내용은 안 깨졌다. 다시 나오면 그때 본다
-- **`SetbOpen` 노드가 저절로 움직인 것.** 배선과 핀 값이 동일해서 동작에 영향이 없다
-- **`Key`의 나머지 용도.** 이 사양이 문 하나를 여는 것까지만 한다. 스테이지별 열쇠, 여러 문, 진행 조건은 진행 구조 단계다
-- **`SP` 스태미나.** 원본에 있고 MCP1에 없다. `06-플레이어-UI.md:54` 참조
-- **슬롯 2칸 vs 3칸.** 원본은 2칸, MCP1은 3칸이다. 의도한 차이인지 안 정했다
-- **미사용 애셋 정리.** 2026-08-30에 **남기기로** 정했다. 지우지 않는다
+옮기면서 해결된 것은 그쪽 목록에서 뺐다 — 명령 39 레벨 배치(완료, 명령 39·40·41로
+갈라져 끝났다), `MoveComponentTo`를 여는 도중 다시 부르는 것(PIE에서 연타로 확인,
+이상 없음). 그리고 옮기는 과정에서 항목이 늘었다 — 컴파일 경고 미확인,
+`__ExternalObjects__` 파일의 정체, 경첩 반전의 절반 남은 확인, `OpenAngle`의 방향.
