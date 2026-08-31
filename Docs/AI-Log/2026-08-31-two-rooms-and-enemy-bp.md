@@ -2,9 +2,13 @@
 
 ## 작업물
 
-**ThirdPerson 기본 레벨의 실내를 비우고 같은 크기의 두 번째 방을 붙여 잠긴 문 하나로만 통하게 만든 뒤, 적 AI의 첫 애셋 `BP_Enemy`를 만들었다** — 명령 43~54, 커밋 3개.
+**ThirdPerson 기본 레벨의 실내를 비우고 같은 크기의 두 번째 방을 붙여 잠긴 문 하나로만 통하게 만든 뒤, 적 AI를 인지·추격·공격까지 완성하고 복귀 기능까지 붙였다** — 명령 43~67, 커밋 9개.
 
-**소요 시간**: 약 2시간 20분. 근거는 로그와 파일 mtime이다 — UE 로그의 첫 MCP 호출 흔적이 `00:43:18`, `BP_Enemy` 컴파일이 `02:56:28`이고, `BP_Enemy.uasset`의 mtime이 `12:01:07 +0900`이다. **UE 로그는 UTC이고 파일시스템은 KST(+9)다** — 컴파일 `02:56` UTC와 저장 `12:01` KST가 5분 차이로 맞물리는 것이 그 근거다. 그래서 실제 구간은 `09:43 ~ 12:03 KST`. 커밋 셋은 `10:25:05` · `11:23:17` · `12:02:53`이다.
+**소요 시간**: 약 6시간 40분. 근거는 로그와 커밋 시각이다 — UE 로그의 첫 MCP 호출 흔적이 `00:43:18`, 마지막 커밋 `7080884`가 `16:20:38`이다. **UE 로그는 UTC이고 파일시스템·git은 KST(+9)다** — `BP_Enemy` 컴파일이 로그에서 `02:56:28`인데 그 직후 저장된 `BP_Enemy.uasset`의 mtime이 `12:01:07 +0900`인 것이 그 근거다. 그래서 실제 구간은 `09:43 ~ 16:20 KST`.
+
+**커밋 아홉** — `0f5e074`(10:25) · `5d821f2`(11:23) · `2342d76`(12:02) · `086388d` · `8ac64da` · `1f99b64` · `2d94c6a` · `8a0fe47` · `7080884`(16:20).
+
+**두 덩어리로 나뉜다.** 앞쪽(43~52)은 레벨 구조, 뒤쪽(53~67)은 적 AI다. 그 사이에 한 번 문서를 쓰고 인계를 정리했다(`086388d`).
 
 ## 명령
 
@@ -123,6 +127,118 @@ A로
 
 ```
 1했고 2 3 하자
+```
+
+```
+55로 가자
+```
+
+```
+결과 확인
+```
+
+```
+결과 확인
+```
+
+```
+저장했고 공격 기능 먼저 하자
+```
+
+```
+결과확인
+```
+
+```
+일단 저거 만들었어 AM_Enemy_Attack 저거확인
+```
+
+```
+몽타주 다시만들고 Save all도 했어 확인좀
+```
+
+```
+이름고쳤어
+```
+
+```
+결과 확인
+```
+
+```
+셋 다 잘됨
+```
+
+```
+저장했고 복귀 기능 추가하자
+```
+
+**복귀 기능 심문 — 사용자가 직접 쓴 답.** 다섯 항목을 한 번에 물었고 아래가 원문이다.
+
+```
+1. 나중에 플레이어 감지 조건을 정할건데 구형 범위를 따로 만들려고해 어떻게 생각해 원래 적이 감지 할 수 있는 구형 범위가 있고 나중에 시야각도 넣을거야 시야각에서 거리가 있을거 아니야 그게 구형 범위의 반지름이 되는거임 돌아 갈 때는 (복귀할 때) 적 AI의 시야각 범위랑, 작은 구형 범위를 하나 더 지정해서 쓸건데 이 작은 구형 범위는 평소에는 큰 구형 그러니까 기본 구형 범위에 적이 들어오면 감지하고 가니까 안쓰지만, 돌아 갈때(복귀)는 이 작은 구형과 적 AI의 시야각이 함께 감지 범위로 뜨는거지 기존에 큰 구형은 복귀 때는 꺼지고, 그러면 보통 플레이어가 뒤에서 습격하려고 가까이 갈거 아니야? 그러면 그 작은 구형에 범위에 들어가면 플레이어를 인지하는거지 옆부분 급습도 마찬가지 앞은 시야각이 항상 감지하고 있으니까 시야각에 뜨면 다시 따라가서 공격하는 모드가되는거지 
+2. 시간은 현실시간 7초로 일다 ㄴ구성하자 
+3. 적 AI가 각각 스폰 구역을 가지고 스폰 구역으로 가는건 어때
+4. 도착하면 기본 구형 범위(시야각의 거리가 반지름인 구형)를 경계하는 상태이지 스폰지점에서 초기 방향대로 돌아가는게 맞는듯? 그래야 처음 배치할 때 원하는 위치를 바라보게 배치하니까
+5. 경로가 막혔다고 판단되면 그럴 일은 없지만 30초 동안 못움직이면 죽는 판정으로 해야할듯? 이게 낀거라 원래 게임 기획에서는 방안에서만 스폰되고 움직이고 전투하고 사망하거든 그래서 경로가 막힐 일은 거의없어 진짜없을듯? 저건 진짜 진짜 예외상황을 위해서 두는 장치느낌
+```
+
+**AI가 항목별 안으로 물은 것 셋.** 셋 다 AI가 권장으로 표시한 안을 골랐다.
+
+- 복귀 중 감지 → **짧은 홉으로 실제 작동시킨다** (한 번에 가고 도착 후에만 재평가 중 택1)
+- 시야각 → **나중에. 이번엔 작은 구형만** (지금 같이 넣는다 중 택1)
+- 30초 갇힘 사망 → **이번엔 안 넣는다** (지금 넣는다 중 택1)
+
+```
+그걸로 하자
+```
+
+```
+결과 확인
+```
+
+```
+결과 확인
+```
+
+```
+기준 1
+```
+
+```
+아 잘못얘기한거 저건잊어도됨 PIE해볼까기다려봐
+```
+
+```
+처음에 아에 안움직이는데 감지 못하는건지 뭔지 모르겠네
+```
+
+```
+들어갔는데도 안쫒아옴
+```
+
+```
+지금거리봐봐
+```
+
+```
+명령 66좀
+```
+
+```
+결과 확인좀
+```
+
+```
+이거 혹시 적 AI의 상태를 나타내는 로그를 화면에 띄워줄 수 있어
+```
+
+```
+이상없음
+```
+
+```
+일단 현재 작업 상황이나 기록해야할 것들 등을 정리하고 세션 마무리하자
 ```
 
 **스크린샷 6장이 같이 왔다.** 넷은 뷰포트(두 방 전경 · 문간 근접 · 위에서 본 칸막이 · 파킹된 문), 하나는 터미널 출력, 하나는 명령 51 결과다. 그중 문간 판정은 **AI가 `CaptureViewport`로 직접 카메라를 잡아 다시 찍어** 했다 — 사용자 스크린샷의 각도로는 그늘과 네비메시가 구분되지 않았기 때문이다.
@@ -431,6 +547,556 @@ Then compile the Blueprint and report:
   - any compile errors or warnings, read from the message log
 ```
 
+#### 명령 55
+
+```
+In the Blueprint /Game/Enemy/BP_Enemy, build the EventGraph using write_graph_dsl.
+
+Target DSL (this is my construction - verify it before trusting it):
+
+(event EventBeginPlay
+  (Variables|Default|SetPlayerRef (Game|GetPlayerCharacter 0))
+  (Think))
+
+(event Think
+  (bind player (Variables|Default|GetPlayerRef))
+  (Utilities|IsValid player
+    (:"Is Valid"
+      (bind atk (Variables|Default|GetAttackRange))
+      (bind d (Transformation|GetDistanceTo :self self :OtherActor player))
+      (if (<= d atk)
+        (Utilities|FlowControl|Delay (Variables|Default|GetAttackCooldown))
+        (Think)
+        (elif (<= d (Variables|Default|GetSightRange))
+          (AI|AIMoveTo :Pawn self
+                       :TargetActor player
+                       :AcceptanceRadius (- atk 20.0)
+            (:OnSuccess
+              (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+              (Think))
+            (:OnFail
+              (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+              (Think)))
+          (else
+            (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+            (Think)))))
+    (:"Is Not Valid"
+      (Variables|Default|SetPlayerRef (Game|GetPlayerCharacter 0))
+      (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+      (Think))))
+
+TWO THINGS I COULD NOT VERIFY - resolve them, do not guess silently:
+
+  a) The type_id for calling the custom event "Think" recursively. "Think" does not
+     exist yet so find_node_types could not find it. If a bare (Think) is rejected,
+     create the Think custom event first, then run
+     find_node_types with type_id_filter "Think" and use the exact id returned.
+
+  b) The event name for BeginPlay. The DSL docs example uses EventBeginPlay but the
+     Blueprint event is ReceiveBeginPlay. Use whichever write_graph_dsl accepts.
+
+If you change ANY part of the DSL above, report exactly what you changed and why.
+
+Constraints:
+  - AI MoveTo's "then" exec output stays UNCONNECTED. Only OnSuccess and OnFail are used.
+    "then" fires when the move starts, not when it finishes.
+  - Every path back to Think must pass through a Delay or through AI MoveTo.
+    There must be no path that reaches Think with no time cost. Verify this after building.
+  - Do NOT add an Event Tick and do NOT add a Set Timer.
+  - Do NOT add the attack yet - no montage, no Apply Damage. That is a later command.
+  - Do NOT change any variable, its default, or its instance-editable flag.
+  - Do NOT touch the components or class defaults.
+
+Then run arrange_nodes on the EventGraph so it is readable, compile the Blueprint,
+and report:
+  - the final DSL, read back with read_graph_dsl
+  - any compile errors or warnings, read from the MESSAGE LOG (do not report the
+    return value of compile_blueprint as evidence)
+  - what you had to change from my DSL, if anything
+
+Do not save the Blueprint yet.
+```
+
+#### 명령 56
+
+```
+In the Blueprint /Game/Enemy/BP_Enemy EventGraph, delete exactly these two nodes:
+
+  K2Node_Event_2   type_id AddEvent|EventTick
+  K2Node_Event_1   type_id AddEvent|Collision|EventActorBeginOverlap
+
+Both are empty stubs with nothing connected to their "then" exec output (verified:
+then x0 on both). Neither was requested. The Event Tick node is the problem - its
+mere presence sets PrimaryActorTick.bCanEverTick to true, so the enemy ticks every
+frame doing nothing. The spec forbids Event Tick outright.
+
+Do NOT delete any other node. In particular these must stay:
+  K2Node_Event_0        AddEvent|EventBeginPlay
+  K2Node_CustomEvent_1  AddEvent|Custom|Think
+  K2Node_MacroInstance_6, K2Node_CallFunction_35, K2Node_AIMoveTo_4
+
+Then compile the Blueprint, and AFTER compiling read back
+PrimaryActorTick.bCanEverTick from the class defaults.
+
+  - If it is already false, leave it alone and report that.
+  - If it is still true, set it to false explicitly and report that you had to.
+
+Do not change anything else - no variables, no components, no other class defaults.
+
+Report:
+  - the EventGraph read back with read_graph_dsl
+  - the node count before and after
+  - PrimaryActorTick.bCanEverTick, read after the compile
+  - any compile errors or warnings from the MESSAGE LOG
+```
+
+#### 명령 57
+
+```
+In the currently loaded level /Game/ThirdPerson/Lvl_ThirdPerson, spawn one actor from the Blueprint asset /Game/Enemy/BP_Enemy.
+
+  label:    Enemy_Test
+  location: (4000, 0, 90)
+  rotation: (pitch 0, yaw 180, roll 0)
+  scale:    (1, 1, 1)
+
+Do NOT snap it to the ground - use the exact Z given.
+Z=90 is the capsule half-height, so the capsule bottom lands exactly on the
+floor at Z=0. (4000, 0) is the centre of room 2, whose floor spans X 2000..6000.
+Yaw 180 makes it face the doorway at X 1900.
+
+Do not modify any other actor. Do not save the level yet.
+
+Report back:
+  - Enemy_Test's world transform and world bounds
+  - the total actor count in the level
+  - its SightRange, AttackRange, AttackDamage, AttackCooldown, ThinkInterval,
+    AttackMontage and PlayerRef as they read on this placed instance
+  - confirm that the six tuning variables appear in the Details panel of the
+    placed instance (this is the check I cannot do myself)
+```
+
+#### 명령 58
+
+```
+In the Blueprint /Game/Enemy/BP_Enemy, on the CharacterMovement component
+(named CharMoveComp), change MaxWalkSpeed from 600 to 300.
+
+Set it on the BLUEPRINT's component default, not on the placed Enemy_Test instance
+in the level. Component property writes on placed Blueprint instances silently fail
+in this project - set_properties returns true and the value does not change.
+
+Change ONLY MaxWalkSpeed. Leave these alone:
+  MaxAcceleration (2048), BrakingDecelerationWalking (2048),
+  bOrientRotationToMovement (true), RotationRate (0, 500, 0)
+
+Do not touch any variable, any other component, or any class default.
+
+Then compile the Blueprint and report:
+  - MaxWalkSpeed read back from the Blueprint's CharMoveComp default
+  - MaxWalkSpeed read back from the placed actor Enemy_Test in the level
+    (it should now also read 300, inherited - if it still reads 600 say so)
+  - any compile errors or warnings from the MESSAGE LOG
+```
+
+#### 명령 59
+
+```
+Two fixes in /Game/ThirdPerson/Lvl_ThirdPerson and /Game/Enemy/BP_Enemy.
+
+1. The placed actor Enemy_Test still has MaxWalkSpeed 600 on its CharMoveComp,
+   while the Blueprint class default is now 300. The instance is not inheriting.
+
+   Use ObjectTools.reset_properties on Enemy_Test's CharMoveComp component with
+   properties ["MaxWalkSpeed"] to clear the per-instance override so it falls back
+   to the class default of 300.
+
+   Do NOT try set_properties on it - component writes on placed Blueprint instances
+   silently fail in this project.
+
+   If reset_properties does not work, STOP and report that. Do not delete or respawn
+   the actor and do not try any other route.
+
+2. In the Blueprint /Game/Enemy/BP_Enemy, set the class default
+   PrimaryActorTick.bCanEverTick to false.
+
+   It currently reads true. This is wrong - the EventGraph has no Event Tick node
+   (verified: 35 nodes, implemented events are only Think and ReceiveBeginPlay), so
+   the enemy would tick every frame doing nothing. It read false after the previous
+   command and something set it back.
+
+   Change only bCanEverTick. Leave tickGroup, endTickGroup, bTickEvenWhenPaused,
+   bStartWithTickEnabled, bAllowTickOnDedicatedServer and tickInterval alone.
+
+Then compile the Blueprint and report:
+  - MaxWalkSpeed read from the Blueprint class default AND from Enemy_Test in the level
+  - PrimaryActorTick.bCanEverTick read from the Blueprint class default
+  - whether reset_properties returned success, and whether the value actually changed
+    (these are different things - check the value, not the return)
+  - any compile errors or warnings from the MESSAGE LOG
+
+Do not save yet.
+```
+
+**명령 59의 2번 항목은 애초에 불가능한 요구였다.** 아래 `기술적으로 맞게 짚은 부분` 참조.
+`MaxWalkSpeed`는 결국 사용자가 디테일 패널에서 손으로 고쳤다.
+
+#### 명령 60
+
+```
+In the Blueprint /Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter, add an
+Event AnyDamage handler to the EventGraph.
+
+*** DO NOT USE write_graph_dsl ON THIS GRAPH. ***
+This EventGraph contains 87 nodes of existing inventory and input logic
+(EnhancedInputAction x8, TryAddItem, TryConsumeSelected, RefreshHeldItem, ...).
+write_graph_dsl may replace the whole graph and destroy them.
+Build this with add_event + create_node + connect_pins + set_pin_value only.
+Do not read the graph as DSL and write it back either.
+
+BEFORE you start, run find_nodes on the EventGraph and record the node count.
+
+What to build - this is the entire addition:
+
+  Event AnyDamage  (the ReceiveAnyDamage event; params Damage, DamageType,
+                    InstigatedBy, DamageCauser)
+    → Set CurrentHP = Clamp( CurrentHP - Damage , 0.0 , MaxHP )
+
+  Nodes:
+    add_event for ReceiveAnyDamage
+    Variables|Default|GetCurrentHP
+    Math|Float|float-float          A = GetCurrentHP,  B = the event's Damage pin
+    Math|Float|Clamp(Float)         Value = the subtract result
+                                    Min   = 0.0
+                                    Max   = Variables|Default|GetMaxHP
+    Variables|Default|GetMaxHP
+    Variables|Default|SetCurrentHP  value = Clamp ReturnValue
+
+  Exec: Event AnyDamage "then" → SetCurrentHP "execute". Nothing else.
+
+  Use only the Damage pin from the event. Leave DamageType, InstigatedBy and
+  DamageCauser unconnected - they are not needed yet.
+
+Constraints:
+  - Do NOT modify, move, disconnect or delete ANY existing node.
+  - Do NOT add or change any variable. CurrentHP and MaxHP already exist
+    (CurrentHP 75, MaxHP 100).
+  - Do NOT touch any function graph, component or class default.
+  - Do NOT add an Event Tick.
+
+Then compile and report:
+  - the EventGraph node count BEFORE and AFTER
+  - list_events output showing ReceiveAnyDamage is now bIsImplemented true, and
+    that ReceiveBeginPlay, "Touch Jump End", "Touch Jump Start",
+    "Secondary Thumbstick" and "Primary Thumbstick" are still implemented
+  - any compile errors or warnings from the MESSAGE LOG
+
+Do not save yet.
+```
+
+#### 명령 61 — MCP 명령이 아니다. 전부 손 작업
+
+`unreal-mcp`에 `AnimMontage` 도구가 없다. 사용자에게 넘긴 절차는 이랬다.
+
+```
+경로   /Game/Characters/Mannequins/Anims/Unarmed/Attack/
+이름   AM_Enemy_Attack
+원본   MM_Attack_01
+슬롯   DefaultSlot
+```
+
+콘텐츠 브라우저에서 `MM_Attack_01` 우클릭 → 몽타주를 만드는 항목. **`Duplicate`가 아니다.**
+
+#### 명령 62
+
+```
+In the Blueprint /Game/Enemy/BP_Enemy, rewrite the EventGraph with write_graph_dsl
+to add the attack. This is the current graph plus two exec nodes and three pure
+nodes in the AttackRange branch - everything else is unchanged.
+
+(event EventBeginPlay
+  (Variables|Default|SetPlayerRef (Game|GetPlayerCharacter 0))
+  (CallFunction|Think))
+
+(event Custom|Think
+  (bind player (Variables|Default|GetPlayerRef))
+  (Utilities|IsValid player
+    (:"Is Valid"
+      (bind atk (Variables|Default|GetAttackRange))
+      (bind d (Transformation|GetDistanceTo :self self :OtherActor player))
+      (if (<= d atk)
+        (Animation|PlayAnimMontage :self self
+                                   :AnimMontage (Variables|Default|GetAttackMontage))
+        (Game|Damage|ApplyDamage :DamagedActor player
+                                 :BaseDamage (Variables|Default|GetAttackDamage)
+                                 :EventInstigator (Pawn|GetController :self self)
+                                 :DamageCauser self)
+        (Utilities|FlowControl|Delay (Variables|Default|GetAttackCooldown))
+        (CallFunction|Think)
+        (elif (<= d (Variables|Default|GetSightRange))
+          (AI|AIMoveTo :Pawn self
+                       :TargetActor player
+                       :AcceptanceRadius (- atk 20.0)
+            (:OnSuccess
+              (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+              (CallFunction|Think))
+            (:OnFail
+              (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+              (CallFunction|Think)))
+          (else
+            (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+            (CallFunction|Think)))))
+    (:"Is Not Valid"
+      (Variables|Default|SetPlayerRef (Game|GetPlayerCharacter 0))
+      (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+      (CallFunction|Think))))
+
+Notes:
+  - PlayAnimMontage's self pin is a Character Object Reference, so it takes the
+    enemy itself - NOT the Mesh component.
+  - Leave ApplyDamage's DamageTypeClass unset.
+  - AI MoveTo's "then" output stays unconnected. Only OnSuccess and OnFail.
+  - Last time write_graph_dsl also created two empty event stubs
+    (AddEvent|EventTick and AddEvent|Collision|EventActorBeginOverlap).
+    If they appear again, DELETE both. The graph must end up with exactly two
+    events: Custom|Think and EventBeginPlay.
+
+Then, on the placed actor Enemy_Test in /Game/ThirdPerson/Lvl_ThirdPerson, set its
+AttackMontage variable to
+  /Game/Characters/Mannequins/Anims/Unarmed/Attack/AM_Enemy_Attack
+This is an actor-level variable, not a component property. Try it and REPORT
+whether the value actually changed when read back - do not report the return value
+as evidence. If it does not stick, say so and stop; do not try other routes.
+
+Then compile and report:
+  - the EventGraph read back with read_graph_dsl
+  - the node count (it was 35; expect 40 if nothing extra was added)
+  - the list of implemented events
+  - Enemy_Test's AttackMontage, read back
+  - any compile errors or warnings from the MESSAGE LOG
+
+Do not save yet.
+```
+
+#### 명령 63
+
+```
+Save the asset /Game/Enemy/BP_Enemy to disk using AssetTools.save_assets with
+asset_paths ["/Game/Enemy/BP_Enemy"].
+
+This asset reads is_dirty = true. Its EventGraph has 40 nodes including the attack
+(Animation|PlayAnimMontage, Game|Damage|ApplyDamage, Pawn|GetController) that were
+added in the previous command and are currently only in memory.
+
+Do not modify the graph. Do not compile. Only save.
+
+Then report:
+  - what save_assets returned
+  - is_dirty for /Game/Enemy/BP_Enemy read back AFTER the save
+    (these are different things - check is_dirty, not the return value)
+```
+
+#### 명령 64
+
+```
+In the Blueprint /Game/Enemy/BP_Enemy, add seven new variables.
+Do NOT touch the EventGraph in this command - variables only.
+
+INSTANCE EDITABLE (must appear in the Details panel of placed instances):
+
+  ReturnDelay         float    default 7.0
+  ReturnSightRange    float    default 300.0
+  ReturnStepDistance  float    default 300.0
+  HomeArriveRadius    float    default 100.0
+
+NOT instance editable (runtime only):
+
+  HomeLocation        Vector   default (0, 0, 0)
+  HomeRotation        Rotator  default (0, 0, 0)
+  LastSeenTime        float    default 0.0
+
+HomeLocation is a Vector struct and HomeRotation is a Rotator struct - use whichever
+add_*_variable tool is correct for struct types.
+
+Do NOT change any of the seven existing variables:
+  SightRange, AttackRange, AttackDamage, AttackCooldown, ThinkInterval,
+  AttackMontage, PlayerRef
+
+Do NOT modify the EventGraph, any component, or any class default.
+Do NOT add an Event Tick.
+
+Then compile and report:
+  - list_variables output (should be 14 names now)
+  - each new variable's default value read back from the class default object
+  - any compile errors or warnings from the MESSAGE LOG
+
+Do not save yet.
+```
+
+#### 명령 65
+
+```
+In the Blueprint /Game/Enemy/BP_Enemy, rewrite the EventGraph with write_graph_dsl.
+
+(event EventBeginPlay
+  (Variables|Default|SetPlayerRef (Game|GetPlayerCharacter 0))
+  (Variables|Default|SetHomeLocation (Transformation|GetActorLocation :self self))
+  (Variables|Default|SetHomeRotation (Transformation|GetActorRotation :self self))
+  (Variables|Default|SetLastSeenTime (Utilities|Time|GetGameTimeinSeconds))
+  (CallFunction|Think))
+
+(event Custom|Think
+  (bind player (Variables|Default|GetPlayerRef))
+  (Utilities|IsValid player
+    (:"Is Valid"
+      (bind now      (Utilities|Time|GetGameTimeinSeconds))
+      (bind selfLoc  (Transformation|GetActorLocation :self self))
+      (bind toHome   (- (Variables|Default|GetHomeLocation) selfLoc))
+      (bind homeDist (Math|Vector|VectorLength toHome))
+      (bind arrive   (Variables|Default|GetHomeArriveRadius))
+      (bind atk      (Variables|Default|GetAttackRange))
+      (bind d        (Transformation|GetDistanceTo :self self :OtherActor player))
+      (bind returning (and (>= (- now (Variables|Default|GetLastSeenTime))
+                               (Variables|Default|GetReturnDelay))
+                           (> homeDist arrive)))
+      (bind radius (select returning
+                           (Variables|Default|GetReturnSightRange)
+                           (Variables|Default|GetSightRange)))
+      (if (<= d radius)
+        (Variables|Default|SetLastSeenTime now)
+        (if (<= d atk)
+          (Animation|PlayAnimMontage :self self
+                                     :AnimMontage (Variables|Default|GetAttackMontage))
+          (Game|Damage|ApplyDamage :DamagedActor player
+                                   :BaseDamage (Variables|Default|GetAttackDamage)
+                                   :EventInstigator (Pawn|GetController :self self)
+                                   :DamageCauser self)
+          (Utilities|FlowControl|Delay (Variables|Default|GetAttackCooldown))
+          (CallFunction|Think)
+          (else
+            (AI|AIMoveTo :Pawn self :TargetActor player :AcceptanceRadius (- atk 20.0)
+              (:OnSuccess
+                (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+                (CallFunction|Think))
+              (:OnFail
+                (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+                (CallFunction|Think)))))
+        (elif returning
+          (AI|AIMoveTo :Pawn self
+                       :Destination (+ selfLoc
+                                       (* (Math|Vector|Normalize toHome)
+                                          (Math|Float|Min (Variables|Default|GetReturnStepDistance)
+                                                          homeDist)))
+                       :AcceptanceRadius arrive
+            (:OnSuccess
+              (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+              (CallFunction|Think))
+            (:OnFail
+              (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+              (CallFunction|Think)))
+          (else
+            (if (<= homeDist arrive)
+              (Transformation|SetActorRotation :self self
+                                               :NewRotation (Variables|Default|GetHomeRotation))
+              (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+              (CallFunction|Think)
+              (else
+                (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+                (CallFunction|Think)))))))
+    (:"Is Not Valid"
+      (Variables|Default|SetPlayerRef (Game|GetPlayerCharacter 0))
+      (Utilities|FlowControl|Delay (Variables|Default|GetThinkInterval))
+      (CallFunction|Think))))
+
+If the parser rejects any of this - the nesting depth, the (and ...), the (select ...),
+the vector arithmetic promotion on (- vector vector), (* vector float) or
+(+ vector vector) - restructure it so the BEHAVIOUR below is preserved exactly, and
+REPORT precisely what you changed and why. Do not silently substitute logic.
+
+Required behaviour, in words:
+  - returning  = (now - LastSeenTime >= ReturnDelay) AND (homeDist > HomeArriveRadius)
+  - radius     = returning ? ReturnSightRange : SightRange
+  - detected (d <= radius): stamp LastSeenTime = now, then attack if d <= AttackRange,
+    otherwise chase the player exactly as before
+  - not detected AND returning: move one hop toward home. The hop target is
+    selfLoc + Normalize(HomeLocation - selfLoc) * Min(ReturnStepDistance, homeDist).
+    The Min is what stops it overshooting home.
+  - not detected AND not returning: if within HomeArriveRadius of home, snap rotation
+    back to HomeRotation; either way wait ThinkInterval and Think again.
+
+Constraints:
+  - AI MoveTo's "then" output stays UNCONNECTED in BOTH AI MoveTo nodes.
+    Only OnSuccess and OnFail.
+  - There must be EIGHT paths back to Think and every one of them must pass through
+    a Delay or an AI MoveTo. Verify this after building and state the count.
+  - Do NOT add or change any variable. All 14 already exist.
+  - Do NOT add an Event Tick. If write_graph_dsl creates empty stub events
+    (AddEvent|EventTick, AddEvent|Collision|EventActorBeginOverlap) DELETE them.
+    The graph must end with exactly two events: Custom|Think and EventBeginPlay.
+  - Do NOT touch components or class defaults.
+
+Then run arrange_nodes, compile, and report:
+  - the graph read back with read_graph_dsl
+  - the node count (it was 40)
+  - the implemented event list
+  - any compile errors or warnings from the MESSAGE LOG
+  - anything you had to change from the DSL above
+
+Do not save yet.
+```
+
+#### 명령 66
+
+```
+Stop PIE first if it is still running. The values must be set in the EDITOR world,
+not in the PIE copy - PIE makes its own copy at start and does not pick up edits
+made while it is running.
+
+Then, on the actor labeled exactly "Enemy_Test" in /Game/ThirdPerson/Lvl_ThirdPerson,
+set these four actor-level variables:
+
+  ReturnDelay         7.0
+  ReturnSightRange    300.0
+  ReturnStepDistance  300.0
+  HomeArriveRadius    100.0
+
+They currently all read 0.0 on this instance. The Blueprint class defaults are
+already correct (7 / 300 / 300 / 100) - the placed instance never inherited them
+because it was placed before these variables existed. The older variables
+(SightRange 1200, ThinkInterval 0.3) did inherit correctly, so only these four
+are wrong.
+
+These are actor-level variables, not component properties. Actor-level variable
+writes work on this project (AttackMontage went in first try). Do NOT use
+reset_properties - it silently failed here before.
+
+Do NOT change SightRange, AttackRange, AttackDamage, AttackCooldown, ThinkInterval,
+AttackMontage, PlayerRef, HomeLocation or HomeRotation.
+Do NOT touch the Blueprint asset - only this placed instance in the level.
+
+Then report each of the four values read back from Enemy_Test, and state whether
+the value actually changed - check the value, not what the call returned.
+```
+
+#### 명령 67
+
+**명령 65의 DSL과 글자 단위로 같고, 아래 여덟 줄이 더 들어갔다.** 나머지 제약과 보고 요구는 65와 동일하며, 끝에 `AssetTools.save_assets`로 저장하라는 지시가 붙었다.
+
+```
+      (Development|PrintString :InString (Utilities|String|ToString(Float) d)
+                               :Duration 1.0 :Key "2_dist" :bPrintToLog true)
+      (Development|PrintString :InString (Utilities|String|ToString(Float) homeDist)
+                               :Duration 1.0 :Key "3_home" :bPrintToLog true)
+          (Development|PrintString :InString "ATTACK" :Duration 1.0 :Key "1_state" :bPrintToLog true)
+            (Development|PrintString :InString "CHASE" :Duration 1.0 :Key "1_state" :bPrintToLog true)
+          (Development|PrintString :InString "RETURN" :Duration 1.0 :Key "1_state" :bPrintToLog true)
+            (Development|PrintString :InString "IDLE_HOME" :Duration 1.0 :Key "1_state" :bPrintToLog true)
+              (Development|PrintString :InString "IDLE_WAIT" :Duration 1.0 :Key "1_state" :bPrintToLog true)
+      (Development|PrintString :InString "NO_PLAYER" :Duration 1.0 :Key "1_state" :bPrintToLog true)
+```
+
+두 숫자 줄은 `radius` 계산 직후·첫 `Branch` 직전에, 여섯 상태 줄은 각 가지의 첫 노드로 들어갔다.
+
 ## Terminal 결과
 
 ### 원문 — English
@@ -546,6 +1212,96 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 }
 ```
 
+**명령 65 이후 PIE 중에 읽은 `Enemy_Test`의 실제 값.** 이 세션에서 가장 중요한 원문이다 — 이것 하나로 버그가 잡혔다.
+
+```json
+{"PIE_running": true,
+ "enemy_PIE": {"label": "Enemy_Test",
+   "world": "/Game/ThirdPerson/UEDPIE_0_Lvl_ThirdPerson.Lvl_ThirdPerson",
+   "loc": [4000, 0, 92.15000104904175], "yaw": 180,
+   "vars": "{\"ReturnDelay\":0,\"ReturnSightRange\":0,\"ReturnStepDistance\":0,
+             \"HomeArriveRadius\":0,\"LastSeenTime\":0,
+             \"HomeLocation\":{\"x\":4000,\"y\":0,\"z\":92.400001525878906},
+             \"SightRange\":1200,\"ThinkInterval\":0.29999999999999999}"},
+ "player_PIE_loc": [3855.2708973568906, -14.60055121035552, 92.14999812707475],
+ "distance_3D": 145.5, "distance_2D": 145.5}
+```
+
+**몽타주가 몽타주가 아니었을 때의 에러.** 클래스 이름이 괄호 안에 드러나 있다.
+
+```
+GetObjectProperties on '/Game/Characters/Mannequins/Anims/Unarmed/Attack/AM_Enemy_Attack.AM_Enemy_Attack' (AnimSequence): the following properties could not be read: SlotAnimTracks
+GetObjectProperties on '/Game/Characters/Mannequins/Anims/Unarmed/Attack/AM_Enemy_Attack.AM_Enemy_Attack' (AnimSequence): the following properties could not be read: BlendIn
+GetObjectProperties on '/Game/Characters/Mannequins/Anims/Unarmed/Attack/AM_Enemy_Attack.AM_Enemy_Attack' (AnimSequence): the following properties could not be read: BlendOut
+GetObjectProperties on '/Game/Characters/Mannequins/Anims/Unarmed/Attack/AM_Enemy_Attack.AM_Enemy_Attack' (AnimSequence): the following properties could not be read: bEnableRootMotionTranslation
+GetObjectProperties on '/Game/Characters/Mannequins/Anims/Unarmed/Attack/AM_Enemy_Attack.AM_Enemy_Attack' (AnimSequence): the following properties could not be read: CompositeSections
+```
+
+다시 만든 뒤 같은 조회의 에러. **`(AnimMontage)`로 바뀌었다.**
+
+```
+GetObjectProperties on '.../AM_Enemey_Attack.AM_Enemey_Attack' (AnimMontage): the following properties could not be read: CompositeSections
+GetObjectProperties on '.../AM_Enemey_Attack.AM_Enemey_Attack' (AnimMontage): the following properties could not be read: bEnableRootMotionTranslation
+```
+
+**`bCanEverTick`을 끌 수 없는 이유 — 엔진 소스.**
+
+```cpp
+// Engine/Source/Runtime/Engine/Private/Pawn.cpp:50
+PrimaryActorTick.bCanEverTick = true;
+```
+
+```cpp
+// Engine/Source/Editor/KismetCompiler/Private/KismetCompiler.cpp:5525
+const bool bOldFlag = TickFunction->bCanEverTick;
+// RESET FLAG
+TickFunction->bCanEverTick = ParentTickFunction->bCanEverTick;
+
+// RECEIVE TICK
+if (!TickFunction->bCanEverTick)
+{
+    ...
+}
+```
+
+**MCP 도구 자체가 실패한 것들.**
+
+```
+The node could not be created / Math|Float|Clamp does not exist
+'NoneType' object has no attribute 'get_node_title'
+```
+
+```
+The node could not be created / Math|Float|ToString does not exist
+'NoneType' object has no attribute 'get_node_title'
+```
+
+```
+Script error in editor_toolset.toolsets.blueprint.BlueprintTools.find_nodes:
+Function "find_nodes", input param "title" is required by the function input schema Json, but is missing from the incoming
+```
+
+```
+Script error in editor_toolset.toolsets.blueprint.BlueprintTools.get_connected_subgraph:
+Function "get_connected_subgraph", input param "node" is required by the function input schema Json, but is missing from the incoming function input params Json.
+```
+
+```
+line 30: TypeError: _StrictDict.get() does not support a default value. Use direct key access [] instead.
+```
+
+**`write_graph_dsl` 실행 중 나온 경고.** 이후 컴파일 여섯 번에는 안 나왔다.
+
+```
+[2026.08.31-03.28.48:922][713]LogBlueprint: Warning: No then pin found on node /Game/Enemy/BP_Enemy.BP_Enemy:EventGraph.K2Node_VariableGet_4
+[2026.08.31-03.28.48:922][713]LogBlueprint: Warning: No then pin found on node /Game/Enemy/BP_Enemy.BP_Enemy:EventGraph.K2Node_VariableGet_5
+[2026.08.31-03.28.48:922][713]LogBlueprint: Warning: No then pin found on node /Game/Enemy/BP_Enemy.BP_Enemy:EventGraph.K2Node_VariableGet_6
+[2026.08.31-03.28.48:922][713]LogBlueprint: Warning: No then pin found on node /Game/Enemy/BP_Enemy.BP_Enemy:EventGraph.K2Node_CallFunction_20
+[2026.08.31-03.28.48:922][713]LogBlueprint: Warning: No then pin found on node /Game/Enemy/BP_Enemy.BP_Enemy:EventGraph.K2Node_VariableGet_7
+```
+
+**`AI MoveTo`의 핀.** 사양의 전제를 검증한 원문 — 이미 앞에 실었다.
+
 ### 요약 — 한글
 
 - **명령 43** — 액터 `83 → 38`. 정확히 45개가 사라졌다. 지울 45개 중 남은 것 없음, 남길 21개 중 사라진 것 없음
@@ -558,6 +1314,21 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 - **명령 51~52** — 문 회전 `yaw 90` → `0`. 프로브라 커밋 안 함
 - **명령 53** — `BP_Enemy` 생성. 부모 `Character`, 변수 7개, 캡슐·무브먼트·클래스 기본값 전부 지시대로. **`SkeletalMeshAsset`만 `None`**
 - **명령 54** — `SkeletalMeshAsset`이 `SKM_Manny_Simple`로 들어감. 컴파일 깨끗
+- **명령 55** — `Think` 루프 생성. 노드 37. `AI MoveTo`의 `then` 미연결, `OnSuccess`/`OnFail`만 사용. **시키지 않은 빈 이벤트 스텁 둘**(`AddEvent|EventTick`, `AddEvent|Collision|EventActorBeginOverlap`)이 같이 들어왔고 `bCanEverTick`이 `true`가 됨
+- **명령 56** — 스텁 둘 삭제. 노드 37 → 35. `bCanEverTick`이 컴파일만으로 `false`가 됨. `Think` 루프 무손상
+- **명령 57** — `Enemy_Test` 배치 `(4000,0,90)` yaw 180. 액터 44 → 45. bounds `[3760,-80,-0.97]..[4035,80,180]`
+- **명령 58** — BP 클래스 기본값 `MaxWalkSpeed` 300으로. **배치 인스턴스는 600 그대로.** `bCanEverTick`이 다시 `true`
+- **명령 59** — `reset_properties`도 `bCanEverTick` 쓰기도 **둘 다 조용히 실패.** 값이 안 바뀜
+- **손 작업** — 사용자가 디테일 패널에서 `MaxWalkSpeed`를 300으로. 인스턴스 300 확인
+- **명령 60** — 플레이어에 `Event AnyDamage`. 노드 87 → 93. 이벤트에서 도달 가능한 노드가 정확히 6개라 기존 로직에서 딸려온 것 없음. 함수 8 · 변수 11 · `EnhancedInputAction` 8 그대로
+- **명령 61(손)** — 첫 시도가 `AnimSequence` 복제본이었음. 다시 만들어 `AnimMontage` 확보. 이름 오타(`AM_Enemey_Attack`)를 리네임으로 수정
+- **명령 62** — 공격 삽입. 노드 35 → 40. 몽타주 → `ApplyDamage` → `Delay` 순서. **스텁 안 붙음.** `Enemy_Test.AttackMontage`가 한 번에 물림 — 액터 레벨 변수 쓰기는 성공
+- **명령 63** — `AssetTools.save_assets`로 강제 저장. 125032 → 140067바이트
+- **명령 64** — 변수 일곱 추가. 총 14. 기본값 `7 / 300 / 300 / 100`, `Vector`/`Rotator` 타입 정상
+- **명령 65** — `Think` 재작성. 노드 40 → 82. `Delay` 8 · `Think` 호출 9 · `Branch` 4 · `AIMoveTo` 2. `vector*vector` 라벨이지만 B 핀이 `Float`로 해석되어 실제로는 벡터×스칼라
+- **PIE(실패)** — 145 거리에서도 무반응. 런타임 값을 읽어 **새 변수 넷이 인스턴스에서 전부 `0`**인 것을 발견
+- **명령 66** — 인스턴스 값 넷을 클래스 기본값과 같게 설정. 오버라이드가 걷혀 외부 액터 파일이 커밋 시점과 동일해짐
+- **명령 67** — 임시 디버그 표시. `PrintString` 8 · `ToString(Float)` 2. 노드 82 → 92. `is_dirty` `false`로 저장 확인. 286254바이트
 
 ## 분석
 
@@ -591,7 +1362,31 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 - 클래스 기본값 — `bUseControllerRotationYaw false` / `AIControllerClass /Script/AIModule.AIController`(기본값) / `AutoPossessAI PlacedInWorld`(기본값)
 - 변수 7개 — `SightRange 1200` · `AttackRange 150` · `AttackDamage 10` · `AttackCooldown 1.5` · `ThinkInterval 0.3` · `AttackMontage None` · `PlayerRef None`
 
-**문서** — [두 방 사양](../Spec/2026-08-31-두-방-구조.md) 신규, [적 AI 1단계 사양](../Spec/2026-08-30-적-AI-1단계.md) 네 곳 수정.
+**애셋 — `BP_Enemy`의 그래프 (명령 55~67)**
+
+- **`EventBeginPlay`** — `PlayerRef = Get Player Character(0)` · `HomeLocation = GetActorLocation` · `HomeRotation = GetActorRotation` · `LastSeenTime = Get Game Time in Seconds` → `Think`
+- **`Think`** (커스텀 이벤트, 파라미터 없음) — `IsValid(PlayerRef)` 아래 두 갈래, `Is Valid` 안에서 네 갈래. **`Think`로 돌아가는 경로 여덟, 전부 `Delay` 또는 `AI MoveTo`를 지난다**
+- **변수 14개** — 기존 7 + 복귀용 7
+  - 인스턴스 편집 10: `SightRange 1200` · `AttackRange 150` · `AttackDamage 10` · `AttackCooldown 1.5` · `ThinkInterval 0.3` · `AttackMontage` · `ReturnDelay 7` · `ReturnSightRange 300` · `ReturnStepDistance 300` · `HomeArriveRadius 100`
+  - 런타임 4: `PlayerRef` · `HomeLocation` · `HomeRotation` · `LastSeenTime`
+- **노드 92개.** `Delay` 8 · `Think` 호출 9 · `Branch` 4 · `AI MoveTo` 2 · `IsValid` 1 · `Select` 1 · `PrintString` 8 · `ToString(Float)` 2
+- **`MaxWalkSpeed` 300** — 플레이어(600)의 절반. 문 테스트를 하려면 적이 느려야 했다
+
+**애셋 — `AM_Enemy_Attack` 신규**
+
+`/Game/Characters/Mannequins/Anims/Unarmed/Attack/AM_Enemy_Attack`.
+`SlotAnimTracks[0].slotName = DefaultSlot`, `animSegments[0] = MM_Attack_01` (0.0~1.0초, playRate 1), `Skeleton = SK_Mannequin`.
+
+**애셋 — `BP_ThirdPersonCharacter`에 `Event AnyDamage` (명령 60)**
+
+`EventAnyDamage.then → SetCurrentHP`, `SetCurrentHP.CurrentHP ← Clamp(GetCurrentHP − Damage, 0.0, GetMaxHP)`.
+`DamageType` · `InstigatedBy` · `DamageCauser` 미연결. **노드 87 → 93, +6.**
+
+**레벨 — `Enemy_Test` 신규 (명령 57)**
+
+`(4000, 0, 90)` yaw 180. 2번 방 중앙, 문 쪽을 보고 선다. 액터 44 → 45.
+
+**문서** — [두 방 사양](../Spec/2026-08-31-두-방-구조.md) 신규, [적 AI 복귀 사양](../Spec/2026-08-31-적-AI-복귀.md) 신규, [적 AI 1단계 사양](../Spec/2026-08-30-적-AI-1단계.md) 일곱 곳 수정.
 
 ### 기술적으로 맞게 짚은 부분
 
@@ -606,6 +1401,16 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 - **문 높이 220 → 200을 취소한 것.** 합격 기준 어디도 요구하지 않는 미관 항목이었고 공유 애셋을 고쳐야만 가능했다. 손대지 않은 것이 정답이었다
 - **`AIControllerClass`·`AutoPossessAI`를 안 건드린 것.** 엔진 기본값이 이미 `AIController` / `PlacedInWorld`다. 넘겨받은 "반드시 설정한다"는 메모가 틀렸다
 - **`PlayerStart`를 안 건드린 것.** 사양은 `Z 92`로 내리기로 했는데, 조사 중 사용자가 손으로 `192`에 맞춘 것이 드러나 계획에서 뺐다
+- **플레이어 BP에 `write_graph_dsl`을 금지한 것.** `BP_ThirdPersonCharacter`의 EventGraph에 인벤토리·입력 로직 87노드가 있다. DSL 왕복이 무손실이라는 보장이 없어서 명령 60은 노드를 하나씩 만들어 잇게 했다. 반면 `BP_Enemy`는 우리가 만든 작은 그래프라 DSL 전체 재작성을 썼다 — **같은 도구를 대상에 따라 다르게 쓴 것이 옳았다**
+- **`GetDistanceTo`로 노드 셋을 하나로 줄인 것.** 사양은 `GetActorLocation` 둘 + `Distance(Vector)`를 쓰기로 했는데 `Transformation|GetDistanceTo`가 같은 값을 하나로 준다. 결정 사다리 5번
+- **`PlayerRef` 널 체크를 넣은 것.** 사양에 없던 것이다. `AActor::GetDistanceTo`는 널 검사를 안 하고 액터의 `BeginPlay` 순서는 보장되지 않는다. 무효면 다시 얻고 재시도하게 만들어 스스로 회복한다. CLAUDE.md가 널 체크는 깎지 말라고 명시한 항목이다
+- **`AI MoveTo`의 `then`을 안 이은 것.** 이동 **시작** 시점에 터지는 핀이라 이으면 루프가 지연 없이 폭주한다. 도착은 `OnSuccess`/`OnFail`이다
+- **복귀에 상태 플래그를 안 둔 것.** `returning`을 저장하지 않고 `(elapsed >= ReturnDelay) AND (homeDist > HomeArriveRadius)`로 매번 계산한다. 집에 서 있으면 `homeDist ≈ 0`이라 자동으로 거짓이 되어 큰 구형이 복구된다 — **1단계의 합격 기준 1·2가 안 깨지는 이유가 이 한 줄이다.** 저장되는 런타임 값은 `LastSeenTime` 하나뿐
+- **`Min(ReturnStepDistance, homeDist)`로 홉을 자른 것.** 안 자르면 집을 지나쳐 진동한다
+- **복귀를 짧은 홉으로 끊은 것.** `AI MoveTo`는 라텐트라 한 번에 집까지 가면 도착할 때까지 `Think`가 안 돈다 — 작은 구형을 만들어도 복귀 중엔 무의미해진다. 홉으로 끊어야 감지가 실제로 작동한다
+- **`bCanEverTick`을 소스로 확인하고 물러선 것.** `APawn`이 네이티브로 `true`를 켜고(`Pawn.cpp:50`) BP 컴파일러가 매 컴파일마다 부모 값으로 리셋한다(`KismetCompiler.cpp:5527`). **`Character` 기반 BP에서는 끌 수 없다.** 사양이 금지한 것은 Blueprint `Event Tick` **노드**이고 그것은 지웠다. 고칠 수 없는 것을 고치려던 명령 59의 절반을 철회한 것이 옳았다
+- **`AIControllerClass`·`AutoPossessAI`를 안 건드린 것.** 엔진 기본값이 이미 `AIController` / `PlacedInWorld`다. PIE 아웃라이너에 `AIController0`이 생기는 것으로 런타임 검증까지 됐다
+- **버그를 정적 분석으로 안 끝내고 런타임 값을 읽은 것.** 적이 145 거리에서 무반응이었을 때 `Select` 오배선 가설을 세우고 **틀렸다면 무엇이 보일지**를 먼저 말한 뒤 노드를 읽었다. 가설은 틀렸고, 실행 사슬까지 전수 확인해도 이상이 없었다. **PIE 중에 인스턴스 변수를 읽어서야 원인이 나왔다** — 그래프가 아니라 데이터 문제였다
 
 ### 확인한 것 / 확인 못 한 것
 
@@ -636,6 +1441,32 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 - **네비 경고 `maxTiles (serialized: 3, 2 bits) vs calculated required (75, 7 bits)`의 의미.** 프레임 0에 찍혔고 이후 동작에 지장이 없어 보이지만 해석하지 않았다
 - **2번 방의 조명.** 방을 새로 만들었는데 `DirectionalLight`·`SkyLight` 외에 아무것도 안 놓았다. 눈으로 이상한지 안 봤다
 
+**후반부(명령 55~67)에서 확인한 것**
+
+- **`BP_Enemy`의 그래프 구조.** 노드 92개 전수 조회, 실행 핀 사슬 전 구간 추적. 여덟 경로 전부 `Delay`/`AI MoveTo`를 지난다. 두 `AI MoveTo` 모두 `then` 미연결
+- **`Select`의 옵션 순서.** `Option 0 ← GetSightRange`, `Option 1 ← GetReturnSightRange`, `Index ← ANDBoolean`. 불리언 인덱스는 `false → 0`이라 평소엔 1200이다
+- **홉 계산 사슬.** `HomeLocation − GetActorLocation → VectorLength / Normalize`, `Min(step, homeDist)`, `unit × step`, `selfLoc + offset` → `AIMoveTo.Destination`. `GetActorLocation` 노드 하나를 재사용한다
+- **`vector*vector`의 실제 핀 타입.** 라벨과 달리 B가 `Float (double-precision)`으로 해석됐다. 벡터×스칼라가 맞다
+- **`Event AnyDamage`의 배선.** 이벤트에서 도달 가능한 노드가 정확히 6개. 기존 87노드에서 딸려온 것 없음. `A = CurrentHP`, `B = Damage`라 뺄셈 방향도 맞다
+- **`AM_Enemy_Attack`의 정체.** `class = /Script/Engine.AnimMontage`, 슬롯 `DefaultSlot`, 세그먼트 `MM_Attack_01`, 스켈레톤 `SK_Mannequin`
+- **`ABP_Unarmed`에 슬롯 노드가 있다.** `AnimGraphNode_Slot_0` / `type_id Animation|Montage|Slot'DefaultSlot'`. 몽타주가 로코모션 위에 얹힌다
+- **컴파일 로그.** 모든 컴파일에서 `LogK2Compiler`가 비어 있었다. 반환값이 아니라 메시지 로그를 읽었다
+- **1단계 합격 기준 다섯.** 1·2·3은 사용자 PIE, 4·5는 동일 카메라 캡처 비교
+- **버그의 원인.** PIE 중 실제 변수를 읽어 새 변수 넷이 `0`인 것을 확인. 거리 145.5에서 무반응인 것과 계산이 정확히 맞아떨어졌다
+- **저장 상태.** 세션 종료 시점에 `git status` 비어 있고 `is_dirty`가 다섯 애셋 전부 `false`
+
+**후반부에서 확인 못 한 것**
+
+- **복귀 사양의 합격 기준 다섯 전부.** 구현만 끝났고 PIE를 안 돌렸다. **이번 세션의 가장 큰 미확인 항목이다**
+- **`SetActorRotation`이 `bOrientRotationToMovement`와 싸우는지.** 복귀 기준 4가 이것을 본다
+- **`ReturnStepDistance 300`이 감지에 충분한지.** 1초에 한 번 판정이라 빠른 플레이어를 놓칠 수 있다
+- **`BP_Enemy`의 인스턴스 편집 플래그.** `set_variable_instance_editable`은 쓰기만 되고 읽기가 없다. **사용자가 눈 아이콘을 보고 알려준 것이 유일한 근거다** — 명령 53의 여섯 개는 확인받았고, 명령 64의 새 넷은 안 물어봤다
+- **`Save All`이 왜 `BP_Enemy`를 안 썼는지.** `is_dirty`가 `true`였는데 저장이 안 일어났다. `AssetTools.save_assets`로 우회했고 원인은 안 봤다
+- **`bCanEverTick`이 명령 56 직후 `false`로 읽혔던 이유.** 소스상 `Character` 기반 BP에서는 `true`여야 한다. 왜 한 번 `false`로 읽혔는지 모른다
+- **`write_graph_dsl`의 `No then pin found` 경고 원인.** 순수 노드에 exec를 이으려다 나는 것으로 보이나 확인 안 했다
+- **`vector*vector` 홉 계산의 런타임 정확성.** 핀 타입은 맞지만 실제로 적이 집으로 걸어가는 것을 못 봤다
+- **적이 실제로 `AM_Enemy_Attack`을 재생하는지 — 눈으로.** 사용자가 "셋 다 잘됨"이라고 보고했고 AI가 화면으로 본 것이 아니다
+
 ### 남는 리스크
 
 - **비균등 액터 스케일이 물리 바디를 스테일로 남긴다.** `Door_Test`에 `(1,2,1)`을 넣었을 때 화면에서는 문짝이 200인데 `trace_world`는 100으로 읽었다. **레벨을 저장하고 다시 연 뒤에야 일치했다.** 콜리전을 읽는 모든 것(트레이스·NavMesh 생성)이 영향을 받는다. 앞으로 비균등 스케일을 쓰면 재로드 전에는 검증이 무의미하다
@@ -652,6 +1483,22 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 - **적 AI 사양의 합격 기준 4·5 문구가 미승인 상태다.** `Wall_L`이 지워져 원래 문구를 못 쓰게 됐고, AI가 대체안을 냈으나 사용자가 채택 여부를 답하지 않았다
 - **2번 방이 비어 있다.** 바닥과 벽뿐이다
 
+**후반부에서 새로 관찰된 것**
+
+- **배치 순서 함정.** 인스턴스를 먼저 놓고 나중에 변수를 추가하면 **그 인스턴스에 `0` 오버라이드가 박히고 클래스 기본값을 안 따라온다.** `MaxWalkSpeed`와 새 변수 넷에서 두 번 걸렸다. 인스턴스 값을 클래스 기본값과 **같게** 맞추면 오버라이드가 걷힌다. **적을 새로 배치할 때는 변수를 다 만든 뒤에 놓아야 한다**
+- **`write_graph_dsl`이 빈 이벤트 스텁을 만든다.** 명령 55에서 `AddEvent|EventTick`과 `AddEvent|Collision|EventActorBeginOverlap`이 딸려 왔다. 명령 62·65·67에서는 안 나왔다 — **재현 조건 미상**
+- **`SkeletalMesh` 프로퍼티는 UE5에서 폐기됐다.** 쓰기가 무시되고 **로그도 안 남는다.** `SkeletalMeshAsset`을 써야 한다
+- **`ObjectTools.reset_properties`가 조용히 실패한다.** 컴포넌트 오버라이드를 못 지운다
+- **중첩 구조체 필드 쓰기가 조용히 실패한다.** `PrimaryActorTick.bCanEverTick`
+- **`Save All`이 더티 애셋을 안 쓸 때가 있다.** `is_dirty true`인데 저장이 안 일어났고 `AssetTools.save_assets`로 우회했다
+- **`get_node_type_pins`가 읽기인데 대상 블루프린트를 더티로 만든다.** 남의 애셋에 돌리면 안 된다
+- **`Math|Float|Clamp` · `Math|Float|ToString`은 없다.** 실제 이름은 `Math|Float|Clamp(Float)` · `Utilities|String|ToString(Float)`. **없는 `type_id`로 `get_node_type_pins`를 부르면 `'NoneType' object has no attribute 'get_node_title'`로 죽는다**
+- **`find_nodes`는 `title`을, `get_connected_subgraph`는 `node`(단수)를 요구한다.** 스키마와 이름이 직관과 다르다
+- **`execute_tool_script`의 dict는 `_StrictDict`다.** `.get(key, default)`가 안 되고 `in` + `[]`를 써야 한다
+- **적의 데미지가 애니메이션의 타격 순간보다 먼저 들어간다.** 사양이 인정한 결함이다
+- **플레이어 `CurrentHP`가 0이 되어도 아무 일도 안 일어난다.** 사망 처리가 범위 밖이다
+- **임시 디버그 표시가 `BP_Enemy`에 남아 있다.** `PrintString` 8개 + `ToString` 2개. 검증이 끝나면 지워야 한다
+
 ### 총평
 
 요청은 "방 하나 더 만들고 그 사이를 문으로 통과하게" 한 줄이었고, 결과는 그것을 넘어섰다 — **잠긴 문 하나가 두 방을 가르고, 열쇠가 1번 방에 있으며, 닫힌 문이 AI의 경로까지 실제로 끊는다.** 열쇠 루프는 이미 있던 것을 발견해 쓴 것이고 새로 만들지 않았다.
@@ -661,6 +1508,16 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 가장 비쌌던 판단은 **문간 폭 100**이다. 문짝을 안 건드리려고 100으로 잡았는데 `AgentRadius 35`가 `cellSize 19`에서 2셀로 올림되어 양쪽 76이 깎이고 24만 남았다 — 셀 하나보다 좁아 네비가 0개가 됐다. 200으로 늘려 124를 확보했다. **넘겨받은 "확인 필요" 항목이 정확히 이것을 가리키고 있었고, 계산까지 맞았는데도 실제로 부딪히기 전까지는 어느 쪽인지 몰랐다.**
 
 `BP_Enemy`는 값을 플레이어와 나란히 읽어 대조했으므로 안전하다. 다만 **인스턴스 편집 플래그만은 AI가 읽을 수 없어 사용자 눈에 의존한다.**
+
+**후반부(명령 55~67)는 성격이 달랐다.** 앞쪽이 좌표 계산이었다면 뒤쪽은 **그래프 작성과 데이터 검증**이다.
+
+`write_graph_dsl`이 있어서 노드 92개짜리 그래프를 한 번에 쓸 수 있었다. 노드를 하나씩 만들고 핀을 잇는 것과 비교가 안 된다. 다만 **그래프를 통째로 다시 쓴다**는 것이 곧 위험이라, 플레이어 BP에는 금지하고 `BP_Enemy`에만 썼다. 같은 도구를 대상에 따라 다르게 쓴 판단이 이번 세션에서 제일 중요한 결정 중 하나다.
+
+**가장 오래 끈 것은 "그래프는 완벽한데 적이 안 움직이는" 버그였다.** 정적 분석을 두 단계까지 밀었다 — `Select` 오배선 가설을 세워 노드를 읽고(틀림), 실행 핀 사슬을 전수 추적하고(이상 없음). **거기서 멈추고 PIE 중에 실제 변수를 읽은 것이 답이었다.** 원인은 그래프가 아니라 배치된 인스턴스의 데이터였고, `ReturnSightRange 0`이면 감지가 영원히 실패한다는 계산이 관측된 "145 거리에서 무반응"과 정확히 맞물렸다.
+
+**이 세션에서 MCP의 조용한 실패를 여섯 종류 만났다.** 값을 쓰고 `true`를 받았는데 안 바뀌는 것이 셋(`set_properties` on SCS 컴포넌트 · `reset_properties` · 중첩 구조체 필드), 로그조차 없는 것이 하나(폐기된 `SkeletalMesh`), 저장이 안 되는 것이 하나(`Save All`), 읽기가 쓰기를 유발하는 것이 하나(`get_node_type_pins`). **전부 "응답이 아니라 실제 상태를 다시 읽는다"는 규칙으로 잡혔다.** 이 프로젝트의 그 규칙이 장식이 아니라는 것이 이번에 여러 번 증명됐다.
+
+**적 AI 1단계는 합격 기준 다섯이 전부 통과했고 복귀 기능은 하나도 검증 못 했다.** 세션이 구현 완료 시점에서 끝났다.
 
 ## AI의 제안
 
@@ -684,28 +1541,58 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 
    넘겨받은 메모가 "반드시 설정한다"고 적어둔 것을 뒤집은 것이다. 얻는 것은 명령이 짧아지고 기본값과 다른 값이 안 생기는 것, 잃는 것은 의도가 문서에만 남고 BP에는 안 보이는 것.
 
+6. > **저장 시점을 앞당기자 — 두 번째.** "`BP_Enemy`가 디스크에 없다. 명령 53·54가 통째로 메모리에만 있다 — 에디터가 닫히면 사라진다."
+
+   세션 중반에 `Content/Enemy`가 아예 없다는 것을 발견하고 낸 것이다. 얻는 것은 작업 보존, 잃는 것은 없다. 이후에도 저장 누락이 세 번 더 나와서 매번 `git status`로 확인하는 습관이 붙었다.
+
+7. > **명령 59의 절반을 철회한다.** "`bCanEverTick` 건은 내가 틀렸다. `APawn`이 네이티브로 `true`를 켜고 BP 컴파일러가 매 컴파일마다 부모 값으로 리셋한다. `Character` 기반 블루프린트에서 `bCanEverTick`을 `false`로 만드는 건 불가능하다."
+
+   자기 명령을 스스로 취소한 것이다. 얻는 것은 고칠 수 없는 것을 붙잡지 않는 것, 잃는 것은 없다 — 사양이 금지한 것은 Blueprint `Event Tick` 노드였고 그것은 이미 지웠다.
+
+8. > **복귀 기능은 명령 57 다음에.** "지금 루프는 한 번도 안 돌아봤다 (…) 검증 안 된 것 위에 새 행동을 얹으면, 나중에 적이 이상하게 굴 때 추격이 잘못된 건지 복귀가 잘못된 건지 가릴 수가 없다."
+
+   사용자가 "여기서 할까 다음에 할까"라고 물었을 때 낸 것이다. 얻는 것은 버그의 출처가 좁혀지는 것, 잃는 것은 한 세션 안에 다 못 끝내는 것. 실제로 복귀에서 버그가 났을 때 "1단계는 통과했다"는 사실이 진단 범위를 절반으로 줄였다.
+
+9. > **상태 기계를 안 뽑아도 된다.** "복귀 중인가를 플래그로 저장하지 않아도 계산으로 나온다. `returning = (elapsed >= ReturnDelay) AND (homeDist > HomeArriveRadius)`"
+
+   사양이 "행동이 넷째로 늘면 그때 상태 기계를 뽑는다"고 적어둔 지점에 정확히 도달했을 때 낸 것이다. 얻는 것은 무상태 규칙 유지와 분기 하나로 끝나는 것, 잃는 것은 시야각·순찰이 붙으면 이 판단을 다시 봐야 한다는 것.
+
+10. > **30초 갇힘 사망은 이번에 안 넣는다.** "적의 사망은 사양이 명시적으로 범위 밖에 둔 항목이다 (…) 결정 사다리 1번(안 만들어도 되는가)에 걸리는 후보다."
+
+    사용자가 다섯 항목 중 하나로 요청한 것을 미루자고 한 것이다. 얻는 것은 저장 값 둘과 반쪽짜리 사망 처리를 안 만드는 것, 잃는 것은 예외 상황에서 적이 영영 끼어 있을 수 있다는 것 — 사용자가 "진짜 진짜 예외상황"이라고 했다.
+
+11. > **화면에 상태를 띄우자.** `PrintString` 8개, 같은 `Key`로 세 줄 고정. `1_state` / `2_dist` / `3_home`
+
+    사용자가 먼저 물었고 AI가 설계했다. 얻는 것은 복귀 기준 다섯을 매번 MCP로 값을 읽지 않고 눈으로 판정하는 것, 잃는 것은 그래프에 비계 10노드가 남는 것.
+
 ## 다음으로 넘김
 
 **바로 이어서 할 것**
 
-- **명령 55 — `BP_Enemy`의 `Think` 루프.** [사양](../Spec/2026-08-30-적-AI-1단계.md)의 `완성 후의 호출 구조` 그대로, **공격 없이 추격까지만**. `BeginPlay`에서 `PlayerRef` 캐시 → `Think` 커스텀 이벤트 → 거리 재기 → `AI MoveTo(Pawn=self, TargetActor=PlayerRef, AcceptanceRadius=AttackRange-20)` → `OnSuccess`/`OnFail` 각각 `Delay(ThinkInterval)` → `Think`
-  - **핀 이름과 타입은 확인됐다.** 위 `Terminal 결과` 원문 참조
-  - **`AI MoveTo`는 라텐트다.** `Think`는 반드시 **커스텀 이벤트**여야 한다. 함수 그래프에는 못 넣는다
-- **명령 56 — 레벨에 `BP_Enemy` 배치 + 손 저장 → PIE.** 적은 **2번 방**에 둔다. 닫힌 문이 네비를 끊는 것이 확인됐으므로 문을 열기 전에는 안 넘어온다
+- **명령 68 — PIE로 [복귀 사양](../Spec/2026-08-31-적-AI-복귀.md)의 합격 기준 1~5.** 구현은 끝났고 **다섯 다 미확인이다. 이번 세션의 가장 큰 빚이다**
+  - 화면 왼쪽 위에 `1_state` / `2_dist` / `3_home` 세 줄이 뜬다. 그것으로 판정한다
+  - 순서: `IDLE_HOME` → (2번 방 진입) `CHASE` → (붙으면) `ATTACK` → (도망) `IDLE_WAIT` → **7초 뒤** `RETURN` → (뒤에서 300 안) `CHASE` → (집 도착) `IDLE_HOME`
+  - **가장 위험한 것은 기준 4다.** `SetActorRotation`이 `bOrientRotationToMovement`와 싸울 수 있다. 도착했는데 엉뚱한 방향을 보면 그것이다
+  - **기준 2가 안 잡히면 `ReturnStepDistance`를 줄이는 것이 첫 수다.** 지금 300이면 1초에 한 번만 감지한다
+  - `bPrintToLog true`라 PIE 후에 `LogBlueprint`로 상태 전이 순서를 되짚을 수 있다
+- **명령 69 — 임시 디버그 표시 제거.** 기준 다섯이 통과한 뒤에. `PrintString` 8개 + `ToString(Float)` 2개, 노드 92 → 82
 
 **결정 필요**
 
-- **합격 기준 4·5의 문구.** AI가 낸 대체안을 사양에 써두었으나 **사용자 승인을 못 받았다.** 명령 56 전에 확정해야 한다
-- **적을 2번 방 어디에 둘 것인가.** 문에서 너무 멀면 `SightRange 1200` 밖이라 아무 일도 안 일어난다. 문간이 `X 1900`이므로 `(2500, 0, 90)` 근처를 권한다 — 미확정
+- **`BP_Enemy`의 새 변수 넷이 인스턴스 편집으로 표시됐는지.** `ReturnDelay` · `ReturnSightRange` · `ReturnStepDistance` · `HomeArriveRadius`. **AI가 읽을 수단이 없다** — My Blueprint 패널에서 눈 아이콘을 봐야 한다. 명령 53의 여섯 개는 확인받았고 이 넷은 안 물어봤다
+- **시야각을 언제 넣을 것인가.** 복귀 사양이 "작은 구형만" 만들었고 사용자가 그린 그림의 절반이다. 넣으면 **큰 구형 감지에도 시야각을 적용할지**를 같이 정해야 한다 — 적용하면 1단계 합격 기준 2가 깨진다(뒤에서 다가가면 안 쫓아온다)
+- **30초 갇힘 사망.** 적 HP·피격·사망을 만들 때 같이 하기로 미뤘다
 - **칸막이 `SM_Cube2`를 `Divider_L`로 리네임할 것인가.** 짝이 `SM_Cube2` / `Divider_R`로 어긋나 있다
-- **`BP_Door.uasset`의 세 번째 재직렬화를 어떻게 다룰 것인가.** 매번 커밋에 섞여 들어온다
+- **`BP_Door.uasset`의 재직렬화를 어떻게 다룰 것인가.** 이번 세션에 한 번 더 나왔고 누적 세 번이다
 
 **확인 필요**
 
-- **`BP_Enemy`의 인스턴스 편집 플래그.** 사용자가 눈으로 확인해줬으나 AI가 읽을 수단이 없다. 명령 56에서 레벨에 놓았을 때 디테일 패널에 여섯 개가 실제로 나오는지가 두 번째 근거가 된다
-- **PIE 합격 기준 1·2·3의 실제 관찰 내용.** "이상없음"만 받았고 어느 기준을 어떻게 봤는지 안 물었다
-- **2번 방의 조명.** 새 방에 조명을 하나도 안 놓았다
-- **`Door_Test`가 `1795 → 1905`로 옮겨진 경위.** 사용자에게 물었고 답을 못 받았다
+- **2번 방의 조명.** 방을 새로 만들었는데 `DirectionalLight`·`SkyLight` 외에 아무것도 안 놓았다
+- **`Save All`이 왜 `BP_Enemy`를 안 썼는지.** `is_dirty true`인데 저장이 안 일어났다. `AssetTools.save_assets`로 우회했고 원인은 안 봤다
+- **`write_graph_dsl`이 빈 이벤트 스텁을 만드는 조건.** 명령 55에서만 나왔고 62·65·67에서는 안 나왔다
+- **`bCanEverTick`이 명령 56 직후 `false`로 읽혔던 이유.** 소스상 `Character` 기반 BP에서는 `true`여야 한다
+- **`trace_world`가 방향에 따라 같은 솔리드를 놓치는 이유.** 원인 미상
+- **`show navigation`이 PIE에서 안 먹는 이유.** 에디터 뷰포트의 `P`로 우회했다
 - **두 신규 외부 액터 패키지의 정체와 `__ExternalObjects__` 파일의 정체.** 명령 40·42 때부터 쌓인 항목이다
 - **`Lvl_ArenaShooter`의 WorldSettings가 `BP_ShooterGameMode`를 가리키는지.** `.umap`이 바이너리라 못 읽었다
 - **`HandGrip_R` 소켓의 위치·각도.** 방향이 있는 메시(칼)가 오면 드러난다
@@ -713,18 +1600,18 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 **접어둔 것**
 
 - **카메라 작업.** 조사해서 셋으로 갈렸다.
-  - **A — 원본 ICI 구조(`캡슐 → Camera → SkeletalMesh`)로 교체.** 문서 셋이 권했지만 **지금 그대로는 못 한다.** 팔만 있는 스켈레탈 메시가 프로젝트에 없다
+  - **A — 원본 ICI 구조(`캡슐 → Camera → SkeletalMesh`)로 교체.** 팔만 있는 스켈레탈 메시가 프로젝트에 없어 지금 그대로는 못 한다
   - **B — 지금 구조를 두고 팔을 시야로 올린다.** `Variant_Shooter/Anims/ABP_FP_Weapon` + `Ctrl_HandAdjusment`. 무기용이라 맨손·칼에 맞는지는 열어봐야 안다
   - **C — 전환 스냅 완화만.** 요 보간 또는 `SetViewTargetWithBlend`. 2026-08-27부터 이월. 작다
   - **칼 직전에 B로 가는 것을 권했고 사용자가 적 AI를 먼저 하기로 정했다**
 - **적의 HP · 피격 · 사망 · 시체 정리.** 플레이어에게 공격 수단이 생긴 뒤에
-- **플레이어 사망과 리스폰.** 진행 구조 단계
-- **적 체력바 위젯 / 시야각 / 순찰 / EQS / 여러 적의 회피 / 적 종류별 DataTable.** 사양의 `접어둔 것` 참조
+- **플레이어 사망과 리스폰.** 지금은 `CurrentHP`가 0이 되어도 아무 일도 안 일어난다. 진행 구조 단계
+- **적 체력바 위젯 / 순찰 / EQS / 여러 적의 회피 / 적 종류별 DataTable.** 사양의 `접어둔 것` 참조
 - **AnimNotify로 타격 창 열기.** 무기가 생길 때. 지금은 데미지가 애니메이션의 타격 순간보다 먼저 들어간다
 - **`BP_ShooterNPC` · `ST_Shooter` · EQS 3개 · StateTree 태스크 6개.** 안 쓰기로 했지만 지우지 않는다
 - **`--append-system-prompt`가 저장소에 없다.** `Editor Preferences → General → Terminal → Startup Commands`의 사용자 설정이라 다른 환경에서는 다시 넣어야 한다. 원문은 `Docs/AI-Log/2026-08-28-inventory-item-data.md`의 `명령` 칸에 있다
-- **`show navigation`이 PIE에서 안 먹는 이유.** 에디터 뷰포트의 `P`로 우회했다
-- **`trace_world`의 방향 의존 누락.** X축 결과를 근거로 삼고 넘어갔다
+- **문간 위 `X 1800..1900, Z 200..400`의 열린 홈.** 1번 방 쪽에서 보면 문 위가 우묵하다. 관통은 아니다
+- **열린 문짝 20cm가 문간 위로 삐져나온다.** 문짝 220, 문간 200
 - **`ForLoop.FirstIndex`가 빈 값인 이유.** 동작에 지장이 없다
 - **`SP` 스태미나.** 원본에 있고 MCP1에 없다. `06-플레이어-UI.md:54` 참조
 - **슬롯 2칸 vs 3칸.** 원본은 2칸, MCP1은 3칸이다. 의도한 차이인지 안 정했다
