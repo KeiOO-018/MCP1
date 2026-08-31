@@ -412,51 +412,28 @@ Content/__ExternalActors__/ThirdPerson/Lvl_ThirdPerson/5/D1/KK3E4BC1U33OGW1QTQUU
 
 ## 다음으로 넘김
 
-**바로 이어서 할 것**
+**2026-08-31 세션이 이 목록을 소진했다. 처리한 항목은 아래에서 지웠고, 남은 것은
+[2026-08-31 기록](2026-08-31-two-rooms-and-enemy-bp.md)의 `다음으로 넘김`으로 옮겼다.
+이 칸은 이제 읽지 않아도 된다 — 가장 최근 기록을 보면 된다.**
 
-- **명령 43 — `Content/Enemy/BP_Enemy` 생성.** 사양은 [`Docs/Spec/2026-08-30-적-AI-1단계.md`](../Spec/2026-08-30-적-AI-1단계.md)에 있고 명령 계획 표가 42~48까지 적혀 있다. **42는 끝났다**(커밋 `2cd1ced`).
-  - **만들 것**: `Character` 상속 블루프린트. 메시 `SKM_Manny_Simple`, `RelativeLocation (0,0,-89)`, `RelativeRotation (0, 270, 0)`, `AnimClass ABP_Unarmed_C`. 캡슐 `HalfHeight 90` / `Radius 35`. `CharMoveComp.bOrientRotationToMovement true`, `RotationRate (0,500,0)`, `MaxWalkSpeed 600`. 전부 `BP_ThirdPersonCharacter`에서 읽은 실제 값이다
-  - **변수 여섯 개를 인스턴스 편집으로**: `SightRange 1200` · `AttackRange 150` · `AttackDamage 10.0` · `AttackCooldown 1.5` · `ThinkInterval 0.3` · `AttackMontage`. 일곱째 `PlayerRef`는 런타임 캐시라 인스턴스 편집이 아니다
-  - **`AIControllerClass`와 `AutoPossessAI`를 반드시 설정한다.** 이게 없으면 `AI MoveTo`가 안 돈다
-  - **`get_variable_instance_editable`이 없다.** 여섯 개를 만들고 나서 **사용자가 디테일 패널에서 눈으로 확인해야 한다**
-- **명령 44 전에 `AI MoveTo`의 핀을 먼저 확인한다.** 사양 전체가 "이 노드가 폰을 받는다"는 전제 위에 있는데 미확인이다. `find_node_types`와 `get_node_type_pins`로 첫 핀의 이름과 타입을 읽고, `Pawn`이 아니면 **거기서 멈추고 사양을 고친다**
+### 이 세션에서 처리된 것
 
-**결정 필요**
-
-- **적을 어디에 놓을 것인가.** 사양이 "손으로 배치한다"까지만 적었다. **문 반대편이면 안 된다** — `RuntimeGeneration`이 `Static`이라 닫힌 문이 NavMesh를 안 자르고, 적이 문을 통과해버려 무엇을 보는 건지 흐려진다
-- **`OpenAngle`을 `-90`으로 바꿀 것인가.** 지금 문이 플레이어 쪽으로 열린다. 인스턴스 값 하나
-- **빈 `EventTick` 스텁을 지울 것인가.** `BP_Door` · `BP_ItemPickup` · `BP_ThirdPersonCharacter` 셋 다 템플릿이 만든 빈 이벤트 스텁을 갖고 있다. **`BP_Enemy`를 만들면 넷째가 생긴다**
-- **`DoesObjectImplementInterface` 검사를 뺄 것인가.** `Interact(Message)`가 혼자서도 안전하게 no-op이라 동작상 불필요하다. 노드 2개
-- **드롭 시 벽 앞 판정을 넣을 것인가.** 전방 트레이스 하나가 더 든다
-
-**확인 필요**
-
-- **NavMesh가 실제로 바닥을 덮었는지.** `RecastNavMesh` 액터가 있다는 것뿐이다. 뷰포트에서 `P` 키로 네비 오버레이를 보면 바로 안다. **명령 43 전에 눈으로 한 번 보는 것이 싸다**
-- **문틀 100cm를 NavMesh가 통과하는지.** `AgentRadius 35`를 침식하면 30cm쯤 남는다는 계산이다
-- **컴파일 경고.** 명령 39·41의 `compile_blueprint`가 `null`만 줬고 Message Log를 안 읽었다. 명령 42에는 네비게이션 빌드 경고가 있었을 수 있다
-- **두 신규 외부 액터 패키지의 정체와 `__ExternalObjects__` 파일의 정체.** `get_asset_class`가 외부 패키지를 못 읽는다. 명령 40 때와 같은 항목이 하나 더 쌓였다
-- **합격 기준 3의 경첩 반전 뒷부분.** `bHingeOnRight`를 체크하고 액터 `Y`를 `+50`으로 옮긴 상태에서 정상 개폐까지 봤는지가 사용자 보고에서 갈리지 않았다. 지금은 원래 상태로 돌아와 있다
-- **벽에 붙어 서서 `Q` / 같은 자리에 두 번 `Q` / 경사면에 `Q`.** 이제 진짜 벽(`Wall_L`·`Wall_R`)과 경사(`SM_Ramp11`)가 레벨에 있어 바로 해볼 수 있다
-- **`Lvl_ArenaShooter`의 WorldSettings가 `BP_ShooterGameMode`를 가리키는지.** `.umap`이 바이너리라 못 읽었다
-- **`HandGrip_R` 소켓의 위치·각도.** 방향이 있는 메시(칼)가 오면 드러난다
-
-**접어둔 것**
-
-- **카메라 작업.** 조사해서 셋으로 갈렸다.
-  - **A — 원본 ICI 구조(`캡슐 → Camera → SkeletalMesh`)로 교체.** 문서 셋이 권했지만 **지금 그대로는 못 한다.** 팔만 있는 스켈레탈 메시가 프로젝트에 없다. UE 5.5부터 FirstPerson 템플릿이 전신 메시 + `head` 본 카메라로 바뀌었고, 지금 구조가 그것이다. 애셋 제작이 섞이므로 MCP 명령으로 안 끝난다
-  - **B — 지금 구조를 두고 팔을 시야로 올린다.** `Variant_Shooter/Anims/ABP_FP_Weapon` + `Ctrl_HandAdjusment`. **2026-08-28 기록이 "그 팩은 이 프로젝트에 없다"고 적었는데 지금은 있다** — 같은 날 오후 임포트로 들어왔다. 무기용이라 맨손·칼에 맞는지는 열어봐야 안다
-  - **C — 전환 스냅 완화만.** 요 보간 또는 `SetViewTargetWithBlend`. 2026-08-27부터 이월. 작다
-  - **칼 직전에 B로 가는 것을 권했고 사용자가 적 AI를 먼저 하기로 정했다**
-- **적의 HP · 피격 · 사망 · 시체 정리.** 플레이어에게 공격 수단이 생긴 뒤에
-- **플레이어 사망과 리스폰.** 진행 구조 단계
-- **적 체력바 위젯 / 시야각 / 순찰 / EQS / 여러 적의 회피 / 적 종류별 DataTable.** 사양의 `접어둔 것` 참조
-- **AnimNotify로 타격 창 열기.** 무기가 생길 때. 지금은 데미지가 애니메이션의 타격 순간보다 먼저 들어간다
-- **`BP_ShooterNPC` · `ST_Shooter` · EQS 3개 · StateTree 태스크 6개.** 안 쓰기로 했지만 지우지 않는다
-- **`--append-system-prompt`가 저장소에 없다.** `Editor Preferences → General → Terminal → Startup Commands`의 사용자 설정이라 다른 환경에서는 다시 넣어야 한다. 원문은 `Docs/AI-Log/2026-08-28-inventory-item-data.md`의 `명령` 칸에 있다
-- **원인 미상의 재직렬화.** `BP_Door`(`b4ab97a`), `BP_DoorFrame`(`8e8e30a`), `BP_Door` 다시(명령 39, 804바이트 감소). **명령 42의 저장에서 `Door_Test` 패키지도 다시 쓰였는데 이번엔 바이트가 동일해 `git status`에 안 떴다**
-- **`ForLoop.FirstIndex`가 빈 값인 이유.** 동작에 지장이 없다
-- **`SP` 스태미나.** 원본에 있고 MCP1에 없다. `06-플레이어-UI.md:54` 참조
-- **슬롯 2칸 vs 3칸.** 원본은 2칸, MCP1은 3칸이다. 의도한 차이인지 안 정했다
-- **미사용 애셋 정리.** 2026-08-30에 **남기기로** 정했다. 지우지 않는다
-- **문틀 메시와 인방.** 지금 벽이 회색 박스 둘이고 문 위가 뚫려 있다
-- **`MoveComponentTo`의 `Stop`·`Return` 핀.** 연타로는 문제가 안 났다
+- **명령 43 `BP_Enemy` 생성** → 완료. 번호가 밀려 **명령 53·54**가 됐다(커밋 `2342d76`).
+  `SkeletalMesh` 프로퍼티가 UE5에서 폐기되어 명령이 둘로 갈라졌다
+- **`AI MoveTo`의 핀 확인** → 완료. 입력 1번 핀이 **`Pawn` (Pawn Object Reference)**다.
+  사양의 전제가 맞았고 AI 컨트롤러를 안 만든다는 결정이 근거를 얻었다
+- **`AIControllerClass`·`AutoPossessAI`를 반드시 설정한다** → **틀린 메모였다.**
+  엔진 기본값이 이미 `AIController` / `PlacedInWorld`라 건드리지 않았다
+- **`get_variable_instance_editable`이 없다** → 정확히는 **읽기만 없다.**
+  `set_variable_instance_editable`은 있고 정상 동작한다
+- **적을 어디에 놓을 것인가** → **2번 방.** 닫힌 문이 NavMesh를 실제로 끊는 것이 확인되어,
+  문을 열기 전에는 적이 못 넘어온다
+- **`OpenAngle`을 `-90`으로 바꿀 것인가** → **바꾸지 않는다.** 지금 배치(`X 1795`)에서
+  `-90`이면 문이 벽 속으로 열린다. 사용자가 현행 유지를 선택했다
+- **NavMesh가 실제로 바닥을 덮었는지** → 확인. `[-1976,-1976,10]..[5928,1976,410]`으로
+  두 방을 덮는다. 단 `RebuildNavigation`을 돌려야 했다
+- **문틀 100cm를 NavMesh가 통과하는지** → **통과 못 한다.** `AgentRadius 35`가
+  `cellSize 19`에서 2셀(38)로 올림되어 24만 남고 셀 하나보다 좁다.
+  문간을 200으로 넓혀 124를 확보했다
+- **합격 기준 3의 경첩 반전 뒷부분** / **벽에 붙어 서서 `Q` · 경사면에 `Q`** →
+  **검증 대상이 사라졌다.** `Wall_L`·`Wall_R`은 명령 45에서, `SM_Ramp11`은 명령 43에서 삭제됐다
