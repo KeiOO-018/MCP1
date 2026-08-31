@@ -1567,19 +1567,17 @@ line 30: TypeError: _StrictDict.get() does not support a default value. Use dire
 
 ## 다음으로 넘김
 
+**이 칸은 더 이상 최신이 아니다. 현재 인계는 [2026-08-31-enemy-chase-return-fix.md](2026-08-31-enemy-chase-return-fix.md)의 `다음으로 넘김`이다.**
+아래에서 처리된 항목은 지웠다 — `명령 68`(PIE 검증, 통과 후 버그 둘을 고쳐 완료)과
+`명령 69`(디버그 표시 제거, 적 HP 작업 뒤로 보류), 그리고 `BP_Enemy`의 새 변수 넷의
+인스턴스 편집 표시 여부(아직 미확인이라 새 기록으로 옮겼다).
+
 **바로 이어서 할 것**
 
-- **명령 68 — PIE로 [복귀 사양](../Spec/2026-08-31-적-AI-복귀.md)의 합격 기준 1~5.** 구현은 끝났고 **다섯 다 미확인이다. 이번 세션의 가장 큰 빚이다**
-  - 화면 왼쪽 위에 `1_state` / `2_dist` / `3_home` 세 줄이 뜬다. 그것으로 판정한다
-  - 순서: `IDLE_HOME` → (2번 방 진입) `CHASE` → (붙으면) `ATTACK` → (도망) `IDLE_WAIT` → **7초 뒤** `RETURN` → (뒤에서 300 안) `CHASE` → (집 도착) `IDLE_HOME`
-  - **가장 위험한 것은 기준 4다.** `SetActorRotation`이 `bOrientRotationToMovement`와 싸울 수 있다. 도착했는데 엉뚱한 방향을 보면 그것이다
-  - **기준 2가 안 잡히면 `ReturnStepDistance`를 줄이는 것이 첫 수다.** 지금 300이면 1초에 한 번만 감지한다
-  - `bPrintToLog true`라 PIE 후에 `LogBlueprint`로 상태 전이 순서를 되짚을 수 있다
-- **명령 69 — 임시 디버그 표시 제거.** 기준 다섯이 통과한 뒤에. `PrintString` 8개 + `ToString(Float)` 2개, 노드 92 → 82
+- 없음. 새 기록으로 넘어갔다
 
 **결정 필요**
 
-- **`BP_Enemy`의 새 변수 넷이 인스턴스 편집으로 표시됐는지.** `ReturnDelay` · `ReturnSightRange` · `ReturnStepDistance` · `HomeArriveRadius`. **AI가 읽을 수단이 없다** — My Blueprint 패널에서 눈 아이콘을 봐야 한다. 명령 53의 여섯 개는 확인받았고 이 넷은 안 물어봤다
 - **시야각을 언제 넣을 것인가.** 복귀 사양이 "작은 구형만" 만들었고 사용자가 그린 그림의 절반이다. 넣으면 **큰 구형 감지에도 시야각을 적용할지**를 같이 정해야 한다 — 적용하면 1단계 합격 기준 2가 깨진다(뒤에서 다가가면 안 쫓아온다)
 - **30초 갇힘 사망.** 적 HP·피격·사망을 만들 때 같이 하기로 미뤘다
 - **칸막이 `SM_Cube2`를 `Divider_L`로 리네임할 것인가.** 짝이 `SM_Cube2` / `Divider_R`로 어긋나 있다
