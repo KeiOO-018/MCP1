@@ -738,59 +738,11 @@ seen = LineOfSightTo(GetController(self), PlayerRef)
 
 ## 다음으로 넘김
 
+**이 칸은 더 이상 최신이 아니다. 현재 인계는 [2026-09-01-player-knife-attack.md](2026-09-01-player-knife-attack.md)의 `다음으로 넘김`이다.**
+처리된 항목은 지웠다 — `Ctrl+Shift+S`(했다), `플레이어 공격 수단`(칼과 공격을 만들었다),
+`HandGrip_R 소켓의 위치·각도`(읽어서 확인했고, 아무것도 안 붙어 있었다는 것까지 드러났다).
+나머지는 새 기록으로 옮겼다.
+
 **바로 이어서 할 것**
 
-- **`Ctrl+Shift+S`(Save All).** `BP_ThirdPersonCharacter.uasset`의 mtime이 `00:01:37`에서 안 움직였는데 그 뒤 컴파일이 두 번 있었다. **눈 아이콘을 켰다면 그 변경이 디스크에 없다.** 세션 중 세 번 짚었고 아직 안 됐다
-- **`RespawnDelay`와 `SightHalfAngle`의 인스턴스 편집 표시 확인.** My Blueprint 패널의 눈 아이콘. **AI가 읽을 수단이 없다.** `BP_Enemy`의 앞선 변수 넷도 같은 상태로 이월돼 있다 — 합쳐서 여섯 개다
-- **플레이어 공격 수단.** 적 HP·피격·사망으로 가려면 이게 먼저다. `IA_Attack` 입력 액션과 매핑, 공격 몽타주(`MM_Attack_01`로 새로 만들어야 한다 — 지금은 애님 시퀀스뿐), 타격 판정. **맨손으로 갈지 칼을 먼저 넣을지를 정해야 한다.** 칼은 카메라 B안(팔을 시야로)과 엮여 있다
-
-**결정 필요**
-
-- **맨손 공격인가 칼인가.** 위 참조
-- **`RETURN` 분기도 비래턴트로 바꿀 것인가.** 지금 복귀 중 감지 주기가 홉 하나(약 6.4초)다. `SimpleMoveToLocation`으로 바꾸면 0.3초가 되지만 짧은 홉 구조의 존재 이유가 없어지고 복귀 사양 기준 2·3의 동작이 바뀐다
-- **복귀 속도를 되돌릴 것인가.** 초당 45다. `AcceptanceRadius`를 0 → 30으로 바꾸고 PIE로 재보는 것이 유일한 방법이다. **앞 세션에 `그대로두자`로 정했으므로 거슬릴 때만 다시 꺼낸다**
-- **디버그 표시 제거 시점.** `PrintString` 10개 + `ToString(Float)` 3개, 노드 넷이 빠진다. 적 HP·피격·사망까지 끝난 뒤가 자연스럽다
-- **칸막이 `SM_Cube2`를 `Divider_L`로 리네임할 것인가.** 짝이 `SM_Cube2` / `Divider_R`로 어긋나 있다
-
-**확인 필요**
-
-- **`BP_Enemy`가 왜 `BP_ThirdPersonCharacter` 컴파일에 딸려 dirty가 되는지.** `BP_ThirdPersonHUD`는 설명되는데 이건 참조 사슬이 안 보인다
-- **재직렬화된 `.uasset` 둘의 내용이 실제로 안 바뀌었는지.** 바이너리라 못 읽는다
-- **`LogCrowdFollowing: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance`.** PIE 종료 무렵마다 나온다
-- **`read_graph_dsl`과 `write_graph_dsl`의 id 체계가 다른 이유.** 이번 세션에 `|GetCurrentHP does not exist`가 추가됐다. 누적 세 종류다
-- **`find_node_types`와 `get_node_type_pins`의 type_id 표기가 다른 이유.** `SimpleMovetoActor` / `SimpleMoveToActor`
-- **복귀가 초당 45로 느려진 진짜 원인.** `AcceptanceRadius 0`이 목표점 정확 도달을 요구한다는 가설만 있다
-- **`DisableInput`이 Enhanced Input 매핑까지 막는지**
-- **HUD의 `CachedCharacter` 재획득이 실제로 일어나는지**
-- **2번 방의 조명.** `DirectionalLight`·`SkyLight` 외에 아무것도 없다
-- **`bCanEverTick`이 명령 56 직후 `false`로 읽혔던 이유**
-- **`trace_world`가 방향에 따라 같은 솔리드를 놓치는 이유**
-- **`show navigation`이 PIE에서 안 먹는 이유.** 에디터 뷰포트의 `P`로 우회했다
-- **두 신규 외부 액터 패키지의 정체와 `__ExternalObjects__` 파일의 정체**
-- **`Lvl_ArenaShooter`의 WorldSettings가 `BP_ShooterGameMode`를 가리키는지.** `.umap`이 바이너리라 못 읽었다
-- **`HandGrip_R` 소켓의 위치·각도.** 방향이 있는 메시(칼)가 오면 드러난다
-
-**접어둔 것**
-
-- **카메라 작업.** 셋으로 갈렸다
-  - **A — 원본 ICI 구조(`캡슐 → Camera → SkeletalMesh`)로 교체.** 팔만 있는 스켈레탈 메시가 프로젝트에 없어 지금 그대로는 못 한다
-  - **B — 지금 구조를 두고 팔을 시야로 올린다.** `Variant_Shooter/Anims/ABP_FP_Weapon` + `Ctrl_HandAdjusment`. 무기용이라 맨손·칼에 맞는지는 열어봐야 안다
-  - **C — 전환 스냅 완화만.** 요 보간 또는 `SetViewTargetWithBlend`. 2026-08-27부터 이월
-  - **칼 직전에 B로 가는 것을 권했고 사용자가 적 AI를 먼저 하기로 정했다**
-- **1인칭으로 죽으면 3인칭으로 부활하는 것.** 사용자가 `내비두자`로 정했다. 고치려면 죽기 전 `bIsFirstPerson`을 PlayerController나 GameInstance에 넘겨야 하는데 지금 구조에 그 자리가 없다
-- **30초 갇힘 사망.** 적 HP·피격·사망을 만들 때 같이 한다
-- **사망 시 아이템 드롭.** `BP_ItemPickup`과 `IA_DropItem`이 있어 만들 수는 있다
-- **게임오버 화면 · 사망 카운트 · 체크포인트**
-- **적 체력바 위젯 / 순찰 / EQS / 여러 적의 회피 / 적 종류별 DataTable**
-- **소리 감지 · 여러 적의 정보 공유 · "뭔가 봤다" 중간 경계 상태**
-- **AnimNotify로 타격 창 열기.** 무기가 생길 때. 지금은 데미지가 애니메이션의 타격 순간보다 먼저 들어간다
-- **`BP_ShooterNPC` · `ST_Shooter` · EQS 3개 · StateTree 태스크 6개.** 안 쓰기로 했지만 지우지 않는다
-- **`--append-system-prompt`가 저장소에 없다.** `Editor Preferences → General → Terminal → Startup Commands`의 사용자 설정이라 다른 환경에서는 다시 넣어야 한다. 원문은 `Docs/AI-Log/2026-08-28-inventory-item-data.md`의 `명령` 칸에 있다
-- **`BP_Door.uasset`의 재직렬화.** 이번에 원인의 절반이 잡혔다 — 참조하는 블루프린트를 컴파일하면 딸려 dirty가 된다
-- **문간 위 `X 1800..1900, Z 200..400`의 열린 홈.** 관통은 아니다
-- **열린 문짝 20cm가 문간 위로 삐져나온다.** 문짝 220, 문간 200
-- **`ForLoop.FirstIndex`가 빈 값인 이유.** 동작에 지장이 없다
-- **`SP` 스태미나.** 원본에 있고 MCP1에 없다. `06-플레이어-UI.md:54` 참조
-- **슬롯 2칸 vs 3칸.** 원본은 2칸, MCP1은 3칸이다. 의도한 차이인지 안 정했다
-- **미사용 애셋 정리.** 2026-08-30에 **남기기로** 정했다
-- **`MoveComponentTo`의 `Stop`·`Return` 핀.** 연타로는 문제가 안 났다
+- 없음. 새 기록으로 넘어갔다
