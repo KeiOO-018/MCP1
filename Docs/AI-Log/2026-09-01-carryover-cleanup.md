@@ -671,14 +671,11 @@ Do not call CaptureEditorImage. Ask the user for a screenshot instead.
 
 **바로 이어서 할 것**
 
-- **`Divider_L` / `M` / `R`의 좌우 확인.** 세 액터의 Y 좌표를 읽어서 라벨 순서와 맞는지 본다. 어긋나면 이름을 다시 정해야 한다. **한 번의 읽기로 끝난다**
+없음. (좌우 확인은 2026-09-01 `enemy-hp-death` 세션에서 처리됨 — 세 조각이 좌·중·우가 아니라 문설주 둘과 상인방 하나였고, 이름을 `Divider_L` / `Divider_R` / `Divider_Top`으로 다시 고쳤다)
 
 **결정 필요**
 
-- **적 HP·피격·사망을 시작할 것인가.** 접어둔 목록의 본체다. 사용자가 다음 작업으로 지목했다
-- **디버그 표시 제거 시점.** 실제 개수는 `BP_Enemy`의 `PrintString` 아홉 + `ToString(Float)` 셋, `BP_ThirdPersonCharacter`의 `PrintString` 하나 + `SphereTraceForObjects`의 `DrawDebugType ForDuration` 하나. **`ShowHUDMessage` 안의 `PrintString`은 기능이므로 지우면 안 된다.** 합격 기준을 이걸로 읽고 있어서 지금 지우면 검증 수단이 없어진다
-- **칼의 회전.** 지금 `heldTransform.Rotation`이 단위값이라 막대가 수평으로 몸 앞을 향한다. 칼처럼 세우려면 회전을 넣어야 하고, 값은 PIE에서 봐야 안다
-- **`K2Node_Self_1`을 `ApplyDamage` 근처로 옮길 것인가.** 남은 장거리 선 하나가 사라진다. `set_node_position` 한 번이다
+적 HP·피격·사망은 착수해서 끝났다. 남은 셋(디버그 표시 제거 시점, 칼의 회전, `K2Node_Self_1` 이동)은 갱신된 개수와 함께 `2026-09-01-enemy-hp-death.md`로 넘어갔다.
 
 **확인 필요**
 
