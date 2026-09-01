@@ -844,9 +844,16 @@ IA_Attack [Triggered]
 - **뛰면서 `LMB` 눌러보기.** 상하체 분리 사양을 쓰기 전에 있어야 할 관찰이다
 - **`AttackMontage`·`AttackRange`·`AttackTraceRadius`의 인스턴스 편집 표시 확인.** My Blueprint 패널의 눈 아이콘. **`list_variables`가 이름만 돌려주고 `set_variable_instance_editable`은 있는데 get이 없다 — AI가 읽을 수단이 없음이 이번에 확정됐다.** `BP_Enemy`의 앞선 변수 넷 + `RespawnDelay` + `SightHalfAngle`도 같은 상태로 이월 — 합쳐서 아홉 개다
 
+**정해진 것**
+
+- **상하체 분리는 플레이어만 한다. 적은 지금처럼 전신 몽타주로 둔다.** (기록 직후 사용자가 정함)
+  - `AM_Player_Attack`의 `slotName`만 `DefaultSlot` → `UpperBody`로 바꾼다. `AM_Enemy_Attack`은 손대지 않는다
+  - `ABP_Unarmed`의 AnimGraph에서 `Slot 'DefaultSlot'`의 출력이 `LayeredBoneBlend`의 base pose로 들어가므로 **적은 지금과 완전히 같은 결과를 받는다**
+  - **따라오는 결과 — 적은 공격 중 루트 모션 전진을 그대로 유지한다.** 플레이어만 안 밀린다. 적이 달려들며 치는 모양이 되므로 문제로 보이지 않지만, 의도한 것이 아니라 이 결정에 딸려온 것이다
+  - 적은 공격 중 다리도 계속 멈춘다. 적은 공격할 때 제자리에 서므로 티가 안 날 것으로 보이나 **확인 안 함**
+
 **결정 필요**
 
-- **상하체 분리의 범위.** 적(`BP_Enemy`)도 같이 상체 분리할 것인가. `ABP_Unarmed`는 둘이 공유한다. 플레이어만 `UpperBody` 슬롯으로 옮기고 적은 `DefaultSlot`에 두면 적은 안 바뀐다
 - **`UpperBody` 슬롯 이름을 스켈레톤에 등록하는 것.** `SK_Mannequin`은 프로젝트 전체가 공유하는 애셋이다
 - **칼 손잡이 오프셋.** `heldTransform.location`에 `(0, 0, 25)` 또는 `(0, 0, -25)`. 부호는 PIE에서 봐야 안다
 - **디버그 표시 제거 시점.** `PrintString` 10개 + `ToString(Float)` 3개 + 이번에 늘어난 `DrawDebugType ForDuration` 하나
