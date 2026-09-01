@@ -1331,15 +1331,11 @@ Parameter error: /Game/Characters/Mannequins/Animations/ABP_Unarmed.ABP_Unarmed 
 
 **바로 이어서 할 것**
 
-- **인스턴스 편집 표시 확인 아홉 개.** `AttackMontage`·`AttackRange`·`AttackTraceRadius` + `BP_Enemy`의 앞선 넷 + `RespawnDelay` + `SightHalfAngle`. My Blueprint 패널의 눈 아이콘. **`set_variable_instance_editable`은 있는데 get이 없어 AI가 읽을 수단이 없음이 확정됐다.** 지난 세션부터 그대로 이월된 유일한 항목이다
-- **복귀 속도가 빨라졌는지 확인.** 이번 변경이 "복귀가 초당 45로 느려진 원인은 `AcceptanceRadius 0`" 가설을 검증하는 자리였는데 답을 못 받았다. 빨라졌으면 가설이 맞은 것이고, 그대로면 원인이 다른 데 있다
+없음. (둘 다 2026-09-01 `carryover-cleanup` 세션에서 처리됨)
 
 **결정 필요**
 
-- **디버그 표시 제거 시점.** `BP_Enemy`의 `PrintString` 8개 + `ToString(Float)` 3개, `BP_ThirdPersonCharacter`의 `PrintString` 10개 + `ToString(Float)` 3개 + `DrawDebugType ForDuration` 하나. 합격 기준을 이걸로 읽고 있어서 지금 지우면 검증 수단이 없어진다
-- **`GetController`의 빈 `self` 핀을 명시로 바꿀 것인가.** 동작은 정상이지만 `BP_Enemy`의 다른 분기와 모양이 다르다
-- **칼 손잡이 오프셋.** `heldTransform.location`에 `(0, 0, 25)` 또는 `(0, 0, -25)`. 부호는 PIE에서 봐야 안다
-- **칸막이 `SM_Cube2`를 `Divider_L`로 리네임할 것인가.** 짝이 `SM_Cube2` / `Divider_R`로 어긋나 있다
+- **디버그 표시 제거 시점.** 여기 적었던 개수는 틀렸다 — 실제 개수와 함께 `2026-09-01-carryover-cleanup.md`로 넘어갔다
 
 **확인 필요**
 
