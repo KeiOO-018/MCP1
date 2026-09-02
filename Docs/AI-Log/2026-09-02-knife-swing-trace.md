@@ -672,34 +672,4 @@ void UAnimNotify_PlayMontageNotifyWindow::BranchingPointNotifyEnd(FBranchingPoin
 
 ## 다음으로 넘김
 
-**바로 이어서 할 것**
-
-- **`DT_Items` 저장 확인.** 값이 원래대로 복귀해 `git status`에 안 뜬다. 에디터에 저장 안 된 상태와 구분이 안 된다
-
-**결정 필요**
-
-- **적 공격에 같은 궤적 판정 붙이기.** 사용자가 "플레이어 쪽이 완벽해지면 적 AI에도 적용"으로 정한 다음 사양이다. 지금 적은 `PlayAnimMontage → ApplyDamage → Delay`로 무조건 맞힌다. 필요한 것 — (1) `PlayAnimMontage`를 `Play Montage`로 교체, (2) `AM_Enemy_Attack`에 `Montage Notify Window` 찍기(수작업), (3) 적에게도 `bIsSwinging`·`PrevBladeCenter`·`HitActorsThisSwing` 계열 변수와 Tick 스윕. **다만 적은 맨손이라 "칼날"에 해당하는 컴포넌트가 없다** — 손 소켓 기준으로 잡을지 먼저 정해야 한다
-- **플레이어 `CurrentHP`의 기본값 75를 100으로 고칠 것인가.** PIE 시작 체력이 75다. 배치된 인스턴스가 없으므로 인스턴스 함정은 안 걸린다
-- **디버그 표시 제거 시점.** 오늘 기준 실제 개수는 `BP_Enemy`의 `PrintString` 10개 + `ToString(Float)` 4개, `BP_ThirdPersonCharacter`의 `PrintString` 1개(`Hit:`) + `MultiBoxTraceForObjects`의 `DrawDebugType ForDuration` 하나. **`ShowHUDMessage` 안의 `PrintString`은 기능이므로 지우면 안 된다**
-- **`K2Node_Self_1`(`BP_Enemy`)을 `ApplyDamage` 근처로 옮길 것인가.** 남은 장거리 선 하나가 사라진다
-- **미사용 변수 `AttackRange`·`AttackTraceRadius`를 지울 것인가.** 오늘은 남겼다
-- **칼 회전 45도 절충안을 볼 것인가.** 값은 계산해뒀다 — `roll 45` / `location (0, -17.68, 17.68)`
-
-**확인 필요**
-
-- **합격 기준 2·3의 통제된 시험.** 거리 3m, 등 뒤 각도를 정해놓고 스윙해서 `Hit:`이 안 나는 것을 로그로 확인
-- **`Event Tick`의 한 프레임 지연이 실제로 있는지.** 있으면 Tick 그룹 이동을 검토
-- **적이 둘 이상일 때 한 스윙으로 둘 다 맞는지.** `MultiBoxTrace`로 만들었지만 시험 못 했다
-- **MCP가 못 읽는 프로퍼티 목록에 여섯이 추가됐다** — `Notifies`, `AnimNotifyTracks`, `BranchingPointMarkers`, `BranchingPointStateNotifyIndices`, `ActiveStateBranchingPoints`, `CompositeSections`. 기존 목록(`AttachSocketName`, `attachParent`, `CollisionEnabled`, `NewVariables`, `ActorLabel` 등)과 같은 부류로 보인다
-- **MCP가 블루프린트 애셋 경로를 거부하는 새 형태.** `/Game/ThirdPerson/Blueprints/BP_Enemy.BP_Enemy`를 `ObjectTools.get_properties`와 `BlueprintTools.get_default_object` 양쪽에 줬더니 `is not valid Object for property 'instance'` / `is not valid Blueprint for property 'blueprint'`로 거부됐다. **레벨 액터 경로로는 읽혔다**
-- **`_C_0`이 아닌 플레이어 인스턴스.** 예전 로그에 `BP_ThirdPersonCharacter_C_7`이 있었다. 오늘 로그에는 `_C_0`만 찍혔다
-- **`2026-09-01-enemy-hp-death.md`의 `확인 필요` 목록은 이 기록으로 옮기지 않았다.** 오늘 건드리지 않은 항목이 대부분이라 그 파일에 그대로 있다. `arrange_nodes`, `read_graph_dsl` 절단, `EditorPerProjectUserSettings.ini` 저장 실패, `CaptureViewport`가 에디터 월드를 그리는 것 등이 거기 있다
-
-**접어둔 것**
-
-- **Mixamo 등 외부 베기 애니메이션.** 프로젝트에 IK Rig도 IK Retargeter도 없고(`Content` 전체에서 `IK_*`/`RTG_*`/`*Retarget*` 0개) MCP 툴셋에도 리타깃 도구가 없다. 본 이름 체계가 달라 IK Rig 둘 + Retargeter 하나를 손으로 만들어야 한다 — **한 세션짜리 일이고 전부 수작업이다**
-- **`MM_Attack_02` / `MM_Attack_03` / `MM_ChargedAttack`.** 사용자가 열어보고 "셋 다 칼이랑 관련없음"으로 확인했다. 이제 이 셋이 어떤 동작인지는 확인 대상이 아니다 — **칼에 쓸 수 없다는 것만 안다**
-- **진짜 칼 메시 구하기.** 구하면 `BladeHalfLength`와 중심 오프셋을 손잡이 위로 옮겨 "칼날만" 판정이 된다
-- **여러 적을 한 번에 때리기.** 오늘 `MultiBoxTraceForObjects`로 이미 만들었다. 시험만 남았다
-- **`Knife`와 `Key_Stage1`이 같은 `Cube` 메시라 색이 같은 것.** 머티리얼로 가를 수 있다
-- **`heldTransform`의 회전·오프셋이 짝이라는 사실을 `DT_Items` 어디에도 안 적어뒀다.** 주석 칸이 없다
+없음. 이 기록의 넘김 항목은 전부 처리되었거나 `2026-09-02-enemy-fist-trace.md`로 옮겨졌다.
