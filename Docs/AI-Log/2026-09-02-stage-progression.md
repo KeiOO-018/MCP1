@@ -707,6 +707,62 @@ Content/Characters/Mannequins/Anims/Unarmed/Attack/AM_Player_Attack.uasset  size
 ?? Content/__ExternalActors__/ThirdPerson/Lvl_ThirdPerson/D/J4/
 ```
 
+**UE 출력 로그 — 이번 세션이 끝난 뒤 `LogsToolset.GetLogEntries`로 읽은 것이다. 열 번째로 "못 받았다"고 적었던 경고가 `LogScript` 카테고리에 그대로 있었다.** 타임스탬프는 UTC이고 로컬은 `+9`시간이다.
+
+```
+[2026.09.02-09.56.24:515][367]LogScript: Warning: Unknown input pin "ItemRow" on Game|SpawnActorfromClass. Input pins: ['Class', 'SpawnTransform', 'CollisionHandlingOverride', 'TransformScaleMethod', 'Owner']. Output pins: ['ReturnValue'] (use positional bind to capture outputs)
+```
+
+```
+[2026.09.02-09.49.35:446][726]LogScript: Warning: GetObjectProperties on '/Game/Progression/BP_StageRoom.Default__BP_StageRoom_C' (BP_StageRoom_C): the following properties could not be read: NewVariables
+[2026.09.02-10.43.16:439][810]LogScript: Warning: GetObjectProperties on '/Game/ThirdPerson/Lvl_ThirdPerson.Lvl_ThirdPerson:PersistentLevel.BP_StageRoom_C_UAID_9C6B005AF869F1FD02_1985138080.DropPoint' (ArrowComponent): the following properties could not be read: ComponentToWorld
+```
+
+```
+[2026.09.02-10.41.52:260][479]LogScript: Warning: Asset does not exist: /Game/__ExternalActors__/ThirdPerson/Lvl_ThirdPerson/D/J4/YRCTSX0Q6C6HOI4XYRJT1I
+[2026.09.02-10.41.52:260][479]LogScript: Warning: Failed to save 'Room1'.
+[2026.09.02-10.42.26:472][602]LogScript: Warning: Asset does not exist: /Game/__ExternalActors__/ThirdPerson/Lvl_ThirdPerson/3/FH/1US2PN6P1S72Z6OC6K0FNA
+[2026.09.02-10.42.26:472][602]LogScript: Warning: Failed to save 'Room2'.
+[2026.09.02-10.48.03:297][108]LogScript: Warning: Asset does not exist: /Game/__ExternalActors__/ThirdPerson/Lvl_ThirdPerson/8/GO/Q4KQB556FPML8LI4ML69JM
+[2026.09.02-10.48.03:297][108]LogScript: Warning: Failed to save 'Enemy_R1_A'.
+```
+
+**UE 출력 로그 — 노티파이 창 회귀 검사에 쓴 PIE. `11.11` UTC = 로컬 `20:11`. 적 넷이 전부 죽은 판이다. 발췌가 아니라 이 판의 `EnemyHP` 전부다.**
+
+```
+[2026.09.02-11.11.22:237][191]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1233633259] EnemyHP: 66.0
+[2026.09.02-11.11.24:237][326]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1233633259] EnemyHP: 32.0
+[2026.09.02-11.11.25:849][433]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1228603258] EnemyHP: 66.0
+[2026.09.02-11.11.25:891][436]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1233633259] EnemyHP: 0.0
+[2026.09.02-11.11.39:010][380]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1228603258] EnemyHP: 32.0
+[2026.09.02-11.11.40:658][492]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1228603258] EnemyHP: 0.0
+[2026.09.02-11.11.54:153][441]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF8693AFD02_1187327879] EnemyHP: 66.0
+[2026.09.02-11.11.56:437][593]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF8693AFD02_1187327879] EnemyHP: 32.0
+[2026.09.02-11.12.00:672][874]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869E6FD02_1187686143] EnemyHP: 66.0
+[2026.09.02-11.12.03:690][ 76]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF8693AFD02_1187327879] EnemyHP: 0.0
+[2026.09.02-11.12.05:137][175]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869E6FD02_1187686143] EnemyHP: 32.0
+[2026.09.02-11.12.06:768][287]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869E6FD02_1187686143] EnemyHP: 0.0
+```
+
+**UE 출력 로그 — 한 스윙이 적 둘을 같은 프레임에 때린 사례. `08.01` UTC = 로컬 `17:01`. 프레임 번호와 밀리초가 둘 다 같다.**
+
+```
+[2026.09.02-08.01.58:520][434]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF8693AFD02_1187327879] EnemyHP: 66.0
+[2026.09.02-08.01.58:520][434]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869E6FD02_1187686143] EnemyHP: 66.0
+```
+
+**UE 출력 로그 — 방1의 적이 플레이어가 든 칼에 끼인 것. 전문.**
+
+```
+[2026.09.02-11.35.16:505][275]LogCharacterMovement: BP_Enemy_C_UAID_9C6B005AF869F2FD02_1228603258 is stuck and failed to move! Velocity: X=-168.80 Y=20.88 Z=0.00 Location: X=-1291.88 Y=-45.52 Z=90.07 Normal: X=0.85 Y=0.30 Z=-0.44 PenetrationDepth:18.127 Actor:BP_ThirdPersonCharacter_C_0 Component:HeldItemMesh BoneName:None (0 other events since notify)
+```
+
+**UE 출력 로그 — PIE 종료 시 경고.**
+
+```
+[2026.09.02-11.35.40:935][437]LogCrowdFollowing: Warning: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance
+```
+
 ### 요약 — 한글
 
 **새로 만든 것**
@@ -857,15 +913,21 @@ Set EnemiesAlive = EnemiesAlive - 1
 - 레벨에 배치된 `BP_ThirdPersonCharacter` 인스턴스가 0개라는 것
 - `DT_Items`의 행 넷 — `Key_Stage1`, `Potion_Small`, `Ball_Test`, `Knife`
 - `get_node_type_pins`가 응답에 담은 `_26` 노드가 그래프에 실제로 추가되지는 않았다는 것 — `find_nodes`로 재확인
+- **노티파이 창 회귀 검사 1(이중 타격) — 통과.** `11:11` UTC 판에서 적 넷이 전부 죽었고 칼 히트 12번이 **전부 한 번씩만** 찍혔다. 플레이어 칼 데미지는 34이고 모든 적이 `100 → 66 → 32 → 0`으로 정확히 세 번에 죽었다. 같은 스윙에서 두 번 깎인 적이 없다
+- **노티파이 창 회귀 검사 3(적 둘 각각 한 번씩) — 통과.** `08:01:58.520`의 **같은 밀리초, 같은 프레임 `[434]`** 에 적 둘이 각각 `66.0`을 찍었다. 한 스윙이 둘을 때렸고 각자 한 번씩만 들어갔다
+- **`MultiTrace`가 한 프레임에 히트 둘을 반환하는 경로.** 위와 같은 로그다. `2026-09-02-two-enemies-friendly-fire.md`가 "두 번 시도해 두 번 다 연속 프레임이었다"고 미확인으로 남긴 것인데, **같은 프레임 사례가 로그에 있다**
+- **UE Terminal의 경고가 어디로 가는지.** Output Log의 `LogScript` 카테고리다. `LogsToolset.GetLogEntries`로 읽힌다. **열 번을 "못 받았다"고 적어온 항목인데 읽을 방법이 처음부터 있었다**
+- **명령 2가 한 번 미끄러졌던 것.** 터미널이 일반 `Game|SpawnActorfromClass`를 먼저 시도해 `Unknown input pin "ItemRow"`로 실패했고, 그 뒤 클래스 특화 노드 `Game|SpawnActorBPItemPickup`으로 바꿔 성공했다. 최종 결과는 맞지만 **당시에는 이 실패를 몰랐다**
+- **명령 6·7의 저장 실패 원문.** `Asset does not exist: /Game/__ExternalActors__/...` 뒤에 `Failed to save 'Room1'` / `'Room2'` / `'Enemy_R1_A'`가 붙는다. 아직 디스크에 없는 OFPA 신규 액터 패키지를 경로로 저장하려다 실패한 것이다
 
 **확인 못 한 것**
 
 - **합격 기준 네 개의 PIE 결과.** 사용자가 `1부터 4까진 다잘된거같다고 생각`이라고 했다. **AI는 PIE를 안 봤다.** 근거는 사용자 관찰 하나뿐이고 로그 숫자를 못 받았다. 이유 — 사용자가 PIE를 직접 돌렸고 출력을 붙이지 않았다
-- **컴파일 경고 원문.** 명령 여덟 개에서 전부 요구했고 한 번도 못 받았다. 이 프로젝트에서 **열 번째**다. 이유 — 터미널 출력 자체가 거의 안 왔다
+- **컴파일 경고 원문.** 명령 여덟 개에서 전부 요구했고 터미널에서는 한 번도 못 받았다. **다만 세션이 끝난 뒤 `LogsToolset.GetLogEntries`로 `LogScript` 카테고리를 읽어 확보했다** — 위 `확인한 것` 참조. 순수한 블루프린트 컴파일 경고(`LogBlueprint`)가 따로 있었는지는 여전히 모른다
 - **`BP_StageRoom` 변수 셋의 `Instance Editable` 플래그.** MCP에 읽는 도구가 없다(`get_variable_category`와 `get_variable_replication`은 있는데 이것만 없다). 터미널도 `NewVariables` 읽기에 실패했다
 - **`BP_Enemy.OwningRoom`의 `Instance Editable`.** 같은 이유로 직접은 못 읽었다. 다만 배치 인스턴스 넷에 값이 실제로 꽂혔고 PIE가 돌았으므로 **켜져 있다는 것이 간접 증명됐다**
 - **`BP_Enemy`와 `BP_Door`가 dirty가 된 원인.** 세션 시작 시 트리는 깨끗했다. AI의 `read_graph_dsl` 읽기가 원인인지 터미널의 저장이 원인인지 **구분 못 했다.** `BP_Enemy`는 1911바이트, `BP_Door`는 49바이트가 갈렸는데 둘 다 파일 크기는 같다
-- **`AM_Player_Attack` 노티파이 창을 넓힌 것의 회귀 검사 셋.** 한 스윙에 두 번 맞는지, 창 밖에서 판정이 열려 있는지, 적 둘 사이에서 각각 한 번씩인지. **전부 미확인이다.** 이유 — 5단계를 먼저 하기로 했다
+- **`AM_Player_Attack` 노티파이 창 회귀 검사 2 — 창 밖에서 판정이 열려 있는지.** 1과 3은 로그로 통과했지만 2는 **판정할 수 없다.** 로그에 "플레이어가 가만히 서 있었다"는 표시가 없다. 정황은 있다 — `11:11:25.891`에 한 마리가 죽은 뒤 `11:11:39.010`까지 **13초 동안 살아 있는 적의 `EnemyHP` 줄이 하나도 없다.** 하지만 그 사이 플레이어가 무엇을 했는지 모르므로 없음의 증거일 뿐이다
 - **적이 옆으로 도는 플레이어를 못 따라가는 것의 PIE 재현.** 그래프 근거는 확보했지만 재현하지 않았다. 이유 — 사용자가 접기로 했다
 - **`D 방마다 고정 지점을 두개 하자`의 해석.** "두자"의 오타로 읽고 방마다 하나씩 뒀다. 사용자에게 확인하지 않았다
 - **`ShowHUDMessage`의 표시 지속 시간.** 기존 함수를 그대로 쓰기로 했고 그래프를 안 읽었다
@@ -885,7 +947,10 @@ Set EnemiesAlive = EnemiesAlive - 1
 - **`FoundSlotIndex`가 아직 `BP_ThirdPersonCharacter`에 남아 있다.** `2026-08-29-중간점검.md`가 죽은 변수로 지목한 것이고 닷새째다
 - **`get_node_type_pins`가 그래프에 없는 노드를 응답에 담는다.** 이 응답으로 노드 수를 세면 틀린다
 - **`read_graph_dsl`로 수렴 간선이 있는 그래프를 감사할 수 없다.** 이번에 실제로 오진을 만들었다
-- **One File Per Actor 레벨에서 터미널이 저장을 못 한다.** 세 번 다 사용자가 `Ctrl+S`를 눌러야 했다
+- **One File Per Actor 레벨에서 터미널이 저장을 못 한다.** 세 번 다 사용자가 `Ctrl+S`를 눌러야 했다. 실패 원문은 `Asset does not exist: /Game/__ExternalActors__/...` → `Failed to save 'Room1'`이다
+- **적이 플레이어가 든 칼에 끼어 못 움직인다.** `LogCharacterMovement`가 `is stuck and failed to move! ... Component:HeldItemMesh ... PenetrationDepth:18.127`을 뱉었다. `HeldItemMesh`가 콜리전을 갖고 있어 적을 막는다. **이번 세션에 만든 것과 무관한 기존 문제인데 방1에 적이 생기면서 드러났다**
+- **터미널이 실패한 뒤 스스로 다른 노드로 갈아타도 나는 모른다.** 명령 2에서 `Game|SpawnActorfromClass` → `Game|SpawnActorBPItemPickup` 전환이 그랬다. 결과가 맞으면 미끄러진 흔적이 보고에 안 남는다
+- **PIE 종료 시 `LogCrowdFollowing: Warning: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance`.** 매 판 뜨는지, 이번만인지 확인 안 했다
 
 ### 총평
 
@@ -899,7 +964,9 @@ Set EnemiesAlive = EnemiesAlive - 1
 
 셋째, **내가 만든 오진.** 가장 큰 실수다. `read_graph_dsl`이 수렴 간선을 생략한다는 것은 `2026-08-29-중간점검.md`에 **내가 적어둔 사실**이고, 명령 4는 두 경로를 **같은 노드로 수렴시키라**고 내가 쓴 것이다. 그런데 DSL에서 `Is Not Valid`가 비어 보이자 **"적 AI가 통째로 안 돈다"고 단정하고 사용자에게 불필요한 명령을 하나 더 냈다.** 도구의 한계를 알면서 그 도구의 출력만으로 판정한 것이다. `get_node_infos`로 봤으면 처음부터 연결이 보였다. 명령 5는 아무것도 안 바꿨고 사용자 시간만 썼다. **이 그래프를 앞으로 볼 때는 DSL이 아니라 `get_node_infos`로 본다.**
 
-**터미널 출력을 거의 못 받은 채 진행한 것도 이번 세션의 특징이다.** 명령 여덟 개 중 하나만 출력이 왔고, 나머지는 AI가 MCP로 직접 읽어 검증했다. 결과적으로 검증 자체는 오히려 촘촘해졌다 — 노드 단위, 핀 단위, 바이트 단위까지 갔다. 대신 **컴파일 경고를 열 번째로 못 봤다.** 경고가 없었는지 안 보인 것인지 여전히 모른다. 그리고 명령 1의 보고에 사실과 다른 문장(`predate this task`)이 하나 있었는데, 그것도 `git status`를 세션 시작에 찍어둔 덕에 잡혔다.
+**터미널 출력을 거의 못 받은 채 진행한 것도 이번 세션의 특징이다.** 명령 여덟 개 중 하나만 출력이 왔고, 나머지는 AI가 MCP로 직접 읽어 검증했다. 결과적으로 검증 자체는 오히려 촘촘해졌다 — 노드 단위, 핀 단위, 바이트 단위까지 갔다. 그리고 명령 1의 보고에 사실과 다른 문장(`predate this task`)이 하나 있었는데, 그것도 `git status`를 세션 시작에 찍어둔 덕에 잡혔다.
+
+**세션이 끝난 뒤에야 경고를 읽는 방법을 찾은 것이 이번의 두 번째 실수다.** 열 번을 "컴파일 경고 원문을 못 받았다"고 적어왔는데, `LogsToolset.GetLogEntries`로 `LogScript` 카테고리를 읽으면 그대로 나온다. **읽을 방법이 처음부터 있었고 툴 목록에도 있었다.** 실제로 읽어보니 명령 2가 한 번 미끄러졌던 것(`Unknown input pin "ItemRow" on Game|SpawnActorfromClass`)과 명령 6·7의 저장 실패 원문(`Failed to save 'Room1'`)이 다 있었다. 명령마다 "경고를 보고하라"고 쓰는 대신 **끝나고 로그를 직접 읽었으면 됐다.** 앞으로는 그렇게 한다.
 
 **MCP 툴 인자 이름을 여섯 번 틀렸다.** `blueprint_path` 대신 `blueprint`, `object` 대신 `instance`, `property_names` 대신 `properties`, `find_nodes`의 필수 `title`, `get_pin_value`의 `pin` 객체, `get_node_type_pins`의 `graph`+`type_id`. 전부 첫 호출에서 에러를 받고 스키마를 보고 고쳤다. 비용은 크지 않았지만 여섯 번은 많다.
 
@@ -949,7 +1016,7 @@ AI가 자기 명령문의 제약을 스스로 푼 것이다. 얻는 것은 터�
 
 **바로 이어서 할 것**
 
-- **`AM_Player_Attack` 노티파이 창 회귀 검사.** 창이 `0.019`초 길어졌다. PIE 한 판에 로그만 보면 닫힌다. 볼 것 셋 — 적 하나를 한 번 베면 HP가 `AttackDamage` 한 번만 주는가(이중 타격 회귀), 적 옆에 가만히 서 있으면 HP가 안 주는가, 적 둘 사이에서 한 번 베면 각각 한 번씩만 주는가. **사용자가 "확인용으로 내비두고 나중에 구현할 때 확인"으로 미뤄둔 항목이다**
+- **적이 플레이어가 든 칼(`HeldItemMesh`)에 끼는 것.** 로그에 `is stuck and failed to move! ... PenetrationDepth:18.127`이 찍혔다. 손에 든 아이템의 콜리전을 끄면 되는지, 끄면 다른 게 깨지는지부터 봐야 한다. **방1에 적이 생겨서 드러난 것이라 앞으로 자주 보인다**
 
 **결정 필요**
 
@@ -963,14 +1030,15 @@ AI가 자기 명령문의 제약을 스스로 푼 것이다. 얻는 것은 터�
 **확인 필요**
 
 - **`BP_StageRoom`의 `Instance Editable` 셋.** MCP에도 터미널에도 읽는 방법이 없다. My Blueprint 패널의 눈 아이콘을 눈으로 봐야 한다. `KeyToDrop`과 `bIsFinalRoom`은 배치 인스턴스에서 값이 읽히므로 켜져 있을 가능성이 높지만, `EnemiesAlive`가 OFF인지는 모른다
-- **컴파일 경고 원문을 UE Terminal이 어디에 뱉는지.** 열 번 요구해서 한 번도 못 받았다
+- **`AM_Player_Attack` 노티파이 창 회귀 검사 2.** 1과 3은 로그로 통과했다. 2(창 밖에서 판정이 열려 있는지)만 남았고, 판정하려면 **적 옆에 붙어 아무것도 안 하는 구간을 의도적으로 만들어야 한다**
+- **순수한 블루프린트 컴파일 경고(`LogBlueprint` 카테고리)가 따로 있었는지.** `LogScript`는 읽었지만 `LogBlueprint`는 안 봤다
 - **`BP_Enemy`·`BP_Door`가 읽기만 했는데 dirty가 되는 경로.** 세션 시작 시 트리는 깨끗했다. `read_graph_dsl`이 원인인지 저장 쪽인지 구분 못 했다
 - **One File Per Actor 레벨에서 터미널의 경로 기반 저장 도구가 전부 실패하는 것.** 세 번 다 사용자가 `Ctrl+S`를 눌러야 했다. 터미널이 `save_assets([])`(전체 저장)밖에 없다고 보고했다
 - **MCP로 그래프를 고친 뒤 Compile을 눌러야 저장이 걸리는 것.** `2026-09-02-two-enemies-friendly-fire.md`에서 넘어온 항목이다. 이번 세션의 애셋 편집(`BP_StageRoom` `18:57:21`, `BP_Enemy` `19:27:13`)은 컴파일+저장 뒤 디스크에 도달했으므로 어긋나지 않았지만, 원인은 여전히 확인 못 했다
 - **`get_node_type_pins`가 응답에 그래프에 없는 임시 노드를 담는 것.** 실제로 추가되지는 않는다는 것을 `find_nodes`로 확인했지만 왜 그런지는 모른다
 - **적 넷이 서로 밀치는 동작.** 방1에 둘이 늘어 총 넷이 됐다. 관찰하지 않았다
 - **닫힌 문이 방2 적을 실제로 막는지.** 열쇠 소실 안전의 근거가 이것인데 적이 늘어난 뒤로 확인하지 않았다
-- **`2026-09-02-two-enemies-friendly-fire.md`에서 옮겨온 것.** `MultiTrace`가 한 프레임에 히트 둘을 반환하는 경로(두 번 시도해 두 번 다 연속 프레임이었다. 억지로 만들려면 적 둘을 중심 간 `70cm`로 붙여야 한다), 적끼리 방지가 실제로 막은 것인지(방지 `Branch`의 `False` 핀에 임시 `PrintString` 한 줄이면 된다), `Sequence` 제거 후 공격 주기(화면 인상만 있다), 배치 인스턴스 `FistRadius`의 덮어쓰기 유무(`FistRadius`를 실제로 튜닝할 때 자연히 드러난다)
+- **`2026-09-02-two-enemies-friendly-fire.md`에서 옮겨온 것.** 적끼리 방지가 실제로 막은 것인지(방지 `Branch`의 `False` 핀에 임시 `PrintString` 한 줄이면 된다), `Sequence` 제거 후 공격 주기(화면 인상만 있다), 배치 인스턴스 `FistRadius`의 덮어쓰기 유무(`FistRadius`를 실제로 튜닝할 때 자연히 드러난다). **`MultiTrace`의 같은 프레임 히트 둘은 이번에 로그로 확인돼 목록에서 뺐다**
 - **`2026-09-01-enemy-hp-death.md`의 `확인 필요` 목록.** `arrange_nodes`, `EditorPerProjectUserSettings.ini` 저장 실패, `CaptureViewport`가 에디터 월드를 그리는 것 등이 그 파일에 그대로 있다
 
 **접어둔 것**
