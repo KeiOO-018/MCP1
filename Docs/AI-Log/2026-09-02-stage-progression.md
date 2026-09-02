@@ -2,7 +2,7 @@
 
 ## 작업물
 
-**스테이지 진행 구조를 만들었다** — `BP_StageRoom` 액터가 자기 방의 적을 세고, 전멸하면 열쇠를 떨구거나 클리어 문구를 띄운다. 곁들여 `AM_Player_Attack`의 노티파이 창 끝을 적과 맞췄고, 적 공격에 조준이 없다는 것을 그래프에서 확인하고 접었다.
+**스테이지 진행 구조를 만들었다** — `BP_StageRoom` 액터가 자기 방의 적을 세고, 전멸하면 열쇠를 떨구거나 클리어 문구를 띄운다. 곁들여 `AM_Player_Attack`의 노티파이 창 끝을 적과 맞췄고, 적 공격에 조준이 없다는 것을 그래프에서 확인하고 접었고, 적이 플레이어가 든 칼에 끼는 것을 `HeldItemMesh`의 콜리전을 꺼서 없앴다.
 
 **소요 시간**: 증거가 남은 범위로 `AM_Player_Attack.uasset` 저장(로컬 `17:25:24`)부터 커밋 `34e8d81`(`20:14:34`)까지 약 **2시간 49분**. 그 앞의 인계·심문·조사 구간은 파일도 로그도 안 남아서 **실제 벽시계 시간은 이보다 길다.** 세션 시작 시각을 기록하지 않아 정확한 값을 모른다.
 
@@ -76,6 +76,30 @@ r가자
 
 ```
 다하자 커밋 기록부터하고
+```
+
+```
+PIE 결과 확인
+```
+
+```
+갱신 하고 다음꺼준비
+```
+
+```
+그렇게하자
+```
+
+```
+결과 확인
+```
+
+```
+아까 아이템 줍고 버리기 잘 됬어
+```
+
+```
+그렇게하자
 ```
 
 ### English — MCP에 실제로 보낸 명령
@@ -385,6 +409,35 @@ Then report, read back from the editor after saving:
   - confirm that no remaining pickup has row name Key_Stage1
   - the list of new, changed or deleted paths under Content/__ExternalActors__/
 ```
+
+**명령 9**
+
+```
+Edit the Blueprint /Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.
+Change exactly one component setting.
+
+Component: HeldItemMesh (the StaticMeshComponent)
+
+  Set its Collision Presets to: NoCollision
+
+  That is the only change. Specifically:
+  - do NOT change RelativeLocation, RelativeScale3D, or the static mesh
+  - do NOT change Generate Overlap Events or Can Character Step Up On;
+    leave both at whatever they are now
+  - do NOT touch any other component, variable, function or node
+  - do NOT modify any other asset
+
+Compile, then save.
+
+Then report, read back from the editor after compiling and saving:
+  - the BodyInstance of HeldItemMesh, specifically collisionProfileName
+    and collisionEnabled
+  - RelativeScale3D and RelativeLocation of HeldItemMesh, to confirm they
+    did not move
+  - BP_ThirdPersonCharacter.uasset file size and mtime
+```
+
+**명령 9는 경고 보고를 요구하지 않았다.** `LogsToolset.GetLogEntries`로 직접 읽을 수 있다는 것을 그 직전에 알았기 때문이다. 앞의 여덟 개와 다른 점이다.
 
 ## Terminal 결과
 
@@ -763,6 +816,59 @@ Content/Characters/Mannequins/Anims/Unarmed/Attack/AM_Player_Attack.uasset  size
 [2026.09.02-11.35.40:935][437]LogCrowdFollowing: Warning: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance
 ```
 
+**UE 출력 로그 — `LogBlueprint` 카테고리 전문. 세션 전체에서 `Compiling Blueprint` 줄만 있고 경고도 에러도 하나 없다. 열 세션째 이월돼온 "컴파일 경고 원문"의 답은 "경고가 없었다"였다. 발췌가 아니라 이 카테고리의 전부다.**
+
+```
+[2026.09.02-07.04.56:128][811]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-07.05.00:796][825]LogBlueprint: Compiling Blueprint '/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter'
+[2026.09.02-07.20.51:537][910]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-07.26.03:851][804]LogBlueprint: Compiling Blueprint '/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter'
+[2026.09.02-07.49.56:071][121]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-07.50.00:405][134]LogBlueprint: Compiling Blueprint '/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter'
+[2026.09.02-08.06.50:757][294]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-08.07.09:797][669]LogBlueprint: Compiling Blueprint '/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter'
+[2026.09.02-08.35.26:804][557]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-09.47.50:094][228]LogBlueprint: Compiling Blueprint '/Game/Progression/BP_StageRoom.BP_StageRoom'
+[2026.09.02-09.48.39:264][467]LogBlueprint: Compiling Blueprint '/Game/Progression/BP_StageRoom.BP_StageRoom'
+[2026.09.02-09.54.57:245][113]LogBlueprint: Compiling Blueprint '/Game/Progression/BP_StageRoom.BP_StageRoom'
+[2026.09.02-09.56.36:523][397]LogBlueprint: Compiling Blueprint '/Game/Progression/BP_StageRoom.BP_StageRoom'
+[2026.09.02-09.57.16:468][513]LogBlueprint: Compiling Blueprint '/Game/Progression/BP_StageRoom.BP_StageRoom'
+[2026.09.02-10.10.06:716][ 42]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-10.27.08:818][400]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-11.11.12:238][512]LogBlueprint: Compiling Blueprint '/Game/Interaction/BP_Door.BP_Door'
+[2026.09.02-11.11.12:264][512]LogBlueprint: Compiling Blueprint '/Game/Enemy/BP_Enemy.BP_Enemy'
+[2026.09.02-11.46.19:001][646]LogBlueprint: Compiling Blueprint '/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter'
+```
+
+`11.11.12`의 두 줄은 **내가 시키지 않은 컴파일이다.** `BP_Door`와 `BP_Enemy`가 PIE 시작 직전에 컴파일됐다. 두 애셋이 dirty가 된 경로의 단서다.
+
+**UE 출력 로그 — `HeldItemMesh` 콜리전을 끈 뒤의 PIE. `11.57` UTC = 로컬 `20:57`. 저장이 `11.46`이므로 변경 후 판이다. 이 판의 `EnemyHP` 전부다.**
+
+```
+[2026.09.02-11.57.25:279][903]PIE: Play in editor total start time 0.155 seconds.
+[2026.09.02-11.57.33:609][612]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1228603258] EnemyHP: 66.0
+[2026.09.02-11.57.33:609][612]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1233633259] EnemyHP: 66.0
+[2026.09.02-11.57.34:070][652]LogBlueprintUserMessages: [BP_ThirdPersonCharacter_C_0] PlayerHP: 90.0
+[2026.09.02-11.57.34:081][653]LogBlueprintUserMessages: [BP_ThirdPersonCharacter_C_0] PlayerHP: 80.0
+[2026.09.02-11.57.36:073][822]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1228603258] EnemyHP: 32.0
+[2026.09.02-11.57.36:153][829]LogBlueprintUserMessages: [BP_ThirdPersonCharacter_C_0] PlayerHP: 70.0
+[2026.09.02-11.57.36:426][852]LogBlueprintUserMessages: [BP_ThirdPersonCharacter_C_0] PlayerHP: 60.0
+[2026.09.02-11.57.38:463][ 26]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1228603258] EnemyHP: 0.0
+[2026.09.02-11.57.38:556][ 34]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1233633259] EnemyHP: 32.0
+[2026.09.02-11.57.38:938][ 67]LogBlueprintUserMessages: [BP_ThirdPersonCharacter_C_0] PlayerHP: 50.0
+[2026.09.02-11.57.41:961][324]LogBlueprintUserMessages: [BP_Enemy_C_UAID_9C6B005AF869F2FD02_1233633259] EnemyHP: 0.0
+[2026.09.02-11.57.51:149][ 95]LogWorld: BeginTearingDown for /Game/ThirdPerson/UEDPIE_0_Lvl_ThirdPerson
+```
+
+**이 판에 `LogCharacterMovement` 줄이 하나도 없다.** 그 카테고리 전체가 여전히 8줄이고 마지막이 `11.35.16`이다.
+
+**MCP 읽기 — `HeldItemMesh`의 `BodyInstance` 변경 전후. 발췌다.**
+
+```
+전: "objectType":"ECC_WorldDynamic","collisionEnabled":"QueryAndPhysics","collisionProfileName":"BlockAllDynamic"
+후: "objectType":"ECC_WorldStatic","collisionEnabled":"NoCollision","collisionProfileName":"NoCollision"
+```
+
 ### 요약 — 한글
 
 **새로 만든 것**
@@ -791,9 +897,13 @@ Content/Characters/Mannequins/Anims/Unarmed/Attack/AM_Player_Attack.uasset  size
 
 - `AM_Player_Attack`의 `AttackHit` 윈도우 끝을 `0.496946` → `0.534953`초로 넓혔다. 창 길이 `0.209040` → `0.247048`초. 시작 `0.287906`초는 안 건드렸다. **사용자 수작업이다** — MCP로는 노티파이를 쓸 수 없다
 
+**플레이어에 한 것**
+
+- `BP_ThirdPersonCharacter`의 `HeldItemMesh` 컴포넌트 `Collision Presets`를 `BlockAllDynamic` → `NoCollision`. `collisionEnabled`가 `QueryAndPhysics` → `NoCollision`, `objectType`이 `ECC_WorldDynamic` → `ECC_WorldStatic`으로 따라 바뀌었다(프리셋에 딸린 값이다). `RelativeLocation`·`RelativeScale3D`·`bGenerateOverlapEvents`·`CanCharacterStepUpOn`은 그대로다
+
 **안 바꾼 것**
 
-`BP_Enemy`의 기존 변수 20개 값 전부, `BP_Door`의 그래프·변수·CDO 전부, `BP_ItemPickup` 애셋, `BP_ThirdPersonCharacter`, `BP_ThirdPersonGameMode`, `DT_Items`, 남은 픽업 여섯, 적 회전 관련 값 전부, `AM_Enemy_Attack`.
+`BP_Enemy`의 기존 변수 20개 값 전부, `BP_Door`의 그래프·변수·CDO 전부, `BP_ItemPickup` 애셋, `BP_ThirdPersonCharacter`의 변수·그래프·다른 컴포넌트 전부, `BP_ThirdPersonGameMode`, `DT_Items`, 남은 픽업 여섯, 적 회전 관련 값 전부, `AM_Enemy_Attack`.
 
 ## 분석
 
@@ -854,6 +964,19 @@ Set EnemiesAlive = EnemiesAlive - 1
 
 남은 픽업 여섯 — `(1130, 870, 20)` `Potion_Small`, `(1150, 1250, 20)` `Potion_Small`, `(300, 0, 20)` `Knife`, `(440, 700, 0)` `Ball_Test`, `(1140, 1090, 20)` `Potion_Small`, `(690, 670, 20)` `Potion_Small`.
 
+**플레이어 (`BP_ThirdPersonCharacter`의 `HeldItemMesh`)**
+
+| 값 | 전 | 후 |
+|---|---|---|
+| `collisionProfileName` | `BlockAllDynamic` | `NoCollision` |
+| `collisionEnabled` | `QueryAndPhysics` | `NoCollision` |
+| `objectType` | `ECC_WorldDynamic` | `ECC_WorldStatic` |
+| `RelativeLocation` | `(0,0,0)` | `(0,0,0)` |
+| `RelativeScale3D` | `0.15` | `0.15` |
+| `bGenerateOverlapEvents` | `true` | `true` |
+| `CanCharacterStepUpOn` | `ECB_Yes` | `ECB_Yes` |
+| 디스크 | — | `834,549`바이트, `20:46:23` |
+
 **애니메이션 (`AM_Player_Attack`)**
 
 | | 시작 | 끝 | 창 길이 |
@@ -885,6 +1008,10 @@ Set EnemiesAlive = EnemiesAlive - 1
 **루트모션이 왜 증상을 간헐적으로 만드는지까지 설명한 것.** 사용자가 "지금 했을 땐 문제 없어 보인다"고 했을 때, 그것을 반증으로 받지 않고 구조로 설명했다. `MM_Attack_01`의 루트모션이 공격마다 적을 앞으로 밀어서 거리가 바뀌고, `AttackRange 150`을 벗어나면 다음 `Think`가 추격으로 가면서 `bOrientRotationToMovement`이 자동으로 재조준한다. **버그가 구조적으로 간헐적이다.**
 
 **`AM_Player_Attack`의 실제 값을 눈대중이 아니라 바이너리에서 읽은 것.** 기록에 "플레이어 9~14, 적 9~16"으로 남아 있던 값이 **양쪽 다 틀렸다.** 실제는 플레이어 `8.64~14.91`, 적 `9.13~15.97`이었다. 저장된 `.uasset`을 커밋본과 바이트 비교하니 실제 데이터 변경이 세 자리(끝 시각 두 곳, 창 길이 한 곳)뿐이고 나머지는 헤더 해시였다. 시작 시각이 소수점 여섯 자리까지 같아서 **끝만 밀었다는 것이 증명됐다.** 09-02 knife 기록의 "창 길이 약 0.21초"가 실측 `0.209040`과 맞아 교차 검증이 됐다.
+
+**`HeldItemMesh`의 콜리전을 끄기 전에 그 콜리전을 쓰는 곳이 없다는 것을 먼저 확인한 것.** 끄는 것이 정답인 근거가 "안 쓰니까"여야 하는데, 그걸 세 갈래로 확인했다 — 칼 히트 판정은 `HeldItemMesh`의 **위치만** 읽어 `MultiSphereTraceForObjects`를 쏘므로 콜리전을 안 쓴다, EventGraph의 `HeldItemMesh` 노드 넷이 전부 `Get`이고 `K2Node_ComponentBoundEvent`가 하나도 없다(오버랩·히트 델리게이트에 물린 게 없다), `RefreshHeldItem`이 `SetStaticMesh`와 `SetRelativeTransform`만 부르므로 런타임에 콜리전을 바꾸는 곳도 없다. **세 번째를 안 봤으면 CDO를 고쳐도 런타임에 덮어써질 가능성이 남았다.**
+
+**끼임의 근거를 화면 인상이 아니라 로그 8줄로 잡은 것.** `LogCharacterMovement`가 매번 `Component:HeldItemMesh`와 `PenetrationDepth`를 찍고 있었다. 그리고 고친 뒤의 판정도 없음의 증거로 두지 않고 **전후 비교**로 만들었다 — 같은 방1 근접전에서 `11:11` 3줄, `11:35` 1줄, 변경 후 `11:57` 0줄이고, `11:57` 판에서 플레이어 체력이 `90 → 50`까지 깎였으니 접촉은 확실히 있었다.
 
 **손대지 않은 것이 정답이었던 것 — 플레이어 `BeginPlay`의 HP 초기화.** 심문 5번의 답으로 "넣지 말자"를 골랐고, 근거를 레벨에서 읽었다. `find_actors`로 배치된 `BP_ThirdPersonCharacter` 인스턴스가 **0개**임을 확인했고, 폰은 항상 `PlayerStart`에서 스폰되므로 CDO 기본값 `100`이 곧 시작 체력이다. 08-31 기록에 리스폰된 폰 `_2`의 `CurrentHP`가 당시 기본값 `75`였다는 실측이 남아 있어 교차 검증됐다.
 
@@ -919,11 +1046,15 @@ Set EnemiesAlive = EnemiesAlive - 1
 - **UE Terminal의 경고가 어디로 가는지.** Output Log의 `LogScript` 카테고리다. `LogsToolset.GetLogEntries`로 읽힌다. **열 번을 "못 받았다"고 적어온 항목인데 읽을 방법이 처음부터 있었다**
 - **명령 2가 한 번 미끄러졌던 것.** 터미널이 일반 `Game|SpawnActorfromClass`를 먼저 시도해 `Unknown input pin "ItemRow"`로 실패했고, 그 뒤 클래스 특화 노드 `Game|SpawnActorBPItemPickup`으로 바꿔 성공했다. 최종 결과는 맞지만 **당시에는 이 실패를 몰랐다**
 - **명령 6·7의 저장 실패 원문.** `Asset does not exist: /Game/__ExternalActors__/...` 뒤에 `Failed to save 'Room1'` / `'Room2'` / `'Enemy_R1_A'`가 붙는다. 아직 디스크에 없는 OFPA 신규 액터 패키지를 경로로 저장하려다 실패한 것이다
+- **블루프린트 컴파일 경고가 세션 전체에 하나도 없었다는 것.** `LogBlueprint` 카테고리에 `Compiling Blueprint '...'` 줄 19개뿐이고 `Warning`도 `Error`도 없다. **"경고 원문을 못 받았다"의 답은 "경고가 없었다"였다**
+- **`HeldItemMesh`의 콜리전을 쓰는 곳이 없다는 것.** 히트 판정은 위치만 읽어 스피어 트레이스를 쏜다, EventGraph에 `K2Node_ComponentBoundEvent`가 없다, `RefreshHeldItem`이 콜리전을 안 건드린다 — 셋 다 확인했다
+- **콜리전을 끈 뒤 끼임이 사라진 것.** `LogCharacterMovement` 카테고리가 여전히 8줄이고 마지막이 `11.35.16`이다. 변경 후 판(`11:57`)에서 한 줄도 안 나왔다. 같은 방1 근접전 기준 `11:11` 3줄 → `11:35` 1줄 → `11:57` 0줄
+- **콜리전을 껐는데도 칼 히트 판정이 안 깨진 것.** 변경 후 판에서 적 둘이 각각 `100 → 66 → 32 → 0`으로 34씩 정확히 세 번에 죽었다. 첫 두 줄이 **같은 밀리초, 같은 프레임 `[612]`** 라 한 스윙이 둘을 각각 한 번씩 때린 사례가 변경 후에도 재현됐다
 
 **확인 못 한 것**
 
 - **합격 기준 네 개의 PIE 결과.** 사용자가 `1부터 4까진 다잘된거같다고 생각`이라고 했다. **AI는 PIE를 안 봤다.** 근거는 사용자 관찰 하나뿐이고 로그 숫자를 못 받았다. 이유 — 사용자가 PIE를 직접 돌렸고 출력을 붙이지 않았다
-- **컴파일 경고 원문.** 명령 여덟 개에서 전부 요구했고 터미널에서는 한 번도 못 받았다. **다만 세션이 끝난 뒤 `LogsToolset.GetLogEntries`로 `LogScript` 카테고리를 읽어 확보했다** — 위 `확인한 것` 참조. 순수한 블루프린트 컴파일 경고(`LogBlueprint`)가 따로 있었는지는 여전히 모른다
+- **아이템을 줍고 버리는 것이 콜리전을 끈 뒤에도 되는지.** 사용자가 `아까 아이템 줍고 버리기 잘 됬어`라고 확인했는데, **그 "아까"가 변경 후 판(`11:57`)인지 그 전 판인지 확정하지 않았다.** 로그로 확인되는 것은 변경 후 판에서 칼을 들고 휘둘러 데미지가 나갔다는 것까지다 — `RefreshHeldItem`이 메시를 붙였다는 뜻이지 줍고 버리기가 됐다는 증거는 아니다
 - **`BP_StageRoom` 변수 셋의 `Instance Editable` 플래그.** MCP에 읽는 도구가 없다(`get_variable_category`와 `get_variable_replication`은 있는데 이것만 없다). 터미널도 `NewVariables` 읽기에 실패했다
 - **`BP_Enemy.OwningRoom`의 `Instance Editable`.** 같은 이유로 직접은 못 읽었다. 다만 배치 인스턴스 넷에 값이 실제로 꽂혔고 PIE가 돌았으므로 **켜져 있다는 것이 간접 증명됐다**
 - **`BP_Enemy`와 `BP_Door`가 dirty가 된 원인.** 세션 시작 시 트리는 깨끗했다. AI의 `read_graph_dsl` 읽기가 원인인지 터미널의 저장이 원인인지 **구분 못 했다.** `BP_Enemy`는 1911바이트, `BP_Door`는 49바이트가 갈렸는데 둘 다 파일 크기는 같다
@@ -948,7 +1079,9 @@ Set EnemiesAlive = EnemiesAlive - 1
 - **`get_node_type_pins`가 그래프에 없는 노드를 응답에 담는다.** 이 응답으로 노드 수를 세면 틀린다
 - **`read_graph_dsl`로 수렴 간선이 있는 그래프를 감사할 수 없다.** 이번에 실제로 오진을 만들었다
 - **One File Per Actor 레벨에서 터미널이 저장을 못 한다.** 세 번 다 사용자가 `Ctrl+S`를 눌러야 했다. 실패 원문은 `Asset does not exist: /Game/__ExternalActors__/...` → `Failed to save 'Room1'`이다
-- **적이 플레이어가 든 칼에 끼어 못 움직인다.** `LogCharacterMovement`가 `is stuck and failed to move! ... Component:HeldItemMesh ... PenetrationDepth:18.127`을 뱉었다. `HeldItemMesh`가 콜리전을 갖고 있어 적을 막는다. **이번 세션에 만든 것과 무관한 기존 문제인데 방1에 적이 생기면서 드러났다**
+- **`HeldItemMesh`의 `bGenerateOverlapEvents`와 `CanCharacterStepUpOn`이 켜진 채 남아 있다.** `NoCollision`이라 둘 다 아무 일도 안 하지만, 나중에 이 컴포넌트를 보는 사람에게 "오버랩을 쓰나?"라는 오해를 준다. 지시할 때 일부러 안 건드리게 했다
+- **`objectType`이 `ECC_WorldStatic`으로 바뀐 것.** `NoCollision` 프리셋에 딸린 값이고 콜리전이 꺼져 있어 의미가 없지만, **내가 지시한 변경이 아니라 프리셋이 끌고 온 변경이다**
+- **끼임을 없앤 것이지 근접전에서 적과 플레이어가 겹치는 것 자체를 다룬 것은 아니다.** 칼이 안 막을 뿐 캡슐끼리는 여전히 부딪친다
 - **터미널이 실패한 뒤 스스로 다른 노드로 갈아타도 나는 모른다.** 명령 2에서 `Game|SpawnActorfromClass` → `Game|SpawnActorBPItemPickup` 전환이 그랬다. 결과가 맞으면 미끄러진 흔적이 보고에 안 남는다
 - **PIE 종료 시 `LogCrowdFollowing: Warning: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance`.** 매 판 뜨는지, 이번만인지 확인 안 했다
 
@@ -966,7 +1099,9 @@ Set EnemiesAlive = EnemiesAlive - 1
 
 **터미널 출력을 거의 못 받은 채 진행한 것도 이번 세션의 특징이다.** 명령 여덟 개 중 하나만 출력이 왔고, 나머지는 AI가 MCP로 직접 읽어 검증했다. 결과적으로 검증 자체는 오히려 촘촘해졌다 — 노드 단위, 핀 단위, 바이트 단위까지 갔다. 그리고 명령 1의 보고에 사실과 다른 문장(`predate this task`)이 하나 있었는데, 그것도 `git status`를 세션 시작에 찍어둔 덕에 잡혔다.
 
-**세션이 끝난 뒤에야 경고를 읽는 방법을 찾은 것이 이번의 두 번째 실수다.** 열 번을 "컴파일 경고 원문을 못 받았다"고 적어왔는데, `LogsToolset.GetLogEntries`로 `LogScript` 카테고리를 읽으면 그대로 나온다. **읽을 방법이 처음부터 있었고 툴 목록에도 있었다.** 실제로 읽어보니 명령 2가 한 번 미끄러졌던 것(`Unknown input pin "ItemRow" on Game|SpawnActorfromClass`)과 명령 6·7의 저장 실패 원문(`Failed to save 'Room1'`)이 다 있었다. 명령마다 "경고를 보고하라"고 쓰는 대신 **끝나고 로그를 직접 읽었으면 됐다.** 앞으로는 그렇게 한다.
+**세션이 끝난 뒤에야 경고를 읽는 방법을 찾은 것이 이번의 두 번째 실수다.** 열 번을 "컴파일 경고 원문을 못 받았다"고 적어왔는데, `LogsToolset.GetLogEntries`로 `LogScript`와 `LogBlueprint` 카테고리를 읽으면 그대로 나온다. **읽을 방법이 처음부터 있었고 툴 목록에도 있었다.** 실제로 읽어보니 명령 2가 한 번 미끄러졌던 것(`Unknown input pin "ItemRow" on Game|SpawnActorfromClass`)과 명령 6·7의 저장 실패 원문(`Failed to save 'Room1'`)이 다 있었다. 그리고 **블루프린트 컴파일 경고는 세션 전체에 하나도 없었다** — 열 세션 동안 "못 받았다"고 적어온 것의 답이 "없었다"였다. 명령마다 "경고를 보고하라"고 쓰는 대신 **끝나고 로그를 직접 읽으면 된다.** 명령 9부터 그렇게 했다.
+
+**마지막에 붙인 `HeldItemMesh` 작업은 이 세션에서 가장 값이 싼 것이었다.** 설정 하나를 바꿨고, 근거는 이미 로그에 8줄 쌓여 있었다. 그런데 **여덟 번 다 아무도 안 봤다.** 화면으로는 "적이 잠깐 멈칫한다" 정도로만 보였을 것이고, 로그를 안 읽었으면 지금도 몰랐다. 이 프로젝트에서 반복될 종류의 것이다 — `LogCharacterMovement`·`LogScript`·`LogBlueprint`는 요구하지 않아도 쌓이고 있으니 **세션 끝에 한 번 훑는 것이 싸다.**
 
 **MCP 툴 인자 이름을 여섯 번 틀렸다.** `blueprint_path` 대신 `blueprint`, `object` 대신 `instance`, `property_names` 대신 `properties`, `find_nodes`의 필수 `title`, `get_pin_value`의 `pin` 객체, `get_node_type_pins`의 `graph`+`type_id`. 전부 첫 호출에서 에러를 받고 스키마를 보고 고쳤다. 비용은 크지 않았지만 여섯 번은 많다.
 
@@ -1016,7 +1151,7 @@ AI가 자기 명령문의 제약을 스스로 푼 것이다. 얻는 것은 터�
 
 **바로 이어서 할 것**
 
-- **적이 플레이어가 든 칼(`HeldItemMesh`)에 끼는 것.** 로그에 `is stuck and failed to move! ... PenetrationDepth:18.127`이 찍혔다. 손에 든 아이템의 콜리전을 끄면 되는지, 끄면 다른 게 깨지는지부터 봐야 한다. **방1에 적이 생겨서 드러난 것이라 앞으로 자주 보인다**
+- 없음. 커밋까지 반영됐고 `git status`가 비었다
 
 **결정 필요**
 
@@ -1031,8 +1166,8 @@ AI가 자기 명령문의 제약을 스스로 푼 것이다. 얻는 것은 터�
 
 - **`BP_StageRoom`의 `Instance Editable` 셋.** MCP에도 터미널에도 읽는 방법이 없다. My Blueprint 패널의 눈 아이콘을 눈으로 봐야 한다. `KeyToDrop`과 `bIsFinalRoom`은 배치 인스턴스에서 값이 읽히므로 켜져 있을 가능성이 높지만, `EnemiesAlive`가 OFF인지는 모른다
 - **`AM_Player_Attack` 노티파이 창 회귀 검사 2.** 1과 3은 로그로 통과했다. 2(창 밖에서 판정이 열려 있는지)만 남았고, 판정하려면 **적 옆에 붙어 아무것도 안 하는 구간을 의도적으로 만들어야 한다**
-- **순수한 블루프린트 컴파일 경고(`LogBlueprint` 카테고리)가 따로 있었는지.** `LogScript`는 읽었지만 `LogBlueprint`는 안 봤다
-- **`BP_Enemy`·`BP_Door`가 읽기만 했는데 dirty가 되는 경로.** 세션 시작 시 트리는 깨끗했다. `read_graph_dsl`이 원인인지 저장 쪽인지 구분 못 했다
+- **아이템 줍고 버리기가 콜리전을 끈 뒤에도 되는지.** 사용자가 된다고 했으나 그 판이 변경 전인지 후인지 확정하지 않았다. **다음 PIE에서 한 번 주워보고 버려보면 닫힌다**
+- **`BP_Enemy`·`BP_Door`가 읽기만 했는데 dirty가 되는 경로.** 세션 시작 시 트리는 깨끗했다. `read_graph_dsl`이 원인인지 저장 쪽인지 구분 못 했다. **단서 하나 — `LogBlueprint`에 `11.11.12`에 두 애셋이 내가 시키지 않았는데 컴파일된 기록이 있다. PIE 시작 직전이다**
 - **One File Per Actor 레벨에서 터미널의 경로 기반 저장 도구가 전부 실패하는 것.** 세 번 다 사용자가 `Ctrl+S`를 눌러야 했다. 터미널이 `save_assets([])`(전체 저장)밖에 없다고 보고했다
 - **MCP로 그래프를 고친 뒤 Compile을 눌러야 저장이 걸리는 것.** `2026-09-02-two-enemies-friendly-fire.md`에서 넘어온 항목이다. 이번 세션의 애셋 편집(`BP_StageRoom` `18:57:21`, `BP_Enemy` `19:27:13`)은 컴파일+저장 뒤 디스크에 도달했으므로 어긋나지 않았지만, 원인은 여전히 확인 못 했다
 - **`get_node_type_pins`가 응답에 그래프에 없는 임시 노드를 담는 것.** 실제로 추가되지는 않는다는 것을 `find_nodes`로 확인했지만 왜 그런지는 모른다
