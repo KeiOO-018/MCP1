@@ -686,8 +686,8 @@ Branch(거리 ≤ AttackRange 150) True
 
 ### 남는 리스크
 
-- **`Sequence`가 불필요하다.** `Play Montage` 노드에는 `then` 핀이 index 0으로 실제로 있다. 내가 헤더의 `BlueprintAssignable` 목록만 보고 "즉시 실행 핀이 없다"고 단정해서 넣은 구조다. 동작은 같지만 노드 하나가 이유 없이 서 있다
-- **배치 인스턴스의 `FistRadius`가 덮어쓰기로 남아 있다.** 명령 2에서 인스턴스에 `15`를 **써넣어** 고쳤다. 덮어쓰기를 지워 CDO를 상속하게 한 것이 아니다. 그래서 **나중에 CDO의 `FistRadius`를 바꿔도 그 인스턴스는 안 따라온다.** 같은 함정이 한 번 더 걸릴 수 있다
+- **~~`Sequence`가 불필요하다~~ — 같은 세션에서 제거했다.** `Play Montage` 노드에는 `then` 핀이 index 0으로 실제로 있는데, 내가 헤더의 `BlueprintAssignable` 목록만 보고 "즉시 실행 핀이 없다"고 단정해서 넣었던 구조다. `StopMovement → Play Montage`, `Play Montage.then → Delay → Think`로 바꿨다. **제거 후 공격 주기를 측정하지 않았다** — `ATTACK` 표시를 이미 지운 뒤라 로그로 잴 수 없었고, 사용자가 PIE 화면에서 "괜찮은 것 같다"고 본 것이 유일한 근거다
+- **배치 인스턴스의 `FistRadius` 덮어쓰기 상태를 프로그램적으로 확인할 수단이 없다.** 기록 작성 후 `ObjectTools.reset_properties`를 걸었지만 `__ExternalActors__` 파일이 안 바뀌었고, Details 패널에는 되돌리기 화살표가 **없었다**(사용자 화면). 화살표가 없는 것은 "덮어쓰기가 없다"와 "덮어쓰기 값이 CDO와 같아서 안 뜬다" 양쪽에 다 맞아서 **구분이 안 된다.** UE가 어느 쪽으로 동작하는지 확인하지 않았다. 값이 `15`로 맞으므로 실용적 문제는 없고, **나중에 CDO의 `FistRadius`를 바꿀 때 인스턴스를 되읽으면 그 자리에서 드러난다**
 - **`FistRadius 15`에 근거가 없다.** 주먹 굵기를 감으로 잡았다. 너무 크면 스치기만 해도 맞고, 너무 작으면 정타도 빠진다. 인스턴스 편집으로 열려 있어서 PIE에서 맞출 수는 있다
 - **적이 다른 적을 때린다.** `ObjectTypes`가 `Pawn`뿐이고 `bIgnoreSelf`는 자기만 막는다. 지금 적이 하나뿐이라 안 드러난다. 심문 6번에서 사용자가 (a)로 고른 결과다
 - **벽을 무시한다.** 플레이어 쪽과 같은 이유다. 주먹 사거리 15cm라 실사용에서 잘 안 나겠지만 원리상 뚫린다
@@ -744,16 +744,11 @@ Branch(거리 ≤ AttackRange 150) True
 
 **바로 이어서 할 것**
 
-- **`BP_Enemy`·`BP_ThirdPersonCharacter` 저장.** 파일 mtime이 로컬 `13:43:38`인데 명령 7(변수 둘 삭제)과 명령 8(디버그 제거)은 그 뒤에 했다. **두 블루프린트의 최신 변경이 디스크에 없다**
-- **커밋.** 저장 후 `git status`에 네 파일이 뜬다 — `BP_Enemy.uasset`, `BP_ThirdPersonCharacter.uasset`, `AM_Enemy_Attack.uasset`, `__ExternalActors__/.../MV2KKKYMIZ9A43Y7GVWSU9.uasset`
+- 없음. 기록 작성 후 정리 작업 넷(`Sequence` 제거, `ApplyDamage` 클러스터 이동, `ReturnStepDistance` 삭제, 인스턴스 `FistRadius` 리셋)을 같은 세션에서 이어서 했다. 그 결과는 아래에 반영했다
 
 **결정 필요**
 
-- **불필요한 `Sequence`를 뺄 것인가.** `Play Montage`에 `then` 핀이 있으므로 `StopMovement → Play Montage`, `Play Montage.then → Delay → Think`로 바꾸면 노드 하나가 준다. **다만 지금 동작이 확인된 상태라 건드리면 다시 검증해야 한다**
-- **`K2Node_Self_1`(`BP_Enemy`)을 `ApplyDamage` 근처로 옮길 것인가.** 이번에 `ApplyDamage`를 `Event Tick`으로 재배선했는데도 `K2Node_Self_1`은 `(0, 420)`에 그대로 있고 `ApplyDamage`는 `(10080, 700)`이다. 순수한 정리 작업이고 기능은 안 바뀐다
-- **`ReturnStepDistance`(`BP_Enemy`)를 지울 것인가.** 그래프 어디에서도 안 읽힌다
 - **`FistRadius 15`가 적당한가.** 근거 없이 정한 값이다. 실제로 쳐보면서 맞출 것인지, 지금 값으로 둘 것인지
-- **배치 인스턴스의 `FistRadius` 덮어쓰기를 지울 것인가.** `ObjectTools.reset_properties`로 지우면 CDO를 상속한다. 지금은 인스턴스에 `15`가 박혀 있어서 CDO를 바꿔도 안 따라온다. 지우면 `git status`에서 그 `__ExternalActors__` 파일이 사라지는 것으로 확인된다
 - **플레이어 `BeginPlay`에 `CurrentHP = MaxHP` 초기화를 넣을 것인가.** 적에는 있고 플레이어에는 없다. 지금은 변수 기본값 `100`이 곧 시작 체력이라 동작에 문제는 없다
 - **`AM_Player_Attack`의 노티파이 구간을 9~16으로 맞출 것인가.** 지금 플레이어 9~14, 적 9~16으로 다르다. 같은 `MM_Attack_01`인데 값이 갈려 있다
 - **적 상태 표시를 다시 심을 것인가.** 지웠으므로 적 AI가 이상하게 굴면 볼 수단이 없다. 다시 심는 명령은 이 기록의 명령 8을 뒤집으면 된다
