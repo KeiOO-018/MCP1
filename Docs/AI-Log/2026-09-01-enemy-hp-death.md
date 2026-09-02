@@ -825,10 +825,8 @@ resolves to None at any point.
 
 **결정 필요**
 
-- **다음 사양이 무엇인가.** 접어둔 목록에서 가까운 후보는 (1) 적 공격에도 히트 판정 붙이기 — 지금 적만 무조건 맞히므로 양쪽이 비대칭이다, (2) 적 리스폰, (3) 사망 연출
 - **플레이어 `CurrentHP`의 기본값 75를 100으로 고칠 것인가.** PIE 시작 체력이 75다. 고칠 때 **배치된 인스턴스가 없으므로** 인스턴스 함정은 안 걸린다
 - **디버그 표시 제거 시점.** 이번에 늘었다. 실제 개수는 `BP_Enemy`의 `PrintString` 10개 + `ToString(Float)` 4개, `BP_ThirdPersonCharacter`의 `PrintString` 1개 + `SphereTraceForObjects`의 `DrawDebugType ForDuration` 하나. **`ShowHUDMessage` 안의 `PrintString`은 기능이므로 지우면 안 된다**
-- **칼의 회전.** `heldTransform.Rotation`이 단위값이라 막대가 수평으로 몸 앞을 향한다. 값은 PIE에서 봐야 안다
 - **`K2Node_Self_1`(`BP_Enemy`)을 `ApplyDamage` 근처로 옮길 것인가.** 남은 장거리 선 하나가 사라진다
 
 **확인 필요**
