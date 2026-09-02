@@ -742,37 +742,4 @@ Branch(거리 ≤ AttackRange 150) True
 
 ## 다음으로 넘김
 
-**바로 이어서 할 것**
-
-- 없음. 기록 작성 후 정리 작업 넷(`Sequence` 제거, `ApplyDamage` 클러스터 이동, `ReturnStepDistance` 삭제, 인스턴스 `FistRadius` 리셋)을 같은 세션에서 이어서 했다. 그 결과는 아래에 반영했다
-
-**결정 필요**
-
-- **`FistRadius 15`가 적당한가.** 근거 없이 정한 값이다. 실제로 쳐보면서 맞출 것인지, 지금 값으로 둘 것인지
-- **플레이어 `BeginPlay`에 `CurrentHP = MaxHP` 초기화를 넣을 것인가.** 적에는 있고 플레이어에는 없다. 지금은 변수 기본값 `100`이 곧 시작 체력이라 동작에 문제는 없다
-- **`AM_Player_Attack`의 노티파이 구간을 9~16으로 맞출 것인가.** 지금 플레이어 9~14, 적 9~16으로 다르다. 같은 `MM_Attack_01`인데 값이 갈려 있다
-- **적 상태 표시를 다시 심을 것인가.** 지웠으므로 적 AI가 이상하게 굴면 볼 수단이 없다. 다시 심는 명령은 이 기록의 명령 8을 뒤집으면 된다
-
-**확인 필요**
-
-- **합격 기준 2의 통제된 시험.** 거리와 각도를 정해놓고 빗나가는 것을 확인. **플레이어 쪽도 적 쪽도 두 세션 연속 미확인이다**
-- **적의 `RETURN`/`IDLE_HOME` 복귀와 플레이어 사망·리스폰.** 디버그 제거 후 사용자 화면으로만 "이상없음"을 봤다. 로그 증거가 없다
-- **적이 둘 이상일 때 한 스윙으로 둘 다 맞는지.** 플레이어 쪽과 같은 미확인 항목이다
-- **`bIsSwinging`·`PrevFistCenter`·`HitActorsThisSwing`의 배치 인스턴스 값.** 기본값이 0/빈 값이라 인스턴스가 굳혔는지 구분이 안 된다. 나중에 기본값을 바꿀 일이 생기면 이게 문제가 된다
-- **`BP_ThirdPersonCharacter.uasset`이 세션 시작 때 이미 dirty였던 이유.** CDO 값은 안 바뀐 것을 확인했지만 원인은 모른다
-- **컴파일 경고 원문.** 여덟 개 명령 전부 "compile and report any errors or warnings"를 요구했는데 한 번도 받지 못했다. **UE Terminal이 그 보고를 어디에 뱉는지 자체를 모른다**
-- **MCP 인자 이름이 스키마와 다른 사례 셋.** `get_properties`는 `property_names`가 아니라 `properties`, `get_socket_names`는 `skeletal_mesh`가 아니라 `mesh`, `get_pin_value`는 `node`+`pin_name`이 아니라 `pin` 객체 하나. 셋 다 실패 응답에 전체 스키마가 딸려 와서 고칠 수 있었다
-- **`get_connected_subgraph`가 큰 그래프에서 못 쓴다.** `BP_Enemy`의 `K2Node_IfThenElse_5`에 걸었더니 `111,791 characters`가 돌아와서 잘렸다. `read_graph_dsl`이 같은 정보를 훨씬 작게 준다
-- **MCP가 못 읽는 프로퍼티 목록.** `Notifies`, `AnimNotifyTracks`, `BranchingPointMarkers`, `BranchingPointStateNotifyIndices`, `ActiveStateBranchingPoints`, `CompositeSections`, `AttachSocketName`, `attachParent`, `CollisionEnabled`, `NewVariables`, `ActorLabel`. 이번에 `AM_Enemy_Attack`에서 앞의 둘이 또 실패했다
-- **`_C_0`이 아닌 플레이어 인스턴스.** 예전 로그에 `BP_ThirdPersonCharacter_C_7`이 있었다. 오늘 로그에도 `_C_0`만 찍혔다. 다만 `EnemyHit:`이 가리킨 액터 이름은 `BP_ThirdPersonCharacter0`(언더스코어 없음)이었다 — `GetDisplayName`과 로그 접두어가 서로 다른 이름을 쓴다
-- **`2026-09-01-enemy-hp-death.md`의 `확인 필요` 목록.** `arrange_nodes`, `read_graph_dsl` 절단, `EditorPerProjectUserSettings.ini` 저장 실패, `CaptureViewport`가 에디터 월드를 그리는 것 등이 그 파일에 그대로 있다. **이번 세션에 `read_graph_dsl`은 `BP_Enemy`·`BP_ThirdPersonCharacter` 양쪽에서 잘리지 않고 전문이 나왔다**
-
-**접어둔 것**
-
-- **Mixamo 등 외부 베기 애니메이션.** 프로젝트에 IK Rig도 IK Retargeter도 없고 MCP 툴셋에도 리타깃 도구가 없다. 한 세션짜리 수작업이다
-- **`MM_Attack_02` / `MM_Attack_03` / `MM_ChargedAttack`.** 사용자가 열어보고 "셋 다 칼이랑 관련없음"으로 확인했다. 칼에 쓸 수 없다는 것만 안다
-- **진짜 칼 메시 구하기.** 구하면 `BladeHalfLength`와 중심 오프셋을 손잡이 위로 옮겨 "칼날만" 판정이 된다
-- **`Knife`와 `Key_Stage1`이 같은 `Cube` 메시라 색이 같은 것.** 머티리얼로 가를 수 있다
-- **`heldTransform`의 회전·오프셋이 짝이라는 사실을 `DT_Items` 어디에도 안 적어뒀다.** 주석 칸이 없다
-- **적 공격 이펙트·사운드.** 판정만 만들었다
-- **맞은 액터가 플레이어인지 검사하는 분기.** 두 번째 적이 실제로 생겼을 때 단다
+없음. 이 기록의 넘김 항목은 전부 처리되었거나 `2026-09-02-two-enemies-friendly-fire.md`로 옮겨졌다.
