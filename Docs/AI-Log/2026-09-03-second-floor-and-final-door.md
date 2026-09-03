@@ -2,9 +2,11 @@
 
 ## 작업물
 
-`Lvl_Stage`의 로비 위에 `∩`자 2층 발코니를 짓고, 램프 둘·기둥 여섯·난간으로 올라갈 길을 낸 뒤, 2층 북쪽 팔 정중앙에 최종 문과 그 뒤의 복도·막다른 방·클리어 트리거를 붙이고 `ClearedRooms == 3`에 문 여는 것을 이었다.
+`Lvl_Stage`의 로비 위에 `∩`자 2층 발코니를 짓고 최종 문까지 이은 뒤, 사라져 있던 기록 규칙 둘을 `CLAUDE.md`에 복구하고 미사용 템플릿 애셋 `288`개를 지웠다. 애셋 삭제는 에디터를 크래시로 죽인 뒤 다른 경로로 다시 했다.
 
-**소요 시간**: 증거가 남은 범위로 UE 로그의 첫 MCP 호출 `list_toolsets`(`05:14:39` UTC = **`14:14:39`**)부터 저장 완료(`06:47:57` UTC = **`15:47:57`**)까지 **1시간 33분 18초**. 그 앞의 인계 확인·도면 판독·심문 구간은 파일 읽기와 git 조회만 해서 UE 로그에 안 남았다. 직전 세션의 마지막 커밋이 `14:09:09`이므로 **실제 벽시계는 최대 1시간 39분**을 넘지 않는다. 세션 시작 시각을 따로 기록하지 않아 정확한 값을 모른다.
+**세션이 두 덩어리다.** 앞은 2층·최종 문 건축(`14:14` ~ `15:47`), 뒤는 기록 규칙 복구와 저장소 정리(`15:47` ~ `18:00` 무렵)다. 뒤쪽은 사용자가 "터미널 원문 로그 파일로 따로 저장하기로 한거 아니였어?"라고 물으면서 시작됐다.
+
+**소요 시간**: 앞 덩어리는 증거가 남은 범위로 UE 로그의 첫 MCP 호출 `list_toolsets`(`05:14:39` UTC = **`14:14:39`**)부터 저장 완료(`06:47:57` UTC = **`15:47:57`**)까지 **1시간 33분 18초**. 그 앞의 인계 확인·도면 판독·심문 구간은 파일 읽기와 git 조회만 해서 UE 로그에 안 남았다. 직전 세션의 마지막 커밋이 `14:09:09`이므로 **실제 벽시계는 최대 1시간 39분**을 넘지 않는다. 뒤 덩어리는 `15:47:57`부터 마지막 커밋까지이고 그 사이 **에디터가 `17:33:54`에 크래시해서 재시작 시간이 끼어 있다**(재시작 완료 `17:46:05`, 로그 첫 줄 기준). **세션 전체 시각을 따로 기록하지 않아 총합의 정확한 값을 모른다.**
 
 ## 명령
 
@@ -95,6 +97,107 @@ PIE 결과 이상 없음
 ```
 저장햇어 기록하자 a 다했어
 ```
+
+여기까지가 2층·최종 문 건축이다. 아래부터는 기록 규칙 복구와 저장소 정리다.
+
+```
+터미널 원문 로그 파일로 따로 저장하기로 한거 아니였어?
+```
+
+```
+저거 작업 규칙에 넣기로 했는데 최신화가안된거야 기록이 누락된거야뭐야
+```
+
+```
+다 진행하자
+```
+
+```
+C 스샷찍어줘야됨?
+```
+
+```
+결과 확인
+```
+
+```
+이제 그럼 원래 기획서랑 비교했을 때 프로그래밍 부분은 어느정도 완료가 되었는지 판단
+```
+
+```
+파일로 기록하자
+```
+
+```
+그럼 이전 세션의 대화 기록으로 지금 못 채운 로그같은것들을 대체할 수있나?
+```
+
+```
+b 로 할까 이건 따로 표시만 해두는 방식으로 구분하자 기록하고 어떤데
+```
+
+```
+현재 작업하는 폴더들중에서 위치 조정이나 제안할 것이 있는지 확인
+```
+
+```
+A. a
+B. 하자
+C. a 
+
+일단 이거 3개 먼저하자
+```
+
+```
+D 중간 점검은 이젠 안할듯?
+E 미사용 에셋 정리하자 이제 
+F 엄 이건 나중에 
+해볼까
+```
+
+```
+결과 확인
+```
+
+```
+크래쉬 에러 확인좀
+```
+
+```
+(UE 크래시 리포터의 콜스택 전문 붙여넣기 — EXCEPTION_ACCESS_VIOLATION reading address 0xffffffffffffffff, UnrealEditor_Engine부터 ntdll까지)
+```
+
+```
+(스크린샷 — VSCode와 MCP1 Crash Reporter 창이 같이 뜬 화면)
+이상태임
+```
+
+```
+에디터 다시켜서 프로젝트 다시열어?
+```
+
+```
+지금 켰는데 확인해봐
+```
+
+```
+(스크린샷 — Lvl_Stage가 열린 에디터, Editor Diagnostics 창, 아웃라이너 "90 actors (90 loaded)")
+PIE 하고있을게
+```
+
+```
+1인칭 전환 잘되던데
+```
+
+```
+오늘꺼 하나로써도 괜찬으면 해도됨
+```
+
+**옮기며 정한 해석 — 뒤 덩어리**
+
+- `b 로 할까 이건 따로 표시만 해두는 방식으로 구분하자` → 소급 회수분을 **`recovered/` 하위 폴더로 가르고, 연속 번호를 안 붙이고, 파일 머리에 회수 표시 블록을 넣고, 한 세션당 한 파일로** 한 것은 전부 AI가 정한 방법이다. 사용자는 "표시해서 구분한다"만 말했다
+- `미사용 에셋 정리하자 이제` → **무엇을 지울지의 경계**(`FirstPerson/Anims/` 둘을 남기는 것 포함)와 **감사를 먼저 돌린 것**은 AI가 정했다
+- `D 중간 점검은 이젠 안할듯?` → 관행을 그만둔다는 뜻으로 읽고 **`Docs/Review/` 폴더를 접어 파일을 `Docs/` 루트로 올린 것**은 AI의 해석이다. 사용자는 폴더를 어떻게 하라고 하지 않았다
 
 ### English — MCP에 실제로 보낸 명령
 
@@ -420,6 +523,135 @@ Then report which packages were written, with their file paths.
 - `포션 위치 스폰 지점바라보는방향 뒤쪽으로` → `PlayerStart`가 `(0,0,192)` yaw `0`이라 `+X`(북)를 보므로 뒤쪽은 `-X`다. **`Y`는 원래 값을 그대로 두고 `X`만 `-600` / `-900`으로 뺀 것은 AI의 해석이다.** 사용자는 좌우를 옮기라고 하지 않았다
 - `기록하자 a 다했어`의 `a`는 직전 질문(PIE 체크리스트 다섯을 어디까지 돌렸는가)의 선택지 `a` = "다섯 다 했다"이다
 
+**명령 43 — 스크롤백을 파일로 (세션 종료 후)**
+
+```
+Write everything currently in your scroll-back for this session — every report
+you printed for the eleven commands, verbatim, in the order you printed them —
+to Docs/Terminal-Log/2026-09-03-43-second-floor-and-final-door.md as UTF-8.
+
+Do not summarise, reformat, translate or fix anything. Copy the text as it was
+printed, including any truncation or garbled characters.
+
+If your scroll-back no longer holds those reports, write nothing and say exactly
+how far back it does go.
+```
+
+터미널은 파일명을 `2026-09-03-43-move-item-pickups.md`로 바꿔서 썼다 — 스크롤백에 명령 11 하나만 남아 있었기 때문이다. **내가 지정한 이름을 안 따르고 내용에 맞는 이름으로 고친 것이고, 그게 옳았다.**
+
+**명령 44 — 미사용 애셋 감사 (아무것도 안 지운다)**
+
+```
+The current level is /Game/ThirdPerson/Lvl_Stage. DELETE NOTHING in this command.
+This is a dry run only.
+
+Define the DELETE SET as every asset under these content paths:
+    /Game/Variant_Shooter/
+    /Game/Weapons/
+    /Game/FirstPerson/Blueprints/
+    /Game/FirstPerson/Lvl_FirstPerson
+    /Game/FirstPerson/MI_FirstPersonColorway
+
+Define the KEEP LIST explicitly. These must NOT be in the delete set:
+    /Game/FirstPerson/Anims/ABP_FP_Copy
+    /Game/FirstPerson/Anims/CtrlRig_FPWarp
+
+Steps:
+
+1. Enumerate every asset under each delete-set path using
+   AssetTools.find_assets with an empty name and recursive=true.
+   Report the count found under each path.
+
+2. For every asset in the delete set, call AssetTools.get_referencers.
+   Classify each referencer as INSIDE or OUTSIDE, where OUTSIDE means it is
+   neither in the delete set nor under
+   /Game/__ExternalActors__/Variant_Shooter/, /Game/__ExternalActors__/FirstPerson/,
+   /Game/__ExternalObjects__/Variant_Shooter/ or /Game/__ExternalObjects__/FirstPerson/.
+
+3. Report EVERY outside referencer found, as pairs:
+       <asset in delete set>  <-  <outside referencer>
+   If there are none, say so explicitly.
+
+4. Separately, call AssetTools.get_referencers on the two KEEP LIST assets
+   and report their referencers verbatim.
+
+5. Report whether /Game/Weapons/Rifle/SM_Rifle resolves. The disk has
+   Content/Weapons/Rifle/SM_Rifle.uasset but an earlier get_referencers call
+   returned "Asset does not exist" for that path. Report what find_assets
+   actually returns under /Game/Weapons/.
+
+Write the report to Docs/Terminal-Log/2026-09-03-44-unused-asset-audit.md
+(a repo path - do NOT write under Saved/, it is gitignored).
+
+Delete nothing. Move nothing. Do not save. Do not run PIE.
+```
+
+**5번의 전제가 틀렸다.** `Content/Weapons/Rifle/SM_Rifle.uasset`이 아니라 `Content/Weapons/Rifle/Meshes/SM_Rifle.uasset`이고, **내가 경로에서 `Meshes/` 한 조각을 빠뜨린 것**이다. 처음 `find` 출력에도 `Meshes/`가 있었다. 플러그인 이상이 아니었다.
+
+**명령 45 — 실제 삭제 (에디터가 이 명령에서 크래시했다)**
+
+```
+The current level is /Game/ThirdPerson/Lvl_Stage.
+
+Command 44 audited this delete set and found ZERO outside referencers,
+verified in both directions. Now delete it.
+
+ABSOLUTE KEEP LIST. If any step would remove either of these, ABORT the whole
+command and report instead:
+    /Game/FirstPerson/Anims/ABP_FP_Copy
+    /Game/FirstPerson/Anims/CtrlRig_FPWarp
+/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter depends on the first,
+which depends on the second.
+
+Delete, in this order:
+
+1. /Game/Variant_Shooter/          (folder, 50 assets)
+2. /Game/Weapons/                  (folder, 27 assets)
+3. /Game/FirstPerson/Blueprints/   (folder, 4 assets)
+4. /Game/FirstPerson/Lvl_FirstPerson
+5. /Game/FirstPerson/MI_FirstPersonColorway
+
+Do NOT touch /Game/FirstPerson/Anims/ or anything else.
+
+If any single delete returns false or raises, STOP there. Do not continue to
+the next step. Report exactly which step failed and what it returned.
+
+Then verify and report:
+ - AssetTools.exists on each of the five paths above. All five must be false.
+ - AssetTools.exists on both KEEP LIST paths. Both must be true.
+ - AssetTools.get_referencers on both KEEP LIST paths, verbatim.
+ - AssetTools.find_assets under /Game/FirstPerson/ recursive, the full list.
+ - The total asset count under /Game/ after deletion, and the difference
+   from the 296 counted in command 44.
+ - Whether the __ExternalActors__ and __ExternalObjects__ entries for
+   Lvl_ArenaShooter and Lvl_FirstPerson are gone. Report the counts under
+   /Game/__ExternalActors__/Variant_Shooter/, /Game/__ExternalActors__/FirstPerson/,
+   /Game/__ExternalObjects__/Variant_Shooter/ and
+   /Game/__ExternalObjects__/FirstPerson/ before and after.
+
+Write the report to Docs/Terminal-Log/2026-09-03-45-unused-asset-delete.md
+(a repo path - do NOT write under Saved/, it is gitignored).
+
+Do not run PIE.
+```
+
+**이 명령의 1단계에서 에디터가 죽었다.** 보고서 `45`는 쓰이지 않았다.
+
+**삭제를 다시 한 방법 — 터미널이 아니라 git**
+
+에디터가 닫힌 상태에서 AI가 직접 실행했다. 이건 `.uasset` 조작이라 원래 터미널 몫이지만, **크래시한 경로를 다시 밟지 않으려고 예외로 디스크에서 처리했다.**
+
+```
+git rm -r -q Content/Variant_Shooter Content/Weapons \
+             Content/FirstPerson/Blueprints \
+             Content/FirstPerson/Lvl_FirstPerson.umap \
+             Content/FirstPerson/MI_FirstPersonColorway.uasset \
+             Content/__ExternalActors__/Variant_Shooter \
+             Content/__ExternalActors__/FirstPerson \
+             Content/__ExternalObjects__/Variant_Shooter \
+             Content/__ExternalObjects__/FirstPerson
+```
+
 ## Terminal 결과
 
 ### 원문 — English
@@ -595,6 +827,89 @@ actor was added this command.
 {"bLocked":true,"RequiredKey":{"dataTable":{"refPath":"/Game/Inventory/DT_Items.DT_Items"},"rowName":"Key_Stage1"},"bHingeOnRight":false,"OpenAngle":90,"SwingSpeed":1,"bOpen":false,"bSealed":false}
 ```
 
+**명령 45의 크래시 — 전문.** `Saved/Crashes/UECC-Windows-081D6A554527269584F1BEB48230579E_0001/MCP1.log`에서 뽑았다. 시각은 UTC이므로 `08.33`이 로컬 `17:33`이다.
+
+```
+[2026.09.03-08.33.40:185][187]LogModelContextProtocol: Running tool: 'call_tool'
+[2026.09.03-08.33.40:185][187]LogModelContextProtocol: Dispatching toolset tool: 'editor_toolset.toolsets.asset.AssetTools.delete'
+[2026.09.03-08.33.40:191][187]LogStreaming: Display: FlushAsyncLoading(470): 1 QueuedPackages, 0 AsyncPackages
+[2026.09.03-08.33.41:312][187]LogChaosDD: Creating Chaos Debug Draw Scene for world Lvl_ArenaShooter
+[2026.09.03-08.33.41:313][187]LogWorldPartition: ULevel::OnLevelLoaded(Lvl_ArenaShooter)(bIsOwningWorldGameWorld=0, bIsOwningWorldPartitioned=1, Initi
+[2026.09.03-08.33.41:313][187]LogWorldPartition: Display: WorldPartition initialize started...
+[2026.09.03-08.33.41:313][187]LogWorldPartition: UWorldPartition::Initialize : World = /Game/Variant_Shooter/Lvl_ArenaShooter.Lvl_ArenaShooter, World
+[2026.09.03-08.33.45:230][187]LogStateTreeEditor: Compile StateTree 'StateTree /Game/Variant_Shooter/Blueprints/AI/ST_Shooter_ShootAtTarget.ST_Shooter
+[2026.09.03-08.33.45:236][187]LogStateTreeEditor: Compile StateTree 'StateTree /Game/Variant_Shooter/Blueprints/AI/ST_Shooter.ST_Shooter' succeeded.
+[2026.09.03-08.33.45:304][187]LogWorldPartition: Display: WorldPartition initialize took 3.98 sec (total: 5.92 sec)
+[2026.09.03-08.33.45:578][187]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.8.dll
+[2026.09.03-08.33.46:260][187]LogUObjectGlobals: Force Deleting 191 Package(s):
+	Asset Name: /Game/Variant_Shooter/Input/Actions/IA_Shoot.IA_Shoot
+	Asset Type: InputAction
+	Asset Name: /Game/Variant_Shooter/Lvl_ArenaShooter.Lvl_ArenaShooter
+	Asset Type: World
+	Asset Name: /Game/Variant_Shooter/Anims/ABP_FP_Pistol.ABP_FP_Pistol
+	Asset Type: AnimBlueprint
+	Asset Name: /Game/Variant_Shooter/Anims/Ctrl_HandAdjusment.Ctrl_HandAdjusment
+	Asset Type: ControlRigBlueprint
+	(… 191개 중 발췌 …)
+[2026.09.03-08.33.46:315][187]LogProperty: Error: FStructProperty::Serialize Loading: Property 'StructProperty /Game/Variant_Shooter/Anims/ABP_TP_Rifl
+[2026.09.03-08.33.46:316][187]LogOutputDevice: Warning:
+
+Script Stack (2 frames) :
+/Script/UnrealEd.EditorAssetSubsystem.DeleteDirectory
+/EditorToolset/Python/editor_toolset/toolsets/asset_PY.AssetTools.delete
+```
+
+크래시 덤프 두 개가 남았다. 앞은 `Ensure`(치명적 아님), 뒤가 실제 크래시다.
+
+`UECC-…_0000/CrashContext.runtime-xml`:
+
+```
+<ErrorMessage>Ensure condition failed: !GIsDuplicatingClassForReinstancing || InClass-&gt;HasAnyClassFlags(CLASS_Native) [File:D:\build\++UE5\Sync\Engine\Source\Runtime\CoreUObject\Private\UObject\UObjectGlobals.cpp] [Line: 3490] </ErrorMessage>
+<IsEnsure>true</IsEnsure>
+<IsAssert>false</IsAssert>
+<CrashType>Ensure</CrashType>
+```
+
+`UECC-…_0001/CrashContext.runtime-xml`:
+
+```
+<ErrorMessage>Unhandled Exception: EXCEPTION_ACCESS_VIOLATION reading address 0xffffffffffffffff</ErrorMessage>
+<IsEnsure>false</IsEnsure>
+<IsAssert>false</IsAssert>
+<CrashType>Crash</CrashType>
+```
+
+콜스택은 심볼이 없어 모듈 이름까지만 읽힌다. **사용자가 크래시 리포터에서 붙여준 것과 로그에서 뽑은 것이 같다.** 호출 경로가 아래에서 위로 이렇다.
+
+```
+ntdll → kernel32 → UnrealEditor → UnrealEditor_Core
+  → UnrealEditor_HTTPServer            (MCP가 HTTP로 들어온다)
+  → UnrealEditor_ModelContextProtocol
+  → UnrealEditor_ModelContextProtocolEditor
+  → UnrealEditor_ToolsetRegistry
+  → UnrealEditor_CoreUObject
+  → UnrealEditor_PythonScriptPlugin → python311 → PythonScriptPlugin
+  → UnrealEditor_UnrealEd
+  → UnrealEditor_KismetCompiler        ← 여기가 블루프린트 재인스턴싱
+  → UnrealEditor_CoreUObject
+  → UnrealEditor_Engine
+```
+
+**에디터 재시작 후의 로그 — 애셋 로드 에러가 없다.** 삭제가 무언가를 끊었는지 확인한 것이다.
+
+```
+LogWindows: Failed to load 'aqProf.dll' (GetLastError=126)
+LogWindows: Failed to load 'VtuneApi.dll' (GetLastError=126)
+LogWindows: Failed to load 'WinPixGpuCapturer.dll' (GetLastError=126)
+[2026.09.03-08.46.05:631][  0]LogWindows: Failed to load 'Wintab32.dll' (GetLastError=126)
+[2026.09.03-08.46.06:390][  0]LogAudio: Display: No default SoundConcurrencyObject specified (or failed to load).
+[2026.09.03-08.46.10:877][  0]LogPlacementMode: Display: The Asset Registry is not yet fully loaded so some placeable classes might be missing.
+[2026.09.03-08.47.18:806][604]LogFileManager: Error: Error moving file 'D:/20260827/MCP1/Saved/EditorPerProjectUserSettings7E3C565A4306B4B117F3DA812D62E7BC.tmp' to 'D:/20260827/MCP1/Saved/Config/WindowsEditor/EditorPerProjectUserSettings.ini'.
+[2026.09.03-08.47.36:167][122]LogModelContextProtocol: Error: Unknown session id 'a8ed73324de5cb52e70ecebc1d69849d' for 'tools/call'; client should reinitialize
+```
+
+앞의 넷은 UE가 매번 띄우는 선택적 DLL 부재, `SoundConcurrencyObject`와 `Asset Registry is not yet fully loaded`는 시작 시점 정상 메시지, `EditorPerProjectUserSettings.ini`는 **`2026-09-01-enemy-hp-death.md`의 `확인 필요`에 이미 올라와 있던 옛 항목**, 마지막은 크래시 후 MCP 클라이언트가 다시 붙는 과정이다. **게임 애셋이 없다는 메시지는 한 줄도 없다.**
+
 ### 요약 — 한글
 
 **레벨 액터 `34`개 신설, `2`개 이동.** 기존 지오메트리 `28`개와 벽 `25`개는 한 개도 안 건드렸다.
@@ -616,6 +931,20 @@ actor was added this command.
 - **`BP_ThirdPersonCharacter` 무변경.** 마찬가지로 읽기만 했는데 같이 나갔다
 
 **어긋남 한 건** — 명령 9(`EndTrigger` 배치)가 첫 "결과 확인" 시점에 실제로는 안 들어가 있었고 로그에 시도 흔적도 없었다. 사용자가 다시 넣은 뒤 `06:25:20`에 정상 스폰됐다. `set_properties`가 `true`를 주면서 안 쓰는 어제의 어긋남은 **이번엔 한 번도 안 났다.**
+
+**뒤 덩어리 — 저장소 쪽 변경**
+
+- **`CLAUDE.md`에 규칙 둘 추가.** `# 이 세션이 주로 하는 일`에 "명령마다 보고서를 `Docs/Terminal-Log/YYYY-MM-DD-NN-slug.md`로 받는다", `2단계 · 사양`에 "사양은 `Docs/Spec/YYYY-MM-DD-슬러그.md`에 쓴다"
+- **`Docs/README.md` 신설** — 하위 폴더 색인, 새 세션이 읽는 순서, `Spec`/`Terminal-Log`/`AI-Log` 셋의 차이
+- **`Docs/Terminal-Log/README.md` 신설** — 실시간 기록과 소급 회수분을 가르는 규칙, 회수 방법, 회수가 실시간을 대신하지 못하는 이유
+- **`Docs/Terminal-Log/recovered/` 신설, 파일 8개(약 790KB).** `08-31`~`09-03`의 터미널 세션을 Claude Code 대화 기록에서 회수한 것
+- **`Docs/Terminal-Log/2026-09-03-43-move-item-pickups.md`** — 스크롤백에서 건진 실시간 보고 하나
+- **`Docs/Terminal-Log/2026-09-03-44-unused-asset-audit.md`** — 미사용 애셋 전수 감사 보고서
+- **`Docs/Spec/2026-09-03-로비-2층과-최종-문.md` 신설** — 오늘 사양을 소급 작성. 소급이라는 표시를 머리에 박았다
+- **`Docs/ProjectICI5.8/09-구현-대조.md` 신설** — 기획서와 실제 구현을 맞대본 것
+- **`Docs/Review/` 접음** — `2026-08-29-중간점검.md`를 `Docs/` 루트로 옮겼다
+- **`.claude/settings.local.json` → `.claude/settings.json`**, `.gitignore`에 `settings.local.json` 추가
+- **애셋 `288`개 삭제** (파일 `289`개 = `uasset 286` + `umap 2` + `ini 1`). `625` → `337`. 레벨이 `Lvl_Stage`·`Lvl_ThirdPerson` 둘만 남았다
 
 ## 분석
 
@@ -755,6 +1084,20 @@ if ClearedRooms == 3:
 
 **라벨 접두어 함정을 명령에 박은 것.** `BP_ItemPickup`이 `BP_ItemPickup2`의 접두어다. 부분 일치로 옮겼으면 둘 다 같은 자리로 갔다. 결과적으로 안 걸렸다.
 
+**지우기 전에 감사를 따로 한 명령으로 돌린 것 — 이번 세션에서 가장 값이 나갔다.** 명령 44는 아무것도 안 지우고 참조만 셌다. 거기서 **`BP_ThirdPersonCharacter → ABP_FP_Copy → CtrlRig_FPWarp`** 가 잡혔다. `Content/FirstPerson/`은 이름만 보면 통째로 미사용으로 보이고, 08-28에 만든 1인칭 팔이 거기 있다는 것은 폴더 이름 어디에도 안 적혀 있다. **감사를 안 돌리고 폴더째 지웠으면 컴파일 에러 없이 조용히 깨졌다** — `.uasset` 참조가 이름으로 걸려 있어서 그렇다는 것은 `2026-08-30-drop-item.md`가 이미 적어둔 것이고, 그게 이번에 실제 사례로 확인됐다.
+
+**감사를 양방향으로 돌리게 한 것.** `get_referencers`(삭제 집합 `83`개)만으로 끝내지 않고, 터미널이 스스로 반대 방향 — `/Game/` 아래 삭제 집합 밖 `193`개 전부에 `get_dependencies` — 을 돌려 `offender_count: 0`을 냈다. **한 방향만 봤으면 `get_referencers`의 한계(이 세션에 실제로 한 번 "존재하지 않는다"를 냈다)에 기대게 된다.** 두 방향이 일치한 것이 삭제를 실행할 근거였다.
+
+**크래시 뒤에 같은 경로를 다시 밟지 않은 것.** 에디터를 다시 띄워 `AssetTools.delete`를 또 부르는 대신, **에디터가 닫힌 채로 git으로 디스크에서 지웠다.** 감사에서 바깥 참조가 `0`으로 확인됐으므로 리다이렉터가 필요 없었고, 그래서 블루프린트 재인스턴서를 아예 안 건드리는 경로가 성립했다. 한 애셋씩 `83`번 지우는 안도 있었지만 `Lvl_ArenaShooter` 로드는 어차피 한 번 일어나므로 같은 위험이 남는다.
+
+**지우기 전에 프로세스와 파일 잠금을 확인한 것.** `Get-Process`로 `UnrealEditor`·`CrashReportClient`가 죽은 것을 보고, 삭제 대상 셋을 `FileShare.None`으로 열어 잠기지 않은 것까지 확인한 뒤에 `git rm`을 돌렸다. 에디터가 살아 있는 채로 지웠으면 반쯤 지워진 상태가 됐다.
+
+**되돌릴 지점을 먼저 만든 것.** 삭제 직전에 문서 작업을 `f3208b9`로 커밋해서 트리를 깨끗하게 만들었다. 그 덕에 삭제가 단일 커밋으로 격리됐고 `git checkout -- Content/` 한 줄이 유효한 되돌리기가 됐다.
+
+**`Terminal-Log`가 왜 사라졌는지를 파일이 아니라 규칙에서 찾은 것.** 사용자가 "최신화가 안 된 거야 기록이 누락된 거야"라고 물었을 때, 관행이 적힌 위치(`08-29` 기록 본문 `1121`줄)와 `CLAUDE.md`의 마지막 커밋 시각(`08-28 11:00`, 관행보다 하루 빠름)을 대조해서 **"규칙 파일에 없으면 새 세션이 알 방법이 없다"**를 원인으로 짚었다. 그래서 고친 것도 파일이 아니라 `CLAUDE.md`다. 같은 검사를 `Docs/` 전체에 다시 돌려 **`Docs/Spec`도 똑같이 끊겨 있는 것**을 찾아냈다.
+
+**소급분과 실시간 기록을 섞지 않은 것.** 회수한 여덟 파일을 `Docs/Terminal-Log/` 바로 아래 넣었으면 "그 자리에서 확보한 원문"이라는 뜻이 희석된다. 하위 폴더로 가르고 **연속 번호를 안 붙인 것**이 그 구분이다 — 번호는 실시간 기록의 계보다. 같은 이유로 `Docs/Spec`의 오늘 사양에도 머리에 소급 표시를 박았고, **"문장은 작업 전에 확정한 그대로지만 '작업 전에 파일로 고정했다'는 사실은 이 건에 해당하지 않는다"**를 명시했다.
+
 ### 확인한 것 / 확인 못 한 것
 
 **확인한 것** — 아래는 전부 **MCP 응답이 아니라 에디터 상태를 되읽어서** 봤다.
@@ -818,6 +1161,35 @@ if ClearedRooms == 3:
 - **`BP_Door`와 `BP_ThirdPersonCharacter`의 내용이 실제로 바뀌었는지.** 저장 때 같이 나가서 `git status`에 `M`으로 뜨는데, **AI는 이 둘에 쓰기를 보낸 적이 없다.** `.uasset`은 바이너리라 diff로 확인할 수 없다
 - **NavMesh를 굽지 않았다.** `G = b`로 정한 대로다. `Recreating dtNavMesh instance` 경고는 계속 난다
 
+**뒤 덩어리 — 확인한 것**
+
+- **터미널 세션 기록이 로컬에 남아 있다.** `~/.claude/projects/d--20260827-MCP1/`의 `.jsonl` **47개**를 전부 훑었다. 첫 사용자 메시지가 한글이면 나, 영어 명령이면 터미널로 갈리고 **예외가 없었다.** 작업일마다 터미널 세션이 다 있다(`08-27` ~ `09-03`)
+- **`isCompactSummary`가 47개 전부에서 `0`이다.** 대화 압축으로 날아간 구간이 없다
+- **회수한 명령 11 보고와 내가 MCP로 읽은 값이 완전히 일치한다.** 두 액터의 이전·이후 위치·회전·스케일·바운드, `count_before/after 98`까지 같다. **이번 세션에서 "터미널이 뭐라고 했는가"와 "실제로 어떤가"를 대조할 수 있었던 유일한 한 건이다**
+- **레벨 액터 총수 `98`.** `find_actors`로 하나씩 세었고 어제 `64` + 오늘 `34`와 정확히 맞는다. 회수한 터미널 보고도 `98`로 같은 값을 적었다 — **서로 다른 두 경로가 일치**
+- **아웃라이너가 시스템 액터 여덟을 숨긴다.** `WorldSettings`·`Brush_0`·`WorldDataLayers`·`BuoyancyManager_0`·`DefaultPhysicsVolume_0`·`GameplayDebuggerPlayerManager_0`·`ChaosDebugDrawActor`·`AbstractNavData-Default`. 삭제 후 스크린샷의 `90 actors`도 `90 + 8 = 98`로 맞는다
+- **삭제 감사가 양방향으로 `0`건.** `get_referencers` 83개, 반대 방향 `get_dependencies` 193개
+- **삭제 산술이 정확히 맞는다.** `289` 파일 = `uasset 286` + `umap 2` + `ini 1`(`Lvl_ArenaShooter.ini`). 애셋만 `288`이고 `625 - 288 = 337`
+- **크래시 시점에 디스크에서 사라진 파일이 없었다.** `git status` 삭제 `0`건, 세 폴더 개수 `50/27/8` 그대로
+- **삭제 후 KEEP 목록이 살아 있다.** `ABP_FP_Copy` `exists = true`, `BP_ShooterCharacter` `exists = false`
+- **재시작한 에디터에서 `BP_ThirdPersonCharacter`의 의존이 전부 해결된다.** 목록에 `ABP_FP_Copy`가 있고 `Variant_Shooter`·`Weapons`·`FirstPerson/Blueprints`는 하나도 없다
+- **게임플레이 액터가 그대로다.** `BP_Enemy` `6` · `BP_Door` `4` · `BP_StageRoom` `3` · 태그 `FinalDoor` `1` · `BP_EndTrigger` `1` · `Wall_2F_*` `7`
+- **재시작 로그에 애셋 로드 에러가 없다.** 뜬 것은 선택적 DLL 부재와 시작 시점 정상 메시지뿐
+- **Config가 가리키는 셋이 다 살아 있다.** `EditorStartupMap`·`GameDefaultMap`·`GlobalDefaultGameMode`
+
+**사용자가 확인해준 것**
+
+- **삭제 후 PIE에서 1인칭 전환이 된다.** `ABP_FP_Copy`가 실제로 도는 자리이고 **이번 삭제로 깨질 수 있던 유일한 지점**이다. AI는 화면을 못 본다
+
+**뒤 덩어리 — 확인 못 한 것**
+
+- **크래시의 정확한 실패 지점.** 심볼이 없어 콜스택이 모듈 이름까지만 읽힌다. `KismetCompiler`에서 재인스턴싱 중이었다는 것까지가 확인이고, **191개 중 어느 애셋에서 터졌는지는 모른다.** `ABP_TP_Rifle`의 `FStructProperty::Serialize` 에러가 직전 줄이지만 그게 원인인지 증상인지 안 갈렸다
+- **`AssetTools.delete`를 애셋 하나씩 불렀으면 안 터졌을지.** 폴더 경로가 `DeleteDirectory`(force)로 가는 것은 로그로 확인했지만, **개별 애셋 경로가 다른 경로로 가는지는 안 읽어봤다**
+- **Content Browser에 `Missing` 표시가 있는지.** 화면을 봐야 안다
+- **`Content/Input/Touch/UI_Thumbstick`의 참조.** 삭제 대상이 아니어서 안 봤다
+- **회수한 여덟 파일의 내용을 다 읽지 않았다.** 인코딩 깨짐 `0`건과 블록 수만 확인했고, **`08-31`~`09-02` 보고 본문이 실제 상태와 어긋나는지는 대조 안 했다.** 그 세 세션의 AI-Log를 다시 볼 일이 생기면 그때 쓸 자료다
+- **`Docs/Spec`의 `09-01` 이후 끊긴 구간을 회수하지 않았다.** 대화 기록에 원문이 있으므로 가능하지만 안 했다
+
 ### 남는 리스크
 
 **터미널 보고를 한 번도 안 받았다.** 이번 세션의 검증은 전부 "AI가 에디터를 되읽어서 기대값과 맞는가"였고, "터미널이 뭐라고 했는가"는 통째로 비어 있다. 어제는 그 둘이 어긋나는 사례(`set_properties`가 `true`를 주고 안 씀)가 잡혔는데, 이번 방식으론 **같은 종류의 어긋남이 나도 어긋남으로 안 보인다** — 그냥 "값이 안 맞네"로만 보인다. 되읽기로 최종 상태는 보장되지만 플러그인의 거짓말은 관찰 대상에서 사라진다.
@@ -842,6 +1214,16 @@ if ClearedRooms == 3:
 
 **`Door_Final`을 여는 노드에 `bOpen` 검사가 없다.** `BP_StageRoom`은 `ToggleDoor` 앞에 `Branch(MyDoor.bOpen)`를 두는데 여긴 안 뒀다. 지금은 `NotifyRoomCleared`가 한 번만 걸리므로 필요 없다. **필요해지는 순간은 방이 넷이 되거나 `bCounted`가 깨질 때다.**
 
+**`AssetTools.delete`에 폴더 경로를 주면 force delete다. 이게 이번 세션 최대의 관찰이다.** `EditorAssetSubsystem.DeleteDirectory`로 가고 로그가 `Force Deleting 191 Package(s)`를 찍는다. **참조를 확인하고 거절하는 삭제가 아니라 null로 밀어버리는 삭제**이고, `AnimBlueprint`·`ControlRigBlueprint`·`StateTree`·`World`가 섞인 191개에 한꺼번에 걸면 블루프린트 재인스턴서가 죽는다. 폴더 삭제가 `Lvl_ArenaShooter`를 통째로 로드(WorldPartition 초기화 `3.98`초)한 뒤 external actor 141개까지 끌고 들어간 것이 `191`이라는 수다. **다음에 누구든 폴더를 지우려 하면 같은 자리에서 터진다.**
+
+**소급 회수분은 저장소 바깥에 원본이 있다.** `~/.claude/projects/`는 로컬 사용자 디렉터리다. 지워지면 끝이고 다른 PC엔 없다. 회수한 여덟 파일은 저장소에 들어왔지만 **더 회수할 여지(도구 호출·반환값, `08-27`·`08-28`, `Docs/Spec` 끊긴 구간)는 그 로컬 파일에만 있다.**
+
+**`Content/FirstPerson/`이라는 폴더 이름이 내용을 안 말해준다.** 안에 `Anims/` 둘만 남았고 그 둘이 **`BP_ThirdPersonCharacter`의 살아 있는 의존**이다. 이름만 보면 다음 사람이 또 미사용으로 판단한다. 옮기는 것은 이번에 안 했다 — `CLAUDE.md`가 금지한 영역이고 `Content/` 재배치와 같은 종류의 결정이다.
+
+**회수한 여덟 파일의 내용을 안 읽었다.** 인코딩과 블록 수만 봤다. **그 안에 `08-31`~`09-02`의 어긋남이 들어 있을 수 있는데 아무도 안 봤다.**
+
+**삭제가 되돌리기는 되지만 공짜는 아니다.** `git checkout -- Content/`로 파일은 돌아오지만 **에디터를 닫고 해야 하고**, 애셋 레지스트리를 다시 만들어야 한다.
+
 ### 총평
 
 요청은 "2층 건축"이었고 **범위 안의 것은 다 했다.** 사용자가 `G = b`로 정한 "건축 + 최종 문 로직"까지가 이번 몫이었고, `Build Paths`는 `c`가 아니었으므로 안 돌렸다.
@@ -856,7 +1238,15 @@ if ClearedRooms == 3:
 
 셋째, **어디까지 읽고 어디서 만들 것인가.** `TryConsumeSelected`를 읽은 덕에 `BP_Door`와 `BP_ThirdPersonCharacter`를 한 줄도 안 고치고 끝냈고, `OnPlayerDied`의 태그 패턴을 읽은 덕에 게임모드에 변수를 안 만들었다. 새로 만든 것은 **`BP_EndTrigger` 하나**뿐이고 그것도 컴포넌트 하나·노드 셋·변수 `0`개다.
 
-아쉬운 것은 **터미널 보고를 한 번도 못 받은 것**이다. 최종 상태는 되읽기로 다 확인했으니 결과물은 안전하지만, 이 프로젝트가 관찰하려는 "플러그인 응답과 실제의 어긋남"은 이번 세션에 관찰 자체가 불가능했다.
+아쉬운 것은 **터미널 보고를 세션 중에 한 번도 못 받은 것**이다. 최종 상태는 되읽기로 다 확인했으니 결과물은 안전하지만, 이 프로젝트가 관찰하려는 "플러그인 응답과 실제의 어긋남"은 앞 덩어리에서 관찰 자체가 불가능했다.
+
+**그 아쉬움이 뒤 덩어리를 통째로 불렀다.** 사용자가 "터미널 원문 로그 파일로 따로 저장하기로 한 거 아니였어?"라고 물었고, 찾아보니 **`Docs/Terminal-Log/`가 2026-08-29에 정한 방식인데 `CLAUDE.md`에 없어서 다섯 세션 동안 조용히 사라져 있었다.** 그 다섯 세션의 기록이 전부 "터미널 원문을 못 받았다"고만 적고, 방법이 이미 있었다는 사실은 한 번도 안 적혔다.
+
+**여기가 뒤 덩어리의 진짜 난이도였다.** 코드도 애셋도 아니고 **"규칙이 어디에 적혀 있어야 살아남는가"**다. 관행으로만 존재한 것은 새 세션이 알 방법이 없다 — 인계는 가장 최근 기록의 `다음으로 넘김`만 읽는데 거기에도 없었고, 방식은 `08-29` 기록 본문 `1121`줄째에만 있었다. 같은 검사를 `Docs/` 전체에 돌려 **`Docs/Spec`도 `09-01` 이후 똑같이 끊긴 것**을 찾았다. 둘 다 `CLAUDE.md`에 넣었고, `Terminal-Log`는 끊긴 구간을 Claude Code 세션 기록에서 회수했다.
+
+**애셋 삭제는 판단이 맞았고 실행이 틀렸다.** 감사는 양방향으로 `0`건이었고 `ABP_FP_Copy`도 잡았다 — 지울 것과 남길 것의 경계는 정확했다. 틀린 것은 **폴더 경로를 `AssetTools.delete`에 준 것**이고, 그게 force delete로 가서 에디터를 죽였다. 결과적으로 아무것도 안 지워진 채 크래시했고, 에디터를 닫고 git으로 지우니 한 번에 끝났다. **"무엇을 지울지"보다 "어떻게 지울지"가 위험한 쪽이었다는 것을 크래시 전에는 몰랐다.**
+
+이번 세션이 남긴 것 중 가장 오래 갈 것은 2층도 최종 문도 아니라 **`CLAUDE.md`에 들어간 두 줄**이다. 그 둘이 없어서 같은 실패가 두 번 났고, 세 번째는 없을 것이다.
 
 ## AI의 제안
 
@@ -888,16 +1278,38 @@ if ClearedRooms == 3:
 
 얻는 것은 작고 독립적인 트리거다(컴포넌트 하나, 노드 셋, 변수 `0`개). 잃는 것은 BP가 하나 늘어난 것과, **`TriggerBox` + 레벨 블루프린트라는 더 싼 길을 안 가본 것**이다 — World Partition 레벨의 레벨 블루프린트를 MCP로 편집하는 것이 검증되지 않아서 피했지, 그 길이 실제로 안 되는지는 확인하지 않았다.
 
+> `CLAUDE.md`의 `# 이 세션이 주로 하는 일` 불릿 목록에 추가 — 명령 쓰는 규칙이 거기 모여 있으니 한 군데만 건드린다.
+
+`Terminal-Log`가 사라진 원인을 파일이 아니라 규칙 위치에서 찾은 뒤 낸 제안이다. 얻는 것은 새 세션이 반드시 읽는 자리에 규칙이 들어가는 것. 잃는 것은 `CLAUDE.md`가 길어지는 것이고, **`### 이 플러그인은 실험적이다`에도 넣자는 안은 버렸다** — `2026-08-28` 기록에 "두 군데를 건드리면 규칙이 갈라진다"는 판단이 이미 있다.
+
+> `Docs/Spec`도 같은 병이다. `CLAUDE.md`의 `2단계 · 사양`에 "사양은 `Docs/Spec/YYYY-MM-DD-슬러그.md`에 쓴다"를 넣고 오늘 사양을 소급 작성하자.
+
+사용자가 물은 것은 `Terminal-Log` 하나였는데 **같은 검사를 `Docs/` 전체에 돌려서 찾은 것**이다. 얻는 것은 합격 기준이 세션과 함께 사라지지 않는 것 — `AI-Log/_template.md`에는 사양 칸도 합격 기준 칸도 없다. 잃는 것은 세션마다 파일이 하나 더 느는 것이다.
+
+> 소급 회수분은 `Docs/Terminal-Log/recovered/` 하위 폴더로 가르고 **연속 번호를 안 붙인다.** 번호는 실시간 기록의 계보다.
+
+사용자는 "따로 표시만 해두는 방식으로 구분하자"고만 했고 **방법 넷은 AI가 정했다.** 얻는 것은 "그 자리에서 확보한 원문"이라는 뜻이 희석되지 않는 것. 잃는 것은 파일 이름 규칙이 두 벌이 되는 것이다.
+
+> 지우기 전에 **아무것도 안 지우는 감사 명령**을 따로 한 번 돌리자.
+
+얻는 것은 `ABP_FP_Copy` 같은 함정을 지우기 전에 잡는 것이고, 실제로 잡혔다. 잃는 것은 왕복이 하나 느는 것이다. **다만 이 제안이 막지 못한 것이 있다** — 감사는 "무엇을 지울지"만 봤고 "어떻게 지울지"는 안 봤다. 크래시는 후자에서 났다.
+
+> `Content/` 재배치는 권하지 않는다. 게임이 한 번 완성된 뒤가 맞다.
+
+사용자가 폴더 정리를 물었을 때 낸 것이다. 얻는 것은 지금 참조가 끊길 위험을 안 만드는 것 — 특히 `BP_ThirdPersonGameMode.NotifyRoomCleared`가 `"/Game/Interaction/BP_Door.BP_Door_C"`를 **문자열로** 들고 있어 옮기면 조용히 끊긴다. 잃는 것은 게임플레이 폴더가 템플릿 폴더와 같은 층에 계속 섞여 있는 것이다.
+
 ## 다음으로 넘김
 
 **바로 이어서 할 것**
 
 - **`Build` → `Build Paths`로 NavMesh를 굽고 저장.** 어제부터 넘어온 항목이고 이번에도 안 했다(`G = b`). 이제 2층·램프·최종 구역까지 다 올라갔으므로 **레벨이 더 커질 일이 당분간 없다.** 지금이 굽기 좋은 시점이다. 굽고 나면 `NavBounds_Main`(`Z -200..600`)의 위쪽 경계가 2층 바닥(`Z 600`)에 정확히 걸쳐 있어서 **2층에 NavMesh가 일부 깔리는지 아닌지가 드러난다.** `F = a`(적이 2층에 안 온다)로 정했으므로, 깔리면 `NavBounds_Main`의 `Z`를 줄일지 결정해야 한다
-- **커밋.** 이번 세션 산출물이 아직 커밋 안 됐다. `git status` `39`건 — 새 외부 액터 `34`, 수정된 외부 액터 `2`, `BP_EndTrigger` 신규, `BP_ThirdPersonGameMode` 수정, 그리고 **`BP_Door`·`BP_ThirdPersonCharacter`가 읽기만 했는데 `M`으로 떠 있다.** 커밋 메시지를 쓸 때 이 둘을 어떻게 설명할지 정해야 한다
+- **명령마다 `Write the report to Docs/Terminal-Log/YYYY-MM-DD-NN-slug.md`를 붙일 것. 다음 번호는 `45`다.** 규칙이 `CLAUDE.md`에 들어갔으므로 이제 안 사라진다. `44`가 감사 보고서이고 `45`는 크래시로 안 쓰였다
 
 **결정 필요**
 
-- **`BP_Door`와 `BP_ThirdPersonCharacter`의 변경을 커밋할 것인가.** 쓰기를 보낸 적이 없는데 `M`이다. 되돌리면(`git checkout`) 에디터가 들고 있는 것과 디스크가 어긋날 수 있고, 그대로 커밋하면 "안 건드렸다"는 기록과 diff가 안 맞는다
+- **`Content/FirstPerson/`을 어떻게 할 것인가.** 안에 `Anims/` 둘만 남았고 그 둘이 **`BP_ThirdPersonCharacter`의 살아 있는 의존**이다(`ABP_FP_Copy` → `CtrlRig_FPWarp`). **폴더 이름이 내용을 안 말해줘서 다음 사람이 또 미사용으로 판단한다.** 옮기면 이름과 내용이 맞지만 `.uasset` 이동은 에디터에서 해야 하고 `CLAUDE.md`가 금지한 영역이다. `Content/` 재배치와 같이 결정할 것
+- **`Docs/Spec`의 `09-01` 이후 끊긴 구간을 소급 회수할 것인가.** 대화 기록에 사양 원문이 남아 있으므로 가능하다. `Terminal-Log`는 회수했고 `Spec`은 오늘 것만 썼다
+- **`Content/` 재배치.** 게임플레이 폴더(`Enemy`·`Interaction`·`Inventory`·`Progression`)를 `Content/ICI/` 밑으로 모으는 안. **2026-09-03에 "나중에"로 미뤘다.** 게임이 한 번 완성된 뒤가 맞다고 봤다. `BP_ThirdPersonGameMode.NotifyRoomCleared`가 `"/Game/Interaction/BP_Door.BP_Door_C"`를 문자열로 들고 있어 옮기면 조용히 끊긴다
 - **램프 옆면 난간을 세울 것인가.** 램프 안쪽 옆면에서 로비로 떨어질 수 있다. 경사면이라 회전한 큐브가 필요하다
 - **난간을 `100`보다 높일 것인가.** 지금 점프(`~250`)로 넘어간다. 사용자가 `C = a`로 `100`을 고른 대로 만든 것이다
 - **`GAME CLEAR`를 한 번만 띄울 것인가.** 지금은 막다른 방에 들어갈 때마다 뜬다
@@ -917,7 +1329,12 @@ if ClearedRooms == 3:
 - **`snap_to_ground`를 명령에 쓸 자리를 가릴 것.** 되찾은 터미널 보고가 짚었다 — *"`snap_to_ground` does not exist on `set_actor_transform` — it is an `add_to_scene_from_asset` parameter only"*. 이번 세션의 명령 열한 개 중 **액터를 옮기기만 하는 명령 11에도 `Do not use snap_to_ground.`를 넣었는데 그 도구엔 없는 파라미터였다.** 해가 되진 않았지만 명령에 의미 없는 줄이 들어간 것이고, 그런 줄이 쌓이면 읽는 쪽이 무엇이 실제 제약인지 못 가린다
 - **터미널 보고는 결국 전부 되찾았다. 다음 실시간 번호는 `44`다.** 스크롤백에서는 명령 11 하나만 나왔지만(`2026-09-03-43-move-item-pickups.md`), Claude Code 세션 기록(`~/.claude/projects/`)에서 명령 1~11이 다 나왔다. `Docs/Terminal-Log/recovered/`에 여덟 파일로 넣었고 규칙은 `Docs/Terminal-Log/README.md`에 적었다. **다만 회수가 실시간 기록을 대신하지는 못한다** — `.jsonl`은 저장소 바깥이고, 회수는 세션이 끝난 뒤에야 되며, 작업 중에 어긋남을 잡으려면 그 자리에 보고가 있어야 한다
 - **`BP_Door`의 `Event Interact` 마지막 `else` 가지.** `read_graph_dsl`이 `_`로만 찍었다. `get_graph_dsl_docs`를 부르면 `_`의 의미를 알 수 있을 것이다
-- **`read_graph_dsl` 또는 `get_properties`가 패키지를 dirty로 만드는지.** `BP_Door`와 `BP_ThirdPersonCharacter`가 읽기만 했는데 저장 대상이 됐다
+- **`read_graph_dsl` 또는 `get_properties`가 패키지를 dirty로 만드는지.** `BP_Door`와 `BP_ThirdPersonCharacter`가 읽기만 했는데 저장 대상이 됐다. 결국 **그대로 커밋했다**(`8dcb9d8` 이전 커밋). 쓰기를 보낸 적이 없다는 사실을 커밋 메시지에 적었다
+- **`AssetTools.delete`를 애셋 하나씩 부르면 안 터지는지.** 폴더 경로가 `EditorAssetSubsystem.DeleteDirectory`(force delete)로 가는 것은 로그로 확인했지만, **개별 애셋 경로가 다른 경로로 가는지는 안 읽었다.** 다음에 애셋을 지울 일이 생기면 **폴더 경로를 주지 말 것** — 이번에 에디터가 죽었다
+- **크래시가 191개 중 어느 애셋에서 났는지.** 심볼이 없어 콜스택이 모듈 이름까지만 읽힌다. `ABP_TP_Rifle`의 `FStructProperty::Serialize` 에러가 직전 줄이지만 **원인인지 증상인지 안 갈렸다**
+- **회수한 여덟 파일의 본문.** `Docs/Terminal-Log/recovered/`에 들어왔지만 **아무도 안 읽었다.** 인코딩 깨짐 `0`건과 블록 수만 확인했다. `08-31`~`09-02`의 어긋남이 그 안에 있을 수 있다
+- **Content Browser에 `Missing` 표시가 있는지.** 삭제 후 화면을 안 봤다. 로그에는 애셋 로드 에러가 없었다
+- **`Content/Input/Touch/UI_Thumbstick`의 참조.** 삭제 대상이 아니어서 안 봤다. `BPI_TouchInterface`와 `UI_TouchSimple`은 쓰이는 것이 확인됐다
 - **`Door_Final`이 어느 쪽으로 열리고 열린 문짝이 복도를 막는지**
 - **`GAME CLEAR`가 재입장 때마다 다시 뜨는지**
 - **문틀에 서 있을 때 문이 닫히면 끼이는지.** 어제 기록에서 넘어온 항목이다
