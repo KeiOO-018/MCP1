@@ -1298,12 +1298,14 @@ if ClearedRooms == 3:
 
 사용자가 폴더 정리를 물었을 때 낸 것이다. 얻는 것은 지금 참조가 끊길 위험을 안 만드는 것 — 특히 `BP_ThirdPersonGameMode.NotifyRoomCleared`가 `"/Game/Interaction/BP_Door.BP_Door_C"`를 **문자열로** 들고 있어 옮기면 조용히 끊긴다. 잃는 것은 게임플레이 폴더가 템플릿 폴더와 같은 층에 계속 섞여 있는 것이다.
 
+
 ## 다음으로 넘김
+
+> **이 목록은 `2026-09-03-lobby-medieval-first-pass.md`로 넘어갔다.** 처리한 항목은 지웠고, 남은 항목은 그 기록의 `다음으로 넘김`에 합쳐져 있다. 새 세션은 그쪽을 읽는다.
 
 **바로 이어서 할 것**
 
 - **`Build` → `Build Paths`로 NavMesh를 굽고 저장.** 어제부터 넘어온 항목이고 이번에도 안 했다(`G = b`). 이제 2층·램프·최종 구역까지 다 올라갔으므로 **레벨이 더 커질 일이 당분간 없다.** 지금이 굽기 좋은 시점이다. 굽고 나면 `NavBounds_Main`(`Z -200..600`)의 위쪽 경계가 2층 바닥(`Z 600`)에 정확히 걸쳐 있어서 **2층에 NavMesh가 일부 깔리는지 아닌지가 드러난다.** `F = a`(적이 2층에 안 온다)로 정했으므로, 깔리면 `NavBounds_Main`의 `Z`를 줄일지 결정해야 한다
-- **명령마다 `Write the report to Docs/Terminal-Log/YYYY-MM-DD-NN-slug.md`를 붙일 것. 다음 번호는 `45`다.** 규칙이 `CLAUDE.md`에 들어갔으므로 이제 안 사라진다. `44`가 감사 보고서이고 `45`는 크래시로 안 쓰였다
 
 **결정 필요**
 
@@ -1325,9 +1327,6 @@ if ClearedRooms == 3:
 
 **확인 필요**
 
-- **터미널 보고를 `Docs/Terminal-Log/`로 다시 받을 것. 규칙은 세션이 끝난 뒤 `CLAUDE.md`에 넣었다.** 다음 명령부터 끝에 `Write the report to Docs/Terminal-Log/2026-XX-XX-NN-slug.md`를 붙인다. 이번 세션에 세션 중엔 한 줄도 못 받아서 **플러그인 응답과 실제의 어긋남을 열한 번 중 열 번 관찰할 수 없었다** — 이게 이 프로젝트의 주된 관찰 대상이다
-- **`snap_to_ground`를 명령에 쓸 자리를 가릴 것.** 되찾은 터미널 보고가 짚었다 — *"`snap_to_ground` does not exist on `set_actor_transform` — it is an `add_to_scene_from_asset` parameter only"*. 이번 세션의 명령 열한 개 중 **액터를 옮기기만 하는 명령 11에도 `Do not use snap_to_ground.`를 넣었는데 그 도구엔 없는 파라미터였다.** 해가 되진 않았지만 명령에 의미 없는 줄이 들어간 것이고, 그런 줄이 쌓이면 읽는 쪽이 무엇이 실제 제약인지 못 가린다
-- **터미널 보고는 결국 전부 되찾았다. 다음 실시간 번호는 `44`다.** 스크롤백에서는 명령 11 하나만 나왔지만(`2026-09-03-43-move-item-pickups.md`), Claude Code 세션 기록(`~/.claude/projects/`)에서 명령 1~11이 다 나왔다. `Docs/Terminal-Log/recovered/`에 여덟 파일로 넣었고 규칙은 `Docs/Terminal-Log/README.md`에 적었다. **다만 회수가 실시간 기록을 대신하지는 못한다** — `.jsonl`은 저장소 바깥이고, 회수는 세션이 끝난 뒤에야 되며, 작업 중에 어긋남을 잡으려면 그 자리에 보고가 있어야 한다
 - **`BP_Door`의 `Event Interact` 마지막 `else` 가지.** `read_graph_dsl`이 `_`로만 찍었다. `get_graph_dsl_docs`를 부르면 `_`의 의미를 알 수 있을 것이다
 - **`read_graph_dsl` 또는 `get_properties`가 패키지를 dirty로 만드는지.** `BP_Door`와 `BP_ThirdPersonCharacter`가 읽기만 했는데 저장 대상이 됐다. 결국 **그대로 커밋했다**(`8dcb9d8` 이전 커밋). 쓰기를 보낸 적이 없다는 사실을 커밋 메시지에 적었다
 - **`AssetTools.delete`를 애셋 하나씩 부르면 안 터지는지.** 폴더 경로가 `EditorAssetSubsystem.DeleteDirectory`(force delete)로 가는 것은 로그로 확인했지만, **개별 애셋 경로가 다른 경로로 가는지는 안 읽었다.** 다음에 애셋을 지울 일이 생기면 **폴더 경로를 주지 말 것** — 이번에 에디터가 죽었다
