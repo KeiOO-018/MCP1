@@ -424,7 +424,37 @@ Then report which packages were written, with their file paths.
 
 ### 원문 — English
 
-**터미널 자체의 보고 원문은 이번 세션에 하나도 확보하지 못했다.** 사용자가 명령을 UE Terminal에 넣고 "결과 확인"만 보냈고, 터미널이 화면에 뱉은 영어 보고를 붙여넣은 적이 없다. 그래서 아래는 전부 **UE 출력 로그(`GetLogEntries`)에서 AI가 직접 꺼낸 영어 원문**이고, 검증은 터미널 보고가 아니라 에디터 상태를 MCP로 되읽어서 했다.
+**터미널 자체의 보고 원문은 세션 중에 하나도 못 받았다.** 명령 열한 개 어디에도 `Write the report to Docs/Terminal-Log/...` 줄을 안 넣었고, 화면에 찍힌 것은 폭에서 잘려서 오지 못했다. 그래서 아래 대부분은 **UE 출력 로그(`GetLogEntries`)에서 AI가 직접 꺼낸 영어 원문**이고, 검증은 터미널 보고가 아니라 에디터 상태를 MCP로 되읽어서 했다.
+
+**세션이 끝난 뒤 하나를 건졌다.** 스크롤백에 남아 있던 **명령 11(포션 이동)의 보고 전문**이 `Docs/Terminal-Log/2026-09-03-43-move-item-pickups.md`에 `9,084`바이트로 들어갔다. 명령 1~10은 사라졌다. 그 파일이 이 세션에서 유일하게 **"터미널이 뭐라고 했는가"와 "실제로 어떤가"를 대조할 수 있는 자료**이고, 대조한 결과 **어긋난 데가 한 곳도 없다.** 파일 전문은 저장소에 있으므로 여기에는 판단 근거가 된 대목만 발췌한다.
+
+되찾은 보고에서 — 스스로 왜 파일로 쓰는지 적은 마지막 문단:
+
+```
+The user's next message came back as a truncated fragment of the previous
+report, cut off mid-sentence at "A third". That is precisely the failure mode
+CLAUDE.md describes: screen output is clipped at terminal width and the clipped
+fragment then masquerades as the original. This report is written to a repo path
+so the full text survives.
+```
+
+같은 보고에서 — 내 명령의 무의미한 줄을 지적한 대목:
+
+```
+`snap_to_ground` does not exist on `set_actor_transform` — it is an
+`add_to_scene_from_asset` parameter only — so there was nothing to disable. No
+actor was added this command.
+```
+
+같은 보고에서 — 액터 총수와 접두어 함정 처리:
+
+```
+{"count_before": 98, "count_after": 98, "modified": 2, "skipped": [],
+ "all_loc_ok": true, "all_rot_unchanged": true, "all_scale_unchanged": true, ...}
+
+{"exact_match_count__BP_ItemPickup": 1,
+ "exact_match_count__BP_ItemPickup2": 1}
+```
 
 `BP_EndTrigger` 생성 · 컴파일 · 저장 (명령 8):
 
@@ -743,6 +773,7 @@ if ClearedRooms == 3:
 - **옮긴 자리가 비어 있다.** `(-600,-430)`과 `(-900,-440)` 둘 다 `Z 1400`에서 아래로 쏘면 `Z 0`(바닥 윗면)에 처음 닿는다 — 머리 위에도 발밑에도 걸리는 게 없다
 - **포션이 옮겨졌고 `Knife_Pickup`은 안 건드려졌다.** 셋 다 되읽음
 - **저장이 실제로 디스크에 갔다.** `git status` `39`건, 새 외부 액터 파일 `34`개(만든 액터 수와 정확히 일치), 수정된 외부 액터 `2`개(포션 둘), BP `4`개. mtime이 전부 `15:47:57`
+- **레벨 액터 총수가 `98`개다.** 세션이 끝난 뒤 `find_actors`로 전부 나열해 하나씩 셌다. **어제 기록의 `64` + 이번 세션 신설 `34` = `98`이 정확히 떨어진다.** 되찾은 터미널 보고(`Docs/Terminal-Log/2026-09-03-43-move-item-pickups.md`)도 명령 11 시점에 `count_before 98`, `count_after 98`로 같은 값을 적었다 — **서로 다른 두 경로가 같은 수를 냈다.** 이로써 명령 1 직후 아웃라이너 스크린샷의 `59 actors`가 어제의 `64`와 `8` 안 맞던 것도 풀렸다. `find_actors`는 아웃라이너가 숨기는 시스템 액터를 같이 세고, 그게 정확히 여덟이다 — `WorldSettings` · `Brush_0` · `WorldDataLayers` · `BuoyancyManager_0` · `DefaultPhysicsVolume_0` · `GameplayDebuggerPlayerManager_0` · `ChaosDebugDrawActor` · `AbstractNavData-Default`. **어제의 `64`가 맞았고 아웃라이너 쪽이 다른 것을 세고 있었다**
 
 **사용자가 PIE에서 확인해준 것** — AI가 직접 못 본다.
 
@@ -761,7 +792,15 @@ if ClearedRooms == 3:
   - `2026-09-02-knife-swing-trace.md:622` — "사용자가 터미널 출력을 붙여넣지 않았다"
   - 이 기록의 원래 문장 — "사용자가 결과 확인만 보내고 터미널 출력을 붙여넣지 않았다"
 
-  **다섯 세션이 같은 문제를 적으면서, 방법이 이미 있었다는 사실은 한 번도 안 적혔다.** 그리고 넷 다 문장이 사용자 탓처럼 읽힌다 — 실제로는 명령에 그 줄을 넣는 것이 명령을 쓰는 쪽의 몫이었다. 대책으로 `CLAUDE.md`의 `# 이 세션이 주로 하는 일`에 규칙을 넣었다
+  **다섯 세션이 같은 문제를 적으면서, 방법이 이미 있었다는 사실은 한 번도 안 적혔다.** 그리고 넷 다 문장이 사용자 탓처럼 읽힌다 — 실제로는 명령에 그 줄을 넣는 것이 명령을 쓰는 쪽의 몫이었다. 대책으로 `CLAUDE.md`의 `# 이 세션이 주로 하는 일`에 규칙을 넣었다.
+
+  **뒤늦게 하나는 건졌다.** 세션 종료 후 터미널 스크롤백에 남아 있는 것을 파일로 뽑게 했더니 **명령 11(포션 이동) 하나가 나왔다** — `Docs/Terminal-Log/2026-09-03-43-move-item-pickups.md`, `9,084`바이트. 명령 1~10은 사라졌다. 되찾은 보고를 내가 MCP로 읽었던 값과 대조했더니 **어긋난 데가 한 곳도 없다** — 두 액터의 이전·이후 위치, 회전, 스케일, 바운드가 전부 같고 `count_before 98` / `count_after 98`도 내가 센 것과 같다. 다만 이 대조가 **이번 세션에서 유일하게 가능했던 한 건**이고, 나머지 열 개는 영영 대조할 수 없다.
+
+  그 보고가 스스로 남긴 마지막 문단이 이 방식이 왜 있는지를 그대로 말한다:
+
+  > The user's next message came back as a **truncated fragment of the previous report**, cut off mid-sentence at "A third". That is precisely the failure mode CLAUDE.md describes: screen output is clipped at terminal width and the clipped fragment then masquerades as the original.
+
+  **터미널은 명령 11의 보고를 화면에 찍었고, 그게 잘려서 나에게 안 왔다.** "사용자가 안 붙여넣었다"가 아니라 **잘려서 붙여넣을 수 없었던 것**이다
 - **`BP_Door`의 `Event Interact` 마지막 `else` 가지에 무엇이 붙었는지.** `read_graph_dsl`이 `_`로만 찍었다. `Door_R1`이 `bLocked false`인데 열리고 닫히므로 `ToggleDoor`라고 **추론**했지 읽어서 확인한 게 아니다. `get_graph_dsl_docs`를 안 불러봤다
 - **`bLocked = true`인 `Door_Final`을 클리어 전에 누르면 정확히 `DOOR IS LOCKED`가 뜨는지.** 사용자가 다섯을 다 했다고 했으므로 봤을 것이나, **AI가 화면을 본 적은 없다**
 - **`Door_Final`이 어느 쪽으로 열리는지.** `bHingeOnRight false`를 `Door_R2`에서 그대로 받았지만 실제 스윙 방향과 열린 문짝이 복도를 막는지는 안 봤다
@@ -769,7 +808,6 @@ if ClearedRooms == 3:
 - **2층에서 점프하면 난간(`100`)을 넘어 떨어지는지.** 계산상 점프 도달이 `~250`이라 넘어간다. 기준이 "걸어가서 안 떨어진다"였으므로 시험 안 했다
 - **`Door_R2`의 액터 바운드가 `X 1072..1328` / `Y -228..100` / `Z -28..228`로 나온 이유.** 문간이 `X 1100..1300` / `Z 0..200`인데 모든 방향으로 `28`씩 삐져나온다. `Door_Final`도 같을 것이다. 어제 PIE에서 문이 정상 동작했으므로 넘어갔다
 - **`BP_Door`와 `BP_ThirdPersonCharacter`의 내용이 실제로 바뀌었는지.** 저장 때 같이 나가서 `git status`에 `M`으로 뜨는데, **AI는 이 둘에 쓰기를 보낸 적이 없다.** `.uasset`은 바이너리라 diff로 확인할 수 없다
-- **아웃라이너의 액터 수가 어제 기록의 `64`와 안 맞는 것.** 명령 1 직후 스크린샷이 `59 actors`였고, 셋을 더한 뒤였으니 그 전이 `56`이라 `8`이 빈다. 세는 방식이 달랐을 가능성이 크지만 **안 세어봤다**
 - **NavMesh를 굽지 않았다.** `G = b`로 정한 대로다. `Recreating dtNavMesh instance` 경고는 계속 난다
 
 ### 남는 리스크
@@ -867,13 +905,13 @@ if ClearedRooms == 3:
 
 **확인 필요**
 
-- **터미널 보고를 `Docs/Terminal-Log/`로 다시 받을 것. 규칙은 세션이 끝난 뒤 `CLAUDE.md`에 넣었다.** 다음 명령부터 끝에 `Write the report to Docs/Terminal-Log/2026-XX-XX-NN-slug.md`를 붙인다. **다음 번호는 `43`이다**(마지막이 `2026-08-30-42-navmesh-bounds.md`). 이번 세션에 한 줄도 못 받아서 **플러그인 응답과 실제의 어긋남을 관찰할 수 없었다** — 이게 이 프로젝트의 주된 관찰 대상이다
-- **오늘 터미널 스크롤백이 아직 살아 있는지.** UE Terminal 패널을 안 닫았으면 오늘 명령 열한 개의 보고가 남아 있을 수 있다. 있으면 지금이라도 `Docs/Terminal-Log/2026-09-03-43-*.md`로 뽑을 수 있고, 없으면 **오늘 것은 영영 못 살린다.** 세션 종료 시점에 확인 안 됐다
+- **터미널 보고를 `Docs/Terminal-Log/`로 다시 받을 것. 규칙은 세션이 끝난 뒤 `CLAUDE.md`에 넣었다.** 다음 명령부터 끝에 `Write the report to Docs/Terminal-Log/2026-XX-XX-NN-slug.md`를 붙인다. 이번 세션에 세션 중엔 한 줄도 못 받아서 **플러그인 응답과 실제의 어긋남을 열한 번 중 열 번 관찰할 수 없었다** — 이게 이 프로젝트의 주된 관찰 대상이다
+- **`snap_to_ground`를 명령에 쓸 자리를 가릴 것.** 되찾은 터미널 보고가 짚었다 — *"`snap_to_ground` does not exist on `set_actor_transform` — it is an `add_to_scene_from_asset` parameter only"*. 이번 세션의 명령 열한 개 중 **액터를 옮기기만 하는 명령 11에도 `Do not use snap_to_ground.`를 넣었는데 그 도구엔 없는 파라미터였다.** 해가 되진 않았지만 명령에 의미 없는 줄이 들어간 것이고, 그런 줄이 쌓이면 읽는 쪽이 무엇이 실제 제약인지 못 가린다
+- **명령 1~10의 터미널 보고는 못 살렸다.** 세션 종료 후 스크롤백을 파일로 뽑아봤더니 **명령 11 하나만 남아 있었다**(`Docs/Terminal-Log/2026-09-03-43-move-item-pickups.md`). 나머지 열 개는 영영 못 대조한다. 다음 번호는 **`44`**다
 - **`BP_Door`의 `Event Interact` 마지막 `else` 가지.** `read_graph_dsl`이 `_`로만 찍었다. `get_graph_dsl_docs`를 부르면 `_`의 의미를 알 수 있을 것이다
 - **`read_graph_dsl` 또는 `get_properties`가 패키지를 dirty로 만드는지.** `BP_Door`와 `BP_ThirdPersonCharacter`가 읽기만 했는데 저장 대상이 됐다
 - **`Door_Final`이 어느 쪽으로 열리고 열린 문짝이 복도를 막는지**
 - **`GAME CLEAR`가 재입장 때마다 다시 뜨는지**
-- **아웃라이너 액터 수가 어제 기록의 `64`와 안 맞는 것.** 명령 1 직후 `59 actors`였고 셋을 더한 뒤였으니 `8`이 빈다. 세는 방식 차이로 보이지만 안 세어봤다
 - **문틀에 서 있을 때 문이 닫히면 끼이는지.** 어제 기록에서 넘어온 항목이다
 - **NavMesh가 T자 구석과 문간을 실제로 통과하는지.** `P` 키 시각화로 본 적이 없다. 어제 기록에서 넘어온 항목이다
 - **적 여섯이 서로 밀치는지.** 어제 기록에서 넘어온 항목이다
