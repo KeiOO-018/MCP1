@@ -1638,7 +1638,6 @@ PIE마다 뜨는 NavMesh 경고를 없애는 방법. 얻는 것은 PIE 시작이
 
 **바로 이어서 할 것**
 
-- **2층과 최종 문.** 사용자가 어제 정하고 오늘 재확인한 순서다 — 스테이지 진행이 다 되고 나서 2층을 만들고 **2층 북쪽 팔 정중앙에 최종 문**을 놓는다. 붙일 자리는 이미 비어 있다. `BP_ThirdPersonGameMode.NotifyRoomCleared`의 `ClearedRooms == 3` **True 가지**에 문 여는 것을 이으면 되고, 지금 그 가지는 `ALL STAGES CLEAR` 문구만 띄운다. 2층은 계단·NavMesh·적이 층을 타는가까지 딸려오므로 **범위를 먼저 정해야 한다**
 - **`Build` → `Build Paths`로 NavMesh를 굽고 저장.** `NavBounds_Main` 크기를 바꿔서 PIE를 켤 때마다 `Recreating dtNavMesh instance` 경고가 난다. 동작에는 문제없다. **2층을 만들면 레벨이 또 커지므로 그때 한 번에 굽는 것이 낫다**
 
 **결정 필요**
