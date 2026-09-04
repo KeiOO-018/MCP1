@@ -1301,61 +1301,7 @@ if ClearedRooms == 3:
 
 ## 다음으로 넘김
 
-> **이 목록은 `2026-09-03-lobby-medieval-first-pass.md`로 넘어갔다.** 처리한 항목은 지웠고, 남은 항목은 그 기록의 `다음으로 넘김`에 합쳐져 있다. 새 세션은 그쪽을 읽는다.
-
-**바로 이어서 할 것**
-
-- **`Build` → `Build Paths`로 NavMesh를 굽고 저장.** 어제부터 넘어온 항목이고 이번에도 안 했다(`G = b`). 이제 2층·램프·최종 구역까지 다 올라갔으므로 **레벨이 더 커질 일이 당분간 없다.** 지금이 굽기 좋은 시점이다. 굽고 나면 `NavBounds_Main`(`Z -200..600`)의 위쪽 경계가 2층 바닥(`Z 600`)에 정확히 걸쳐 있어서 **2층에 NavMesh가 일부 깔리는지 아닌지가 드러난다.** `F = a`(적이 2층에 안 온다)로 정했으므로, 깔리면 `NavBounds_Main`의 `Z`를 줄일지 결정해야 한다
-
-**결정 필요**
-
-- **`Content/FirstPerson/`을 어떻게 할 것인가.** 안에 `Anims/` 둘만 남았고 그 둘이 **`BP_ThirdPersonCharacter`의 살아 있는 의존**이다(`ABP_FP_Copy` → `CtrlRig_FPWarp`). **폴더 이름이 내용을 안 말해줘서 다음 사람이 또 미사용으로 판단한다.** 옮기면 이름과 내용이 맞지만 `.uasset` 이동은 에디터에서 해야 하고 `CLAUDE.md`가 금지한 영역이다. `Content/` 재배치와 같이 결정할 것
-- **`Docs/Spec`의 `09-01` 이후 끊긴 구간을 소급 회수할 것인가.** 대화 기록에 사양 원문이 남아 있으므로 가능하다. `Terminal-Log`는 회수했고 `Spec`은 오늘 것만 썼다
-- **`Content/` 재배치.** 게임플레이 폴더(`Enemy`·`Interaction`·`Inventory`·`Progression`)를 `Content/ICI/` 밑으로 모으는 안. **2026-09-03에 "나중에"로 미뤘다.** 게임이 한 번 완성된 뒤가 맞다고 봤다. `BP_ThirdPersonGameMode.NotifyRoomCleared`가 `"/Game/Interaction/BP_Door.BP_Door_C"`를 문자열로 들고 있어 옮기면 조용히 끊긴다
-- **램프 옆면 난간을 세울 것인가.** 램프 안쪽 옆면에서 로비로 떨어질 수 있다. 경사면이라 회전한 큐브가 필요하다
-- **난간을 `100`보다 높일 것인가.** 지금 점프(`~250`)로 넘어간다. 사용자가 `C = a`로 `100`을 고른 대로 만든 것이다
-- **`GAME CLEAR`를 한 번만 띄울 것인가.** 지금은 막다른 방에 들어갈 때마다 뜬다
-- **`Wall_2F_S`의 방1·방3 구간을 올릴 것인가.** 로비 구간(`Y -1400..1400`)만 `Z 1200`이고 나머지는 `400`이다. 2층에서 남쪽을 볼 때 어떻게 보이는지 안 봤다
-- **최종 구역이 방2 위에 떠 있는 것을 가릴 것인가.** 방2에 천장이 없어서 안에서 올려다보면 보인다
-- **봉인 닫기 속도를 여는 속도와 가를 것인가.** 어제 기록에서 넘어온 항목이다. 지금 `SwingSpeed = 1`이라 여닫기 둘 다 `1.00`초다
-- **클리어한 뒤 적이 열린 문으로 로비까지 나오게 둘 것인가.** 어제 기록에서 넘어온 항목이다. **이제 로비에 2층이 생겨서 적이 램프를 타고 올라올 수 있는지가 같이 걸린다** — 지금은 `NavBounds` 때문에 못 오지만 위의 NavMesh 결정과 묶인다
-- **중복 열쇠를 회수할 것인가.** 어제 기록에서 넘어온 항목이다
-- **로비 남쪽 장식 문을 실제로 만들 것인가.** 어제 `F = a`로 정했는데 아직 안 만들었다. 최종 문이 2층으로 갔으므로 남쪽은 계속 장식으로 남는다
-- **`Ball_Test` 행을 어떻게 할 것인가.** 어제 기록에서 넘어온 항목이다
-- **`FoundSlotIndex`를 지울 것인가.** `BP_ThirdPersonCharacter`에 있고 이레째다. 지우기 전에 `find_nodes`로 참조 `0`을 확인해야 한다
-- **`AM_Player_Attack`의 창 시작을 적과 맞출 것인가.** 어제 기록에서 넘어온 항목이다. 시작이 플레이어 `0.287906`, 적 `0.304194`로 `0.49`프레임 차이가 남아 있다
-
-**확인 필요**
-
-- **`BP_Door`의 `Event Interact` 마지막 `else` 가지.** `read_graph_dsl`이 `_`로만 찍었다. `get_graph_dsl_docs`를 부르면 `_`의 의미를 알 수 있을 것이다
-- **`read_graph_dsl` 또는 `get_properties`가 패키지를 dirty로 만드는지.** `BP_Door`와 `BP_ThirdPersonCharacter`가 읽기만 했는데 저장 대상이 됐다. 결국 **그대로 커밋했다**(`8dcb9d8` 이전 커밋). 쓰기를 보낸 적이 없다는 사실을 커밋 메시지에 적었다
-- **`AssetTools.delete`를 애셋 하나씩 부르면 안 터지는지.** 폴더 경로가 `EditorAssetSubsystem.DeleteDirectory`(force delete)로 가는 것은 로그로 확인했지만, **개별 애셋 경로가 다른 경로로 가는지는 안 읽었다.** 다음에 애셋을 지울 일이 생기면 **폴더 경로를 주지 말 것** — 이번에 에디터가 죽었다
-- **크래시가 191개 중 어느 애셋에서 났는지.** 심볼이 없어 콜스택이 모듈 이름까지만 읽힌다. `ABP_TP_Rifle`의 `FStructProperty::Serialize` 에러가 직전 줄이지만 **원인인지 증상인지 안 갈렸다**
-- **회수한 여덟 파일의 본문.** `Docs/Terminal-Log/recovered/`에 들어왔지만 **아무도 안 읽었다.** 인코딩 깨짐 `0`건과 블록 수만 확인했다. `08-31`~`09-02`의 어긋남이 그 안에 있을 수 있다
-- **Content Browser에 `Missing` 표시가 있는지.** 삭제 후 화면을 안 봤다. 로그에는 애셋 로드 에러가 없었다
-- **`Content/Input/Touch/UI_Thumbstick`의 참조.** 삭제 대상이 아니어서 안 봤다. `BPI_TouchInterface`와 `UI_TouchSimple`은 쓰이는 것이 확인됐다
-- **`Door_Final`이 어느 쪽으로 열리고 열린 문짝이 복도를 막는지**
-- **`GAME CLEAR`가 재입장 때마다 다시 뜨는지**
-- **문틀에 서 있을 때 문이 닫히면 끼이는지.** 어제 기록에서 넘어온 항목이다
-- **NavMesh가 T자 구석과 문간을 실제로 통과하는지.** `P` 키 시각화로 본 적이 없다. 어제 기록에서 넘어온 항목이다
-- **적 여섯이 서로 밀치는지.** 어제 기록에서 넘어온 항목이다
-- **닫힌 문이 적을 실제로 막는지.** 어제 기록에서 넘어온 항목이다
-- **`iconColor`가 HUD 칸에 은색·구리색으로 실제로 칠해지는지.** 어제 기록에서 넘어온 항목이다
-- **`ClearedRooms`의 실제 값.** 어제 기록에서 넘어온 항목이다. 이번에 `ALL STAGES CLEAR` 뒤에 문이 열린 것으로 `== 3`이 걸린다는 것은 확인됐지만 숫자를 직접 읽지는 않았다
-- **터미널이 시키지 않은 액터를 만드는 경로.** 어제 명령 11에서 `Key_Stage1`을 든 `BP_ItemPickup`이 로비에 같이 생겼다. **이번 세션에 `Door_Final`의 `RequiredKey`를 비운 이유가 정확히 이것이다.** 원인은 여전히 모른다
-- **`get_node_type_pins`가 응답에 그래프에 없는 임시 노드를 담는 것.** 어제 기록에서 넘어온 항목이고 이번에도 관찰되지 않았다. 다만 `read_graph_dsl`이 `BP_Door`·`BP_EndTrigger` 양쪽에서 연결되지 않은 `EventTick`·`EventBeginPlay`·`EventActorBeginOverlap`을 찍었는데, `bCanEverTick`이 `false`인 것으로 보아 **실제 노드가 아니라 목록으로 보인다.** 같은 계열의 현상일 수 있다
-- **`2026-09-01-enemy-hp-death.md`의 `확인 필요` 목록.** `arrange_nodes`, `EditorPerProjectUserSettings.ini` 저장 실패, `CaptureViewport`가 에디터 월드를 그리는 것이 그 파일에 그대로 있다
-
-**접어둔 것**
-
-- **적 사망 연출과 액터 제거 분리.** 지금 즉시 `DestroyActor`다
-- **적 상태 표시(`ATTACK`/`CHASE`/`RETURN`/`IDLE_HOME`/`IDLE_WAIT`/`NO_PLAYER`) 다시 심기**
-- **`HitActorsThisSwing` 이름 바꾸기.** 리네임이 참조를 조용히 끊을 위험이 이름값보다 크다
-- **플레이어 `BeginPlay`에 `CurrentHP = MaxHP` 초기화.** 안 넣기로 했다
-- **Mixamo 등 외부 베기 애니메이션.** IK Rig도 IK Retargeter도 없고 MCP 툴셋에 리타깃 도구가 없다
-- **진짜 칼 메시 구하기**
-- **열쇠 셋과 `Knife`가 같은 `Cube` 메시라 바닥에서 구분이 안 되는 것**
-- **`heldTransform`의 회전·오프셋이 짝이라는 사실을 `DT_Items` 어디에도 안 적어둔 것**
-- **적 공격 이펙트·사운드**
-- **`MM_Attack_02` / `MM_Attack_03` / `MM_ChargedAttack`.** 사용자가 "셋 다 칼이랑 관련없음"으로 확인했다
-- **`TriggerBox` + 레벨 블루프린트로 클리어 트리거를 만드는 길.** `BP_EndTrigger`를 만들면서 안 가봤다. World Partition 레벨의 레벨 블루프린트를 MCP로 편집할 수 있는지 모른다
+> **이 목록은 `2026-09-04-torch-shadow-flame-navbounds.md`로 넘어갔다.** 이 세션에서 처리한
+> 항목(횃불 18개 PIE 검증, `MI_Castle_Stone`의 `TopSurfaceColor` 스위치, NavMesh `Build Paths`,
+> `Bracket` 모양)은 지웠고, 남은 항목은 그 기록의 `다음으로 넘김`에 합쳐져 있다.
+> **새 세션은 그쪽만 읽으면 된다.**

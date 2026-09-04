@@ -1333,41 +1333,7 @@ light was altered, because neither was part of this instruction.
 
 ## 다음으로 넘김
 
-**바로 이어서 할 것**
-
-- **횃불 `18`개를 PIE에서 볼 것.** 이 세션의 마지막 산출물이고 **유일하게 눈으로 검증이 안 됐다.** 볼 것 넷 — `Bracket`이 아래로 기운 게 어떻게 보이는지, `FlameBrightness 30`이 적당한지, 벽에 박히는 정도(`Backplate`가 `2` 박힌다)가 맞는지, 그림자 아티팩트가 실제로 보이는지
-- **`MI_Castle_Stone`의 `TopSurfaceColor` 정적 스위치를 켤 것인가.** 지금 `false`라 바닥·계단 디딤면·천장 밑면이 옆면 색으로 렌더된다. `MaterialInstanceTools.set_static_switch_parameter`, 이름 `TopSurfaceColor`, 값 `true` 한 번이면 되지만 **셰이더 재컴파일이 걸린다**
-- **다음 Terminal-Log 번호는 `56`이다.** `45`~`55`가 이 세션 것이다
-
-**결정 필요**
-
-- **VSM 광원 오버플로를 어떻게 할 것인가.** 대책 셋 — `r.Shadow.Virtual.OnePassProjection.MaxLightsPerPixel`을 올리거나, `Backplate`·`Bracket`·`Cup`의 `CastShadow`를 끄거나, 토치 수를 줄이거나. **셋째 것이 가장 싸 보인다** — 작은 소품이 그림자를 던질 이유가 별로 없다
-- **줄눈을 엇갈리게 할 것인가.** 지금 남은 유일한 "프로토타입" 신호다. `M_PrototypeGrid`를 안 건드리고 새 머티리얼을 짜야 한다 — 월드 좌표에서 켜를 계산해 홀수 켜를 반 칸 밀고 줄눈을 그린다. 노드 `15`개 안팎이고 **경로 C 성격이라 재작업 `1`회를 봐야 한다**
-- **방 셋이 얼마나 어두워졌는지 보고 대응할 것인가.** 알베도를 `0.18` → `0.135`로 내렸고 방은 하늘빛으로만 밝다
-- **남쪽 벽을 무엇으로 채울 것인가.** `2800`짜리 민 벽이라 토치 사이가 어둡다. 도면의 남쪽 장식 아치가 그 자리다. **이건 조명이 아니라 물건 문제다**
-- **문짝 액터 스케일의 비균일을 정리할 것인가.** 문 넷이 `(1, 2, 2)`라 열릴 때 폭이 변한다. 문짝 메시를 새로 만들 때 스케일을 `1`로 정리하는 것이 근본 해결이다
-- **아이템을 어떻게 보이게 할 것인가.** `/Engine/BasicShapes/` 기본 재질이라 어두운 로비에서 안 보인다. 발광 재질을 주거나 `iconColor`를 실제로 쓰거나
-- **`Content/FirstPerson/`을 어떻게 할 것인가.** 앞 세션에서 넘어온 항목. 안에 `Anims/` 둘만 남았고 그 둘이 `BP_ThirdPersonCharacter`의 살아 있는 의존이다
-- **`Docs/Spec`의 `09-01` 이후 끊긴 구간을 소급 회수할 것인가.** 앞 세션에서 넘어온 항목
-- **`Content/` 재배치.** 앞 세션에서 "게임이 한 번 완성된 뒤"로 미룬 항목. `BP_ThirdPersonGameMode.NotifyRoomCleared`가 `"/Game/Interaction/BP_Door.BP_Door_C"`를 문자열로 들고 있어 옮기면 조용히 끊긴다
-- **램프(계단) 옆면 난간 · 난간 높이 `100` · `Wall_2F_S`의 방1·방3 구간 · 로비 남쪽 장식 문.** 넷 다 사양의 미결이고 앞 세션에서도 넘어온 항목이다
-- **계단 폭 `600` 유지 여부와 난간 높이.** 둘 다 **OBJ를 쓰기 전에** 정해야 한다. 경로 C는 값이 메시에 굳는다
-- **중복 열쇠 회수 · `Ball_Test` 행 · `FoundSlotIndex` 삭제 · `AM_Player_Attack` 창 시작.** 앞 세션에서 넘어온 항목들
-
-**확인 필요**
-
-- **`M_Flame`의 그래프.** 컴파일 통과와 파라미터 둘 노출만 보고받았고 `FlameColor`·`FlameBrightness`가 실제로 Emissive에 연결됐는지 안 읽었다
-- **`Flame` 컴포넌트의 collision.** 명령에 비활성화를 넣었지만 되읽지 않았다. `CastShadow false`만 확인했다
-- **`Build` → `Build Paths`로 NavMesh를 굽고 저장.** 사흘째 넘어온 항목이다. 문간이 `400`이 되고 천장이 생겼다. 문간 확대는 통행에 유리하기만 하지만 확인은 안 됐다. `NavBounds_Main`(`Z -200..600`)의 위쪽 경계가 2층 바닥(`Z 600`)에 걸쳐 있어 2층에 NavMesh가 깔리는지도 그때 드러난다
-- **`BP_Torch`의 빈 `UserConstructionScript`·`EventGraph`.** Actor BP의 기본인지, 아니면 터미널이 만든 것인지 안 갈렸다
-- **회수한 여덟 파일의 본문.** `Docs/Terminal-Log/recovered/`에 있고 앞 세션에서 넘어온 항목이다. **아무도 안 읽었다**
-- **`BP_Door`의 `Event Interact` 마지막 `else` 가지.** `read_graph_dsl`이 `_`로만 찍는다. 앞 세션에서 넘어온 항목
-- **`read_graph_dsl` 또는 `get_properties`가 패키지를 dirty로 만드는지.** 앞 세션에서 넘어온 항목
-- **터미널이 시키지 않은 액터를 만드는 경로.** 앞 세션에서 넘어온 항목이고 이번 세션에는 관찰되지 않았다
-- **`2026-09-01-enemy-hp-death.md`의 `확인 필요` 목록.** `arrange_nodes`, `EditorPerProjectUserSettings.ini` 저장 실패, `CaptureViewport`가 에디터 월드를 그리는 것이 그 파일에 그대로 있다
-
-**접어둔 것**
-
-- 앞 세션의 `접어둔 것` 열두 항목이 그대로 유효하다 — 적 사망 연출 분리, 적 상태 표시 다시 심기, `HitActorsThisSwing` 리네임, 플레이어 `BeginPlay` HP 초기화, Mixamo 외부 베기 애니메이션, 진짜 칼 메시, `heldTransform` 회전·오프셋 기록, 적 공격 이펙트·사운드, `MM_Attack_02/03`·`MM_ChargedAttack`, `TriggerBox` + 레벨 블루프린트로 클리어 트리거 만들기
-- **기성 애셋(Fab 무료 중세 팩) 도입.** 심문에서 사용자가 경로 `D`를 안 골랐다. 원본 프로젝트가 간 길이지만 이 프로젝트 성격과 어긋난다고 봤다
-- **횃불을 Niagara 이펙트로 만들기.** MCP에 Niagara 툴셋이 없고 가져다 쓸 불 애셋도 없다. 발광 머티리얼에 노이즈를 흘려 움직이게 하는 길은 열려 있다
+> **이 목록은 `2026-09-04-torch-shadow-flame-navbounds.md`로 넘어갔다.** 이 세션에서 처리한
+> 항목(횃불 18개 PIE 검증, `MI_Castle_Stone`의 `TopSurfaceColor` 스위치, NavMesh `Build Paths`,
+> `Bracket` 모양)은 지웠고, 남은 항목은 그 기록의 `다음으로 넘김`에 합쳐져 있다.
+> **새 세션은 그쪽만 읽으면 된다.**
