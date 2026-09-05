@@ -1,0 +1,333 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Portfolio</title><style>
+@page { size: A4; margin: 13mm 14mm 18mm 14mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+  font-size: 9.8pt; line-height: 1.5; color: #1a1a1a;
+  margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+h1 {
+  font-size: 15pt; line-height: 1.2; margin: 0 0 3mm 0; padding-bottom: 2mm;
+  border-bottom: 2px solid #8c4a2f; break-before: page;
+}
+h1:first-of-type { break-before: auto; }
+h2 { font-size: 11.5pt; margin: 5.5mm 0 2.2mm 0; color: #8c4a2f; break-after: avoid; }
+h3 { font-size: 10.2pt; margin: 5mm 0 1.8mm 0; break-after: avoid; }
+p { margin: 0 0 2.6mm 0; }
+strong { font-weight: 700; }
+hr { border: 0; border-top: 1px solid #ddd; margin: 5mm 0; }
+ul { margin: 0 0 3.4mm 0; padding-left: 5.5mm; }
+li { margin-bottom: 1.8mm; }
+blockquote {
+  margin: 3.4mm 0; padding: 2.5mm 3.5mm; border-left: 3px solid #8c4a2f;
+  background: #faf8f6; break-inside: avoid;
+}
+blockquote p:last-child { margin-bottom: 0; }
+code {
+  font-family: Consolas, 'D2Coding', monospace; font-size: 9.2pt;
+  background: #f2f1ef; padding: 0.3mm 1mm; border-radius: 2px;
+}
+pre {
+  background: #f7f6f4; border: 1px solid #e2e0dc; border-radius: 3px;
+  padding: 3mm; margin: 3mm 0; overflow: hidden; break-inside: avoid;
+}
+pre code { background: none; padding: 0; font-size: 8.6pt; line-height: 1.45; white-space: pre; }
+table {
+  width: 100%; border-collapse: collapse; margin: 3.6mm 0;
+  font-size: 8.7pt; break-inside: avoid;
+}
+th, td { border: 1px solid #dcdad6; padding: 1.1mm 1.8mm; text-align: left; vertical-align: top; }
+th { background: #f2f0ed; font-weight: 700; }
+figure { margin: 2.5mm 0; break-inside: avoid; text-align: center; }
+figure img { max-width: 72%; border: 1px solid #d8d5d0; }
+figcaption { font-size: 8.6pt; color: #666; margin-top: 1.5mm; }
+td img { max-width: 82%; border: 1px solid #d8d5d0; display: block; }
+</style></head><body>
+<h1>[이름] · 게임 프로그래머 지원</h1>
+<hr>
+<h2>AI 도구로 9일 만에 게임 하나를 만들면서, 그 출력이 의도에서 벗어나는 것을 잡는 절차를 만들고 증거를 남겼다</h2>
+<p>2025년에는 팀원이 막힌 자리에서, 2026년에는 AI 도구의 출력에서 — <strong>남이 만든 것을 읽고 틀린 것을 잡는 일</strong>을 해왔다. 대상이 사람에서 도구로 바뀌었을 뿐이다.</p>
+<hr>
+<h2>결과물 둘</h2>
+<table>
+<tr><td><strong>MCP1</strong> — 중세 성 액션 방탈출</td><td>2026.08.27 ~ 09.04 · <strong>9일 · 1인</strong> · UE 5.8</td><td>아래 Project ICI를 <strong>AI 도구로 혼자 다시 만든 것</strong></td></tr>
+<tr><td><strong>Project ICI</strong></td><td>2025.06.23 ~ 09.11 · <strong>9인 팀</strong> · UE5</td><td><strong>메인 기획 + 서브 프로그래밍.</strong> GameMode / GameState 전체 구현</td></tr>
+</table>
+<p><strong>커밋 116 · 블루프린트 클래스 10 · UE 엔진 소스 판독 60개 파일(결정이 바뀐 것 14건) · 구현 전에 고정한 사양과 합격 기준 12건</strong></p>
+<hr>
+<h2>이 문서가 답하는 것</h2>
+<table>
+<tr><td><strong>1</strong></td><td><strong>무엇을 만들었나</strong> — T자 성 하나와 시스템 여덟. 그리고 데이터가 규칙을 만든다는 것</td></tr>
+<tr><td><strong>2</strong></td><td><strong>AI 도구를 어떻게 운영했나</strong> — AI가 명령문을 쓰고, 내가 실행하고 검증했다</td></tr>
+<tr><td><strong>3</strong></td><td><strong>추측을 금지하고 엔진 소스를 읽게 했다</strong> — 판독이 결정을 바꾼 다섯 사례</td></tr>
+<tr><td><strong>4</strong></td><td><strong>도구가 &quot;성공&quot;이라고 말해도 믿지 않았다</strong> — 어긋남을 잡은 방법</td></tr>
+<tr><td><strong>5</strong></td><td><strong>Project ICI, 그리고 다시 만든 것</strong> — 막힌 자리에 들어간 일과, 내 코드를 내가 진단한 일</td></tr>
+<tr><td><strong>6</strong></td><td><strong>지금 못하는 것과 채우는 순서</strong></td></tr>
+</table>
+<hr>
+<h2>먼저 밝힐 것</h2>
+<p><strong>실제 게임 로직 구현은 블루프린트로 했다.</strong> C++ / C#은 기초 문법과 예제 수준이고, 프로젝트 규모로 작성한 경험이 없다.</p>
+<p>이 프로젝트에서는 <strong>엔진 동작을 확정하기 위해 읽는 쪽으로</strong> 썼다. &quot;블루프린트가 시킨 것&quot;과 &quot;엔진이 실제로 하는 것&quot;이 어긋나는 자리를 두 번 만났고, 두 번째에는 소스에서 원인까지 갔다 (「그리고 2026년에 다시 만들었다」). <strong>C++을 읽을 수 있어야 하는 이유를 거기서 배웠다.</strong></p>
+<p>채우는 순서는 마지막 쪽에 적었다.</p>
+<h1>9일 동안 만든 것</h1>
+<p><strong>중세 성 액션 방탈출 · UE 5.8 · 1인 · 블루프린트 기반</strong></p>
+<p>로비에서 시작해 <strong>방 셋을 차례로 클리어</strong>한다. 방에 들어가면 문이 봉인되고, 그 안의 적을 전부 쓰러뜨려야 <strong>다음 방의 열쇠</strong>가 떨어진다. 셋을 다 열면 2층 최종 문이 열리고 엔딩 구역으로 간다. 방 안에서 죽으면 <strong>그 방만 초기화</strong>되고 로비에서 다시 시작한다.</p>
+<p>조작은 이동 · 점프 · 시점 전환(<code>V</code> — 3인칭 ↔ 1인칭) · 습득(<code>F</code>) · 슬롯 선택(<code>1</code>/<code>2</code>/<code>3</code>) · 사용(<code>E</code>) · 버리기(<code>Q</code>) · 공격(<code>LMB</code>).</p>
+<p>2025년 팀 프로젝트의 T자 성 구조를 UE 5.8에서 혼자 다시 짓고, <strong>인벤토리 · 문과 열쇠 · 적 AI · 근접 전투 · 스테이지 진행 · 중세 조명</strong>까지 한 바퀴 돌려 <strong>처음부터 끝까지 플레이되는 상태</strong>로 만들었다.</p>
+<figure><img src="screenshots/01-lobby-from-2f.png" alt="2층 최종 문 앞에서 로비를 내려다본 컷 — ∩자 2층 발코니 · 램프 둘 · 기둥 넷 · 1층과 2층 횃불이 한 프레임에 들어온다"><figcaption>2층 최종 문 앞에서 로비를 내려다본 컷 — ∩자 2층 발코니 · 램프 둘 · 기둥 넷 · 1층과 2층 횃불이 한 프레임에 들어온다</figcaption></figure>
+<hr>
+<h2>레벨 — <code>Lvl_Stage</code></h2>
+<p>원본 도면의 T자 구조를 옮겼다. World Partition + One File Per Actor.</p>
+<table>
+<tr><th></th><th><strong>방 2</strong> · <code>10 × 8</code>칸</th><th></th></tr>
+<tr><td><strong>방 1</strong> · <code>9 × 8</code>칸</td><td><strong>로비</strong> · <code>14 × 11</code>칸<br><code>∩</code>자 2층 발코니 · 램프 2 · 기둥 6</td><td><strong>방 3</strong> · <code>10 × 8</code>칸</td></tr>
+</table>
+<p>진행은 <strong>로비 → 방 1(안 잠김) → 은열쇠로 방 2 → 동열쇠로 방 3</strong>이고, 셋을 다 클리어하면 <strong>2층 최종 문</strong>이 열려 엔딩 구역으로 간다.</p>
+<p>전체 <code>37 × 22</code>칸(1칸 <code>200</code>). 벽은 하단 <code>Z 0..200</code> · 상단 <code>Z 200..400</code>, 2층 벽 <code>Z 400..1200</code>, 발코니 걷는 면 <code>Z 600</code>, 램프 경사 <code>31.0°</code>. 지오메트리는 전부 큐브 · 램프 · 실린더를 늘린 것이다.</p>
+<h2>시스템</h2>
+<table>
+<tr><th></th><th>핵심</th></tr>
+<tr><td><strong>인벤토리</strong></td><td><code>S_ItemDef</code> 구조체 + <code>E_ItemNature</code> 열거형 + <code>DT_Items</code> <strong>6행</strong>. 슬롯 3칸, 개수는 <code>SlotCount</code> 변수 하나. <strong>선택이 곧 장착</strong></td></tr>
+<tr><td><strong>상호작용·문</strong></td><td><code>BPI_Interact</code> 인터페이스 하나. 문도 아이템도 <strong>같은 라인트레이스 한 경로</strong>. 상태 셋 — <code>bLocked</code> · <code>bOpen</code> · <code>bSealed</code></td></tr>
+<tr><td><strong>적 AI</strong></td><td><code>BP_Enemy</code> <strong>한 클래스</strong>. 시야각 + 라인 오브 사이트로 벽 너머 감지 차단, 추격 · 복귀 · 방 소속</td></tr>
+<tr><td><strong>전투</strong></td><td>몽타주 노티파이로 타격 창을 열고, <strong>칼날/주먹이 지나간 궤적을 스윕 트레이스</strong>. 한 스윙에 같은 대상은 한 번만</td></tr>
+<tr><td><strong>진행</strong></td><td><code>BP_StageRoom</code>이 자기 방의 적을 세고 열쇠를 떨군다. 방에 들어가면 문이 봉인되고, <strong>그 안에서 죽으면 그 방만 초기화</strong></td></tr>
+<tr><td><strong>플레이어</strong></td><td><code>V</code>로 3인칭 ↔ 1인칭 전환(카메라를 <code>head</code> 본에). HP · 피격 · 사망 · 리스폰</td></tr>
+<tr><td><strong>HUD</strong></td><td><strong>UMG 위젯을 하나도 안 만들었다.</strong> <code>AHUD</code> 캔버스로 슬롯 · HP 바 · 아이템 이름 · 프롬프트 · 안내 메시지를 전부 그림</td></tr>
+<tr><td><strong>아트</strong></td><td>석재/목재 재질, 횃불 액터 <code>BP_Torch</code> <strong>18개</strong>, 로비 천장. 기성 에셋 없이 기본 프리미티브로 조립</td></tr>
+</table>
+<figure><img src="screenshots/06-combat.png" alt="방에 들어가면 문이 봉인되고 적 둘이 달려든다. 타격은 칼날이 지나간 궤적으로 판정한다"><figcaption>방에 들어가면 문이 봉인되고 적 둘이 달려든다. 타격은 칼날이 지나간 궤적으로 판정한다</figcaption></figure>
+<h1>데이터가 규칙을 만든다</h1>
+<p><strong>한 벌의 HUD 코드와 한 벌의 문 코드가, DataTable 행에 따라 다르게 동작한다.</strong> 아래 네 장은 같은 시스템의 서로 다른 입력이다.</p>
+<table>
+<tr><td><img src="screenshots/02-potion-use.png" alt=""></td><td><img src="screenshots/03-silver-key.png" alt=""></td></tr>
+<tr><td><code>Small Potion</code> — 칸이 <strong>빨강</strong>, <strong><code>[E] Use</code> 표시</strong></td><td><code>Silver Key</code> — 칸이 <strong>은회색</strong>, <strong><code>[E] Use</code> 없음</strong></td></tr>
+<tr><td><img src="screenshots/04-door-locked.png" alt=""></td><td><img src="screenshots/05-door-opened.png" alt=""></td></tr>
+<tr><td>칼을 든 채 문 앞 → <strong><code>DOOR IS LOCKED</code></strong>. 3번 칸에 은열쇠가 <strong>그대로 있다</strong></td><td>은열쇠를 선택하고 같은 문 → <strong>열림</strong>. 3번 칸이 <strong>비었다</strong></td></tr>
+</table>
+<h2>무엇이 데이터에서 오는가</h2>
+<table>
+<tr><th>화면에 보이는 것</th><th>출처</th></tr>
+<tr><td><code>Small Potion</code> · <code>Silver Key</code></td><td><code>DT_Items</code>의 <code>displayName</code></td></tr>
+<tr><td>칸의 빨강 · 은회색</td><td>같은 행의 <code>iconColor</code>. <code>Silver Key</code>는 <code>(0.75, 0.78, 0.8)</code></td></tr>
+<tr><td><code>[E] Use</code>가 뜨고 안 뜨는 것</td><td><code>E_ItemNature</code> — <code>Consumable</code>은 뜨고 <code>Key</code>는 안 뜬다</td></tr>
+<tr><td>문이 열리고 안 열리는 것</td><td><code>BP_Door.RequiredKey</code>와 <strong>선택된 칸</strong>의 RowName 비교</td></tr>
+<tr><td>열쇠가 사라진 것</td><td><code>TryConsumeSelected</code>가 칸을 비우고 <code>RefreshHeldItem</code></td></tr>
+</table>
+<p><strong>아래 두 장이 규칙 하나를 보여준다</strong> — 가방에 열쇠가 있어도 <strong>선택하지 않으면 열리지 않는다.</strong> 좌하의 3번 칸에 은열쇠가 보이는데 잠겨 있고, 우하에서 그 칸을 선택하자 열리고 소비됐다.</p>
+<h2>2025년과 무엇이 다른가</h2>
+<table>
+<tr><th>2025</th><th>2026</th></tr>
+<tr><td>아이템 <strong>한 종</strong>(열쇠), <code>Item_Name</code> 문자열 비교로 식별</td><td><strong>6행 DataTable</strong> + RowName</td></tr>
+<tr><td>슬롯 2칸을 <code>Switch on Int</code> 0/1로 하드코딩</td><td><code>SlotCount</code> <strong>변수 하나</strong></td></tr>
+<tr><td>문마다 전용 클래스(<code>Stage2Door</code>)가 GameMode를 직접 캐스팅</td><td><code>BP_Door</code> <strong>한 클래스</strong>, <code>RequiredKey</code>를 인스턴스에서 지정</td></tr>
+<tr><td>상호작용 경로 둘 (문=트레이스 / 아이템=오버랩)</td><td><strong>경로 하나</strong></td></tr>
+</table>
+<p><strong>아이템을 한 종 늘리려면 2025년에는 코드를 고쳐야 했고, 지금은 행을 하나 추가하면 된다.</strong></p>
+<h1>AI가 명령문을 쓰고, 내가 실행하고 검증했다</h1>
+<p>MCP 서버(<code>unreal-mcp</code>)로 에디터를 라이브 조작하는 환경이었지만, <strong>AI에게 에디터를 직접 맡기지 않았다.</strong> AI는 영어 명령문을 만들고, 나는 그것을 읽고 실행하고 결과를 확인했다.</p>
+<p>이 분업은 처음부터 정한 게 아니라 <strong>한 번 실패하고 나서 정한 것이다.</strong></p>
+<hr>
+<h2>왜 이렇게 했나</h2>
+<p>도구가 에디터를 직접 편집하면 <strong>무엇이 바뀌었는지 화면에서 안 보인다.</strong> 명령문으로 받으면 <strong>실행 전에 읽을 수 있다.</strong> 그 한 번의 검토가 반복해서 값을 냈다.</p>
+<h2>실행 전에 명령문을 고쳤다</h2>
+<table>
+<tr><th>명령문에 쓰여 있던 것</th><th>무엇이 틀렸나</th></tr>
+<tr><td>&quot;미연결 이벤트 노드를 지우고 새로 추가하라&quot;</td><td>그 둘은 <strong>같은 노드</strong>였다</td></tr>
+<tr><td>&quot;<code>DrawRect</code> 12개를 수정하라&quot;</td><td><strong>4개</strong>였다</td></tr>
+<tr><td><code>IsValid</code>를 순수 함수 + <code>Branch</code>로 배선</td><td><strong>매크로 자체가 분기다</strong></td></tr>
+<tr><td><code>GetTextSize</code>가 실행 핀을 가진다고 단정</td><td><strong>pure 노드</strong>라 실행 핀이 없다</td></tr>
+<tr><td>보고 파일을 <code>Saved/</code>에 쓰라고 지시</td><td><strong><code>.gitignore</code>에 걸려 사라진다</strong></td></tr>
+</table>
+<p><strong>다섯 다 그대로 실행됐으면 전부 들어갔다.</strong> 왕복 비용은 내가 옆에 있어서 거의 0이었다.</p>
+<h2>전제가 틀린 것을 잡았다</h2>
+<p>명령문의 오류보다 비싼 것은 <strong>전제가 틀린 채로 다음 단계까지 가는 것</strong>이다. 두 번 있었다.</p>
+<h3>검증 기준이 게임 규칙과 모순돼 있었다</h3>
+<p>사양에 이런 합격 기준이 올라왔다.</p>
+<blockquote><p><code>PIE에서 적이 문간을 지나 플레이어를 쫓아온다.</code></p></blockquote>
+<p>읽어보니 <strong>게임에서 일어날 수 없는 상황이었다.</strong> 방에 들어가는 순간 <code>BP_StageRoom</code>이 문을 닫고 봉인하기 때문이다 — 그 봉인 규칙은 <strong>전날 내가 정해 넣은 것</strong>이었다.</p>
+<p>그대로 갔으면 <strong>통과할 수 없는 기준으로 통과 여부를 판정했다.</strong> 기준을 게임에서 실제로 일어나는 상황으로 바꿔서 다시 지시했다.</p>
+<h3>인벤토리 모델이 내 의도와 달랐다</h3>
+<p><code>E</code>로 아이템을 손에 드는 토글을 전제한 질문이 올라왔다. <strong>내가 생각한 건 그게 아니었다</strong> — 칸을 고르는 것 자체가 장착이고 <code>E</code>는 소비다. 그렇게 짚고 나서야 모델이 확정됐다.</p>
+<p><strong>늦게 잡았으면 &quot;손에 든 칸&quot;을 따로 두는 구조를 먼저 만들고 버렸다.</strong></p>
+<hr>
+<h2>작업 절차</h2>
+<pre><code>심문 → 사양 → 명령 → 검증 → 기록</code></pre>
+<p>앞 단계의 산출물이 없으면 다음으로 가지 않는다.</p>
+<ul><li><strong>심문</strong> — 모르는 것을 한 번에 몰아서 묻는다. 다만 <strong>묻기 전에 먼저 조사한다.</strong> 프로젝트를 뒤져서 알 수 있는 것은 질문에서 뺀다</li><li><strong>사양</strong> — 범위 · 상태 · 권한 · 수명 · <strong>튜닝 값의 주인</strong>을 문장으로 고정한다. 이어서 <strong>합격 기준</strong>을 2~4개 쓴다. 형식은 하나뿐이다 — <strong><code>PIE에서 ___하면 ___가 된다.</code></strong> 검증은 이 문장들로만 하고, 여기 없는 것은 &quot;확인 안 됨&quot;이다</li><li><strong>명령</strong> — 한 번에 하나씩. 앞 결과를 보고 다음으로 간다. 미리 다 뽑아두지 않는다</li><li><strong>검증</strong> — <strong>만든 사람의 머리로 하지 않는다.</strong> 구현 과정을 잊었다고 치고 다시 본다. <strong>확인한 것과 확인 못 한 것을 나눠서 적는다</strong></li><li><strong>기록</strong> — 무엇을 왜 했고 무엇이 어긋났는가</li></ul>
+<p>새 노드·변수·블루프린트를 만들기 전에는 위에서부터 물었다 — <strong>안 만들어도 되는가 → 프로젝트에 이미 있는가 → 엔진이 이미 주는가 → 플러그인이 주는가 → 노드 하나로 되는가.</strong> 대부분 세 번째에서 끝났다.</p>
+<hr>
+<h2>터미널 보고를 파일로 받았다</h2>
+<p>화면 붙여넣기는 터미널 폭에서 잘리고, <strong>잘린 조각이 원문 행세를 한다.</strong></p>
+<p>작업 사흘째에 이 방식으로 바꿨다. 보완 호출이 명령당 5~10회에서 3회로 줄고 잘림이 사라졌다. 그리고 열흘째, 그 실패가 원문으로 다시 잡혔다 — 붙여넣은 보고가 문장 한복판에서 잘렸고 도구가 그것을 이렇게 짚었다.</p>
+<pre><code>Also worth naming: your message is a truncated fragment of my own previous
+report — it stops mid-sentence at &quot;A third&quot;.</code></pre>
+<p>지금 보고서 <strong>56개 파일 · 35,101줄</strong>이 저장소에 있다.</p>
+<hr>
+<h2>규칙은 한 곳에 적어야 살아남는다</h2>
+<p><strong>두 규칙이 똑같은 이유로 조용히 사라졌다.</strong></p>
+<table>
+<tr><th>규칙</th><th>시작</th><th>끊긴 구간</th><th>원인</th></tr>
+<tr><td>터미널 보고를 파일로</td><td>8/29</td><td><strong>8/31 ~ 9/3 (다섯 세션)</strong></td><td>규칙 파일에 안 적혀 있었다</td></tr>
+<tr><td>사양을 파일로</td><td>8/28</td><td>9/1 이후</td><td>규칙 파일에 안 적혀 있었다</td></tr>
+</table>
+<p><strong>도구는 사라진 줄도 몰랐다.</strong> 내가 <em>&quot;터미널 원문을 로그 파일로 따로 저장하기로 한 거 아니었어?&quot;</em>라고 물으면서 드러났다.</p>
+<p>둘 다 <strong>관행으로만 존재했고</strong>, 새 세션은 규칙 파일을 읽지 폴더를 뒤지지 않는다. 끊긴 다섯 세션의 기록에는 <em>&quot;터미널 원문을 확보 못 했다&quot;</em>고만 적혀 있고 <strong>방법이 이미 있었다는 사실은 한 번도 안 적혔다.</strong></p>
+<p>9/3에 둘 다 규칙 파일에 넣었고, 끊긴 구간은 세션 로그에서 되찾아 저장소에 복구했다.</p>
+<blockquote><p><strong>도구 문제도 엔진 문제도 아니었다. 규칙을 어디에 적어두느냐의 문제였다.</strong> 사람에게 구두로 전달한 규칙이 사라지는 것과 같고, AI에게는 더 빨리 사라진다.</p></blockquote>
+<h1>추측을 금지하고 엔진 소스를 인용하게 했다</h1>
+<p><strong>UE 엔진 소스 약 60개 파일이 판단 근거로 남았고, 그중 결정이 바뀐 것이 14건이다</strong></p>
+<p>AI 도구가 만든 결과는 에디터에서 문제없이 돌아가도 기획 의도나 QA 기준에서 벗어날 수 있다. 그래서 작업을 시작할 때 규칙을 하나 걸었다 — <strong>추측하지 말고 엔진 소스에서 확인할 것, 그리고 인용한 위치를 file:line으로 남길 것.</strong></p>
+<p>9일간 그 규칙으로 운영한 결과, UE 엔진 소스 <strong>약 60개 파일</strong>이 판단 근거로 기록에 남았다. 그중 <strong>읽고 나서 구현 결정이 실제로 바뀐 사례가 14건</strong>이다. 아래는 성격이 겹치지 않는 다섯이다.</p>
+<blockquote><p>이 판독은 AI 도구가 수행했고, <strong>나는 그것을 규칙으로 강제하고 결과를 검증했다.</strong> 인용 위치는 모두 재확인 가능하며 아래 다섯은 설명할 수 있다.</p></blockquote>
+<hr>
+<h3>1 · UI 구조 전체가 갈린 판독 — UMG를 만들 수 없다는 것</h3>
+<p>인벤토리 HUD를 UMG 위젯으로 만들려 했다. 도구 목록에 UMG가 없었지만 그건 &quot;도구에 없다&quot;일 뿐 <strong>&quot;만들 수 없다&quot;의 근거는 아니었다.</strong></p>
+<p><strong>읽은 곳</strong> <code>Runtime/UMG/Public/Blueprint/WidgetBlueprintGeneratedClass.h:90-92</code> · <code>Runtime/Engine/Private/HUD.cpp:175-177, 642-656</code></p>
+<p><code>WidgetTree</code>가 <code>UPROPERTY(DuplicateTransient)</code>로 선언돼 <strong>Edit 플래그가 없다.</strong> 프로퍼티 경로로는 원천적으로 닿지 못한다.</p>
+<p><strong>결과</strong> — UMG를 포기하고 <code>AHUD</code> 캔버스(<code>DrawRect</code> / <code>DrawText</code>)로 갔다. 슬롯 UI · HP 바 · 아이템 이름 · 안내 메시지를 위젯 계층 없이 전부 그렸다. 약한 근거로 포기했다면 나중에 다시 시도하며 시간을 버렸을 자리다.</p>
+<h3>2 · 그래프에는 나타나지 않는 버그 — 도착 판정 반지름</h3>
+<p>적이 원위치로 복귀하는데 &quot;도착&quot; 판정이 나지 않아 제자리에서 멈추지 못했다. 블루프린트 그래프를 아무리 봐도 원인이 안 보였다.</p>
+<p><strong>읽은 곳</strong> <code>Runtime/AIModule/Private/Navigation/PathFollowingComponent.cpp:1328</code> · <code>:136</code> · <code>:159</code> · <code>:125</code> / <code>AISystem.cpp:28</code> / <code>Tasks/AITask_MoveTo.cpp:21</code></p>
+<pre><code>const FVector::FReal UseRadius = RadiusThreshold + GoalRadius + (AgentRadius * AgentRadiusMultiplier);
+// MinAgentRadiusPct = 1.1f;   bReachTestIncludesAgentRadius = true;</code></pre>
+<p>지정한 수용 반지름이 그대로 쓰이지 않고 <strong>에이전트 캡슐 반지름 × 1.1이 더해진다.</strong></p>
+<p><strong>결과</strong> — 원인을 확정하고 수정했다. 이건 <strong>&quot;블루프린트가 시킨 것&quot;과 &quot;엔진이 실제로 하는 것&quot; 사이의 틈</strong>이고, 소스를 읽기 전에는 알 방법이 없었다.</p>
+<h3>3 · 읽고 나서 코드를 <em>덜</em> 만든 사례 — 배열 범위 검사</h3>
+<p>선택 슬롯 인덱스로 배열을 읽는 자리에 범위 검사를 넣을지 판단해야 했다.</p>
+<p><strong>읽은 곳</strong> <code>KismetArrayLibrary.cpp</code> — <code>GenericArray_Get</code></p>
+<p>범위를 벗어나도 크래시하지 않고 <strong>경고를 남긴 뒤 기본값을 반환한다.</strong> 반환되는 빈 <code>Name</code>은 어떤 아이템 행 이름과도 같지 않으므로 <strong>실패 분기가 이미 성립한다.</strong></p>
+<p><strong>결과</strong> — 검사 노드를 만들지 않았다. 방어 코드를 넣는 것보다 <strong>안 넣는 근거를 대는 쪽이 어려웠고, 그 근거가 소스에 있었다.</strong></p>
+<h3>4 · 도구를 포기한 판단 — 새 액터가 저장되지 않는 이유</h3>
+<p>자동화 도구로 배치한 액터가 디스크에 저장되지 않았다.</p>
+<p><strong>읽은 곳</strong> <code>LevelEditorActions.cpp:4367</code> · <code>:568</code> → <code>FileHelpers.cpp:4444-4453</code></p>
+<p>저장 대상은 <code>IsDirty()</code> <strong>또는 <code>PKG_NewlyCreated</code></strong>인 패키지다. 새로 만든 액터의 패키지가 정확히 후자인데, 자동화 도구의 저장 경로는 그 조건을 타지 않는다.</p>
+<p><strong>결과</strong> — 자동 저장을 포기하고 에디터의 <code>Save Current Level</code>로 넘겼다. <strong>&quot;안 되네요&quot;가 아니라 &quot;이 한 줄 때문에 안 된다&quot;까지 갔다.</strong></p>
+<h3>5 · 자기 가정을 소스로 뒤집은 것 — UHT의 자동 <code>BlueprintPure</code> (C#)</h3>
+<p><code>GetTextSize</code> 헤더에 <code>BlueprintPure</code>가 없는 것을 보고 실행 핀이 있다고 판단해 배선 계획을 짰다. <strong>그 판단이 틀렸다.</strong></p>
+<p><strong>읽은 곳</strong> <code>Programs/Shared/EpicGames.UHT/Types/UhtFunction.cs:707</code> — UnrealHeaderTool은 <strong>C#으로 작성돼 있다.</strong></p>
+<p><code>const</code> + 출력값이 있는 조건에서 UHT가 <code>BlueprintPure</code>를 <strong>자동으로 붙인다.</strong> 헤더의 지정자만으로 노드 모양을 단정할 수 없다.</p>
+<p><strong>결과</strong> — 계획을 고쳤고, &quot;헤더 한 줄을 보고 단정하지 않는다&quot;를 이후 작업 규칙에 넣었다.</p>
+<hr>
+<p><strong>언어 경험</strong> — 실제 게임 로직 구현은 블루프린트로 했고, C++ / C#은 기초 문법과 예제 수준이다. 이 프로젝트에서는 <strong>엔진 동작을 확정하기 위해 읽는 쪽으로</strong> 썼다. 위 다섯을 포함해 결정이 바뀐 판독 <strong>14건</strong>, 값·동작 확인 <strong>7건</strong>이 file:line과 함께 작업 기록에 남아 있다.</p>
+<h1>도구가 &quot;성공&quot;이라고 말해도 믿지 않았다</h1>
+<p><strong>AI 출력과 실제 상태가 어긋난 것을 잡은 방법</strong></p>
+<p>AI 도구의 반환값은 <strong>작업이 됐다는 증거가 아니다.</strong> 이 프로젝트에서 그건 추측이 아니라 반복 관찰된 사실이고, 그래서 규칙을 하나 더 걸었다 —</p>
+<blockquote><p><strong>응답을 성공 근거로 삼지 않는다. 에디터에서 실제 상태를 다시 읽는다.</strong></p></blockquote>
+<hr>
+<h2>1 · 반환값이 무엇을 말하지 않는가</h2>
+<p>MCP 서버(<code>unreal-mcp</code>)로 에디터를 조작하면서 기록한 것이다.</p>
+<table>
+<tr><th>관찰</th><th>뜻</th></tr>
+<tr><td>변수 추가 · 컴파일이 <strong>성공에 <code>null</code></strong></td><td>성공과 실패를 반환값으로 못 가른다</td></tr>
+<tr><td>프로퍼티 설정 · 저장이 <strong>항상 <code>true</code></strong></td><td><strong>하지 않은 쓰기도 <code>true</code>로 보고한다</strong></td></tr>
+<tr><td>컴포넌트 스케일 쓰기가 <code>true</code>를 주고 <strong>조용히 무시</strong></td><td>성공 응답 뒤에 아무 일도 안 일어난다</td></tr>
+</table>
+<p><strong>가장 위험한 것은 따로 있다.</strong> 클래스 기본값(CDO)을 바꿔도 <strong>컴파일하지 않으면 런타임에 반영되지 않는다.</strong> 값을 읽으면 새 값이 나오는데 <strong>게임은 옛 값으로 돈다.</strong></p>
+<p><strong>읽기로는 절대 못 잡는 어긋남이다.</strong> 초기에 UI가 화면에 안 뜬 원인이 정확히 이것이었고, &quot;값이 맞는데 왜 안 되지&quot;를 한참 헤맨 뒤에야 원인을 찾았다.</p>
+<hr>
+<h2>2 · 실행되지 않은 명령을 잡은 것</h2>
+<p>어느 명령의 결과라고 받은 보고가, 사실 <strong>직전 명령의 결과가 다시 붙여진 것</strong>이었다. 그 명령은 아예 실행되지 않았다.</p>
+<p>근거 셋으로 잡았다.</p>
+<ul><li>디스크의 애셋 <strong>파일 크기</strong>가 그대로였다</li><li>파일 <strong>mtime</strong>이 안 바뀌었다</li><li>문제의 실행 핀이 <strong>여전히 미연결</strong>이었다</li></ul>
+<p><strong>보고를 그대로 믿었으면 없는 작업을 있다고 판단하고 다음 단계로 갔다.</strong> 그 뒤의 모든 작업이 잘못된 전제 위에 쌓였을 것이다.</p>
+<hr>
+<h2>3 · 읽어서 되쓰면 조용히 지워진다</h2>
+<p>블루프린트 그래프를 텍스트로 읽는 도구에 사각지대가 둘 있다.</p>
+<ul><li>입력 이벤트 체인에서 <strong>본체가 잘린다</strong></li><li>한 핀에 들어오는 <strong>두 번째 연결(수렴 간선)을 생략한다</strong></li></ul>
+<p>그래서 <strong>읽은 것을 그대로 되쓰면 체인이 사라진다. 컴파일 에러도 안 난다.</strong></p>
+<p>읽기로도 못 믿을 것이 하나 더 있다 — <strong>이미 연결된 핀도 <code>value</code>에 옛 리터럴을 들고 있다.</strong> 값만 보고 감사하면 틀린 결론에 간다. 연결 목록을 따로 봐야 한다.</p>
+<p><strong>그래서 그래프를 통째로 되쓰는 명령을 한 번도 쓰지 않았다.</strong> 항상 부분 수정만 지시했다.</p>
+<hr>
+<h2>4 · 만들고 눈으로 안 본 것은 반드시 나중에 나온다</h2>
+<p>횃불 18개를 만든 날 화면으로 확인하지 않았다. <strong>다음 날 처음 PIE로 봤고, 문제 셋이 한꺼번에 나왔다</strong> — 자기 그림자로 형태가 깨진 것, 불꽃이 파묻힌 것, 윗면 색.</p>
+<p>셋 다 <strong>에디터 뷰포트에서는 안 보이던 것</strong>이다. 자기 그림자와 발광 재질은 플레이 화면의 시점과 노출에서만 드러난다. 도구는 <em>&quot;토치 18개를 배치했다&quot;</em>까지만 말해줬고, 그 응답에는 틀린 것이 하나도 없었다.</p>
+<p><strong>&quot;만들었다&quot;와 &quot;확인했다&quot;는 다른 사건이다.</strong> 도구가 아무리 빨라도 이 간격은 안 줄어든다.</p>
+<hr>
+<h2>5 · 합격 기준으로만 판정했다</h2>
+<p>구현 전에 사양에 써둔 합격 기준(「AI가 명령문을 쓰고, 내가 실행하고 검증했다」)으로만 검증했다. <strong>거기 없는 것은 &quot;확인 안 됨&quot;이다.</strong></p>
+<p>초기 어느 세션의 기록에는 이렇게 적혀 있다.</p>
+<blockquote><p><strong>합격 기준 4개 중 통과한 것은 없다.</strong></p></blockquote>
+<p>되는 척하면 다음 세션이 그 위에 쌓는다. <strong>확인 못 한 것은 확인 못 했다고 적었다.</strong></p>
+<hr>
+<p><strong>에디터에서 멀쩡해 보이는 것과 실제로 그런 것은 다르다.</strong> 그 둘을 가르는 것이 이 절차의 목적이었고, 위 다섯이 실제로 갈라낸 자리다.</p>
+<h1>Project ICI — 막힌 자리에 들어갔다</h1>
+<p><strong>2025.06.23 ~ 09.11 · 9인 팀 · UE5 · 1인칭 액션 방탈출</strong> <strong>역할: 메인 기획 + 서브 프로그래밍</strong></p>
+<p>참여자 대부분이 첫 프로젝트였고, 나는 프로젝트 경험이 있는 쪽이었다. 그래서 <strong>기획만 하고 끝나지 않았다.</strong> 진행이 막힌 자리에 들어가는 것이 내 역할이 됐다.</p>
+<hr>
+<h2>직접 구현한 것 — GameMode와 GameState</h2>
+<p>스테이지 진행 전체를 맡았다.</p>
+<table>
+<tr><th>함수</th><th>하는 일</th></tr>
+<tr><td><code>Stage 1/2/3 Spawn</code></td><td>현재 Stage에 맞는 Tag를 지정 → 그 Tag를 가진 <code>TargetPoint</code>를 배열로 수집 → 각 Transform 자리에 적 AI를 Spawn → <code>Current Enemy</code> 증가</td></tr>
+<tr><td><code>Count Enemy</code></td><td>소환된 적마다 <code>Bind On Destroyed</code>로 할당. 죽을 때 <code>Remain Enemy</code> 감소</td></tr>
+<tr><td><code>Drop Key</code></td><td><code>Remain Enemy</code>가 0이 되면 <strong>마지막 적의 위치</strong>를 가져와 그 자리에 현재 Stage의 열쇠를 생성</td></tr>
+<tr><td><code>Reset Current Stage</code></td><td>진행 중 사망 시 — 문 잠금 초기화, 소환된 적 전부 파괴, Spawn Trigger Box 재배치, 열쇠 정보 초기화, GameState 값 초기화</td></tr>
+<tr><td><code>Add Current Stage</code> / <code>End Stage</code></td><td>클리어 후 문 개방 → Stage 증가 → 플레이어 상태 회복</td></tr>
+</table>
+<p><code>GameState</code>는 <strong>&quot;값이 고유하거나 변하지 않는, 판단의 근거가 되는 것&quot;</strong>만 담도록 분리했다. Stage 진행 중 판단에 쓰이는 변수와 Boolean이 여기 있고, GameMode가 가져다 썼다.</p>
+<p>그 외에 <strong>플레이어 로직</strong>, <strong>열쇠로 여닫는 문과 상호작용</strong>, <strong>인벤토리 UI 표기</strong> (선택 슬롯 테두리 강조, 습득 시 <code>Item_Icon</code> 텍스처 교체)도 직접 만들었다.</p>
+<hr>
+<h2>막힌 자리를 푼 것 — 적 AI의 상태 전이</h2>
+<p>팀원이 기획서를 보고 적 AI를 구현하다가 막혔다. 증상은 이랬다.</p>
+<blockquote><p><strong>상태가 바뀌는데 애니메이션이 동작하지 않는다. 다음 동작으로 안 넘어간다.</strong></p></blockquote>
+<p>같이 화면을 보면서 고쳤다. 답은 새 기능을 붙이는 게 아니라 <strong>상태를 더 쪼개고, 구간마다 &quot;무엇이 참일 때 다음으로 넘어가는가&quot;를 명시하는 것</strong>이었다.</p>
+<p>그 작업의 결과가 기획서에 남아 있다.</p>
+<pre><code>대기(Idle)  →  순찰      : 기본 상태에서 특정 거리를 이동하며 일대를 순찰
+순찰       →  추적      : 플레이어 발견
+추적       →  대기      : 플레이어가 시야에서 사라짐 (추적 종료)
+대기/순찰  →  추적      : 플레이어에게 공격받음 (바라보며 추적)
+추적       →  공격      : 공격 가능 거리 도달
+공격       →  공격 대기 : 다음 공격까지 딜레이
+추적/공격  →  후퇴      : 체력 25% 미만. 맞은 시점의 플레이어 반대 방향으로</code></pre>
+<p>공격 판정도 같이 정했다 — <strong>무기 끝 부분에 트리거 범위를 두고, 그 범위가 플레이어와 충돌했을 때만</strong> 데미지를 계산한다. 공격 딜레이는 애니메이션 길이로 조절하고, 공격 가능 거리는 무기를 휘두르는 범위에 맞춰 조절한다.</p>
+<h1>그리고 2026년에 다시 만들었다</h1>
+<p>MCP1은 이 프로젝트를 <strong>UE 5.8에서 혼자 다시 만든 것이다.</strong> 그래서 내가 진단한 대상은 남의 코드가 아니라 <strong>내가 짰던 코드다.</strong></p>
+<h2>무엇이 문제였는지 알고 있었다</h2>
+<p>내 2025년 코드의 가장 큰 문제는 <strong>개수가 데이터가 아니라 코드에 있었다</strong>는 것이다.</p>
+<table>
+<tr><th>2025 · 내가 짠 것</th><th>2026 · MCP1</th></tr>
+<tr><td><code>Stage 1/2/3 Spawn</code> 함수 <strong>3벌</strong></td><td><code>BP_StageRoom</code> <strong>한 클래스</strong>. 방이 자기 적을 센다</td></tr>
+<tr><td><code>Is Stage N Clear?</code> Boolean <strong>3개</strong></td><td><code>ClearedRooms</code> <strong>정수 하나</strong></td></tr>
+<tr><td><code>Reset Current Stage</code>가 <code>Switch On Int</code>로 <strong>3벌</strong></td><td><code>ResetRoom</code> <strong>하나</strong></td></tr>
+<tr><td><code>Drop Key</code>가 스테이지별 열쇠를 하드 지정</td><td><code>KeyToDrop</code> <strong>인스턴스 변수</strong></td></tr>
+<tr><td><code>Count Enemy</code>를 <code>Bind On Destroyed</code>로 연결</td><td>적이 죽을 때 방에 <strong>직접 호출</strong></td></tr>
+<tr><td>소환한 적을 <code>Get All Actors Of Class</code>로 재탐색</td><td><code>EnemySpawns</code> 배열을 방이 <strong>보유</strong></td></tr>
+</table>
+<p><strong>방을 넷으로 늘리려면 2025년 코드는 네 곳을 고쳐야 하고, MCP1은 액터를 하나 놓으면 된다.</strong></p>
+<p>기획서에 있던 규칙 하나는 <strong>그대로 옮겼다</strong> — <em>&quot;체력 오버 시 로비로 리스폰 후 해당 방 초기화 및 다시 진행 가능 상태.&quot;</em> MCP1에서 <code>BP_StageRoom.ResetRoom</code>과 <code>NotifyPlayerDied</code>가 정확히 그 규칙이다.</p>
+<h2>같은 문제를 두 번 만났다</h2>
+<p>2026년에 적이 원위치로 복귀하는데 <strong>도착 판정이 안 나서 멈추지 못하는</strong> 버그를 만났다. 증상이 2025년에 팀원이 막혔던 것과 같은 계열이었다 — <strong>다음으로 안 넘어간다.</strong></p>
+<p>다른 점은 접근이었다.</p>
+<ul><li><strong>2025</strong> — 상태를 쪼개고 전이 조건을 달아서 풀었다. <strong>경험으로 풀었고 원인은 몰랐다</strong></li><li><strong>2026</strong> — 엔진 소스를 읽어 원인을 확정했다. <code>PathFollowingComponent.cpp:1328</code>에서 수용 반지름에 <strong>에이전트 캡슐 반지름 × 1.1이 더해진다</strong>는 것, 그리고 이동 노드가 래턴트라 <strong>실행 핀을 물고 있는 동안 그 뒤의 모든 판정이 정지한다</strong>는 것</li></ul>
+<blockquote><p><strong>두 버그 다 블루프린트 그래프를 아무리 봐도 안 보인다.</strong> &quot;블루프린트가 시킨 것&quot;과 &quot;엔진이 실제로 하는 것&quot; 사이의 틈이었다.</p></blockquote>
+<p><strong>C++을 읽을 수 있어야 하는 이유를 이 두 번으로 배웠다.</strong> 2025년에는 증상을 우회했고, 2026년에는 원인까지 갔다.</p>
+<hr>
+<p><strong>상태를 쪼개고 전이 조건을 다는 일은 언어와 무관하다.</strong> 2025년에 팀원이 막힌 자리에서 한 일과, 2026년에 AI 도구의 출력을 검증하며 한 일이 같은 일이었다. <strong>대상이 사람에서 도구로 바뀌었을 뿐이다.</strong></p>
+<h1>지금 못하는 것과 채우는 순서</h1>
+<h2>언어</h2>
+<p><strong>실제 게임 로직 구현은 블루프린트로 했다.</strong> C++ / C#은 기초 문법과 예제 수준이고, 프로젝트 규모로 작성한 경험이 없다.</p>
+<p>이 프로젝트에서는 <strong>엔진 동작을 확정하기 위해 읽는 쪽으로</strong> 썼다 — UE 엔진 소스 약 <strong>60개 파일</strong>이 판단 근거로 기록에 남아 있고, 그중 <strong>읽고 나서 구현 결정이 바뀐 것이 14건</strong>이다 (「추측을 금지하고 엔진 소스를 인용하게 했다」).</p>
+<h2>채우는 순서</h2>
+<table>
+<tr><th></th><th>무엇</th><th>왜 이 순서인가</th><th>언제</th></tr>
+<tr><td>1</td><td><strong>판독 14건을 설명 가능한 수준으로</strong></td><td>재료가 이미 저장소에 있다. 가장 싸고 가장 먼저 검증받을 자리다</td><td>제출 직후</td></tr>
+<tr><td>2</td><td><strong>블루프린트 하나를 C++로 이식</strong> — <code>BP_EndTrigger</code>(오버랩 하나) → <code>BP_Torch</code>(컴포넌트 조립) → <code>BP_Door</code>(상태 셋 + 회전)</td><td><strong>이 프로젝트는 순수 블루프린트라 C++ 모듈 자체가 없다.</strong> 모듈을 얹고 빌드를 통과시키는 것이 첫 관문이라, 로직이 거의 없는 클래스로 그걸 먼저 넘는다</td><td>기술 면접 전</td></tr>
+<tr><td>3</td><td><strong>자료구조 · 알고리즘</strong></td><td>위 둘이 &quot;읽고 옮기는&quot; 능력이라면 이건 별개다</td><td>지속</td></tr>
+</table>
+<p><strong>2번을 작은 것부터 잡은 이유</strong> — 마감 사흘 전에 모듈을 추가하는 것은 빌드 도구 · 첫 컴파일 시간 · 프로젝트 파손이 한꺼번에 붙는 도박이라 하지 않았다. <strong>할 수 있는데 안 한 게 아니라, 지금 하면 안 되는 순서라고 판단했다.</strong></p>
+<h2>게임 쪽 미결 — 알고 있는 것</h2>
+<p>제출 시점에 남아 있는 것들이다. <strong>원인과 대응까지 정해져 있고 시간을 못 낸 것이다.</strong></p>
+<table>
+<tr><th>무엇</th><th>원인</th><th>대응</th></tr>
+<tr><td><strong>방 셋에 천장이 없어 문 너머로 하늘이 보인다</strong></td><td>로비만 천장을 덮었다</td><td>큐브 셋으로 덮는다. <strong>덮으면 캄캄해지므로 방마다 횃불 6~8개가 같이 필요하다</strong></td></tr>
+<tr><td>로비 중앙이 어둡다</td><td>광원 감쇠 반경 <code>1200</code>이 로비 <code>2200 × 2800</code>에 부족</td><td>노출 고정 → 반경·강도 → 램프 옆 횃불 추가 순으로</td></tr>
+<tr><td>HUD 안내 메시지가 시안색이라 톤과 안 맞는다</td><td><code>ColorMessage</code> 초기값</td><td>값 하나</td></tr>
+<tr><td><strong>스태미나와 달리기가 없다</strong></td><td>2025년 기획서에 있던 시스템인데 구현 순서에서 밀렸다</td><td>초당 소모율 × 델타로. <strong>원본은 타이머로 깎아서 타이머 간격이 바뀌면 소모 속도가 통째로 바뀌었다</strong></td></tr>
+<tr><td>연출이 통째로 없다 — 사망 · 피격 리액션 · 적 체력바</td><td>판정을 먼저 만들고 연출을 뒤로 미뤘다</td><td>사망은 카메라 전환 · 페이드 · 몽타주를 값 하나로 묶는다</td></tr>
+</table>
+<h2>하지 않기로 한 것</h2>
+<ul><li><strong>기성 에셋(무료 중세 팩) 도입.</strong> 기본 프리미티브로 직접 조립하는 것이 목적이었다</li><li><strong>지금 하나뿐인데 인터페이스를 파거나 컴포넌트로 분리하는 것.</strong> 두 번째가 생겼을 때 뽑는다</li></ul>
+<hr>
+<p><strong>이 문서의 근거는 전부 저장소에 있다</strong> — 구현 전에 고정한 <strong>사양 12건</strong>(<code>Docs/Spec/</code>), 세션별 <strong>작업 기록 25건</strong>(<code>Docs/AI-Log/</code>), 명령 실행 <strong>보고 원문 56건</strong>(<code>Docs/Terminal-Log/</code>), 2025년 프로젝트와의 <strong>구현 대조</strong>(<code>Docs/ProjectICI5.8/</code>), 그리고 작업 규칙을 적은 <code>CLAUDE.md</code>.</p>
+</body></html>
